@@ -149,6 +149,7 @@
 		55A77B481FCC42250040C77E /* Base Message */ = {
 			isa = PBXGroup;
 			children = (
+				C3F91DA21C75EF9E00D461D2 /* ChatExamplesViewController.swift */,
 				C3F91DB51C75EF9E00D461D2 /* BaseMessageHandler.swift */,
 				FE2D050A1C915ADB006F902B /* BaseMessageCollectionViewCellAvatarStyle.swift */,
 			);
@@ -236,7 +237,6 @@
 				55A77B471FCC41CC0040C77E /* Chat Items */,
 				C3F91DA01C75EF9E00D461D2 /* AppDelegate.swift */,
 				0997CD2E2042E42100D7BDF9 /* CellsViewController.swift */,
-				C3F91DA21C75EF9E00D461D2 /* ChatExamplesViewController.swift */,
 				0997CD302042E58400D7BDF9 /* ChatWithTabBarExamplesViewController.swift */,
 				C3F91DB01C75EF9E00D461D2 /* SlidingDatasSource.swift */,
 				55A77B491FCC5EE70040C77E /* MessagesSelectorProtocol.swift */,
