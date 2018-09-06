@@ -166,7 +166,7 @@ open class PhotoMessageCollectionViewCellDefaultStyle: PhotoMessageCollectionVie
     }
 
     open func overlayColor(viewModel: PhotoMessageViewModelProtocol) -> UIColor? {
-        let showsOverlay = viewModel.image.value != nil && (viewModel.transferStatus.value == .transfering || viewModel.status != MessageViewModelStatus.success)
+        let showsOverlay = viewModel.image.value != nil && (viewModel.transferStatus.value == .transfering || viewModel.status == MessageViewModelStatus.sending || viewModel.status == MessageViewModelStatus.failed)
         return showsOverlay ? self.colors.overlayColor : nil
     }
 
