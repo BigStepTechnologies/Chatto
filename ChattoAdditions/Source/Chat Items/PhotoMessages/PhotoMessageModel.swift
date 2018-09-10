@@ -23,9 +23,10 @@
 */
 
 import UIKit
+import FLAnimatedImage
 
 public protocol PhotoMessageModelProtocol: DecoratedMessageModelProtocol {
-    var image: UIImage { get }
+    var image: FLAnimatedImage { get }
     var imageSize: CGSize { get }
 }
 
@@ -34,9 +35,9 @@ open class PhotoMessageModel<MessageModelT: MessageModelProtocol>: PhotoMessageM
         return self._messageModel
     }
     public let _messageModel: MessageModelT // Can't make messasgeModel: MessageModelT: https://gist.github.com/diegosanchezr/5a66c7af862e1117b556
-    public let image: UIImage
+    public let image: FLAnimatedImage
     public let imageSize: CGSize
-    public init(messageModel: MessageModelT, imageSize: CGSize, image: UIImage) {
+    public init(messageModel: MessageModelT, imageSize: CGSize, image: FLAnimatedImage) {
         self._messageModel = messageModel
         self.imageSize = imageSize
         self.image = image
