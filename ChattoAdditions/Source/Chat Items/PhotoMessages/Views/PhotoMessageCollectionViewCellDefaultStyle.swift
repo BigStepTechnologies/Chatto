@@ -25,6 +25,7 @@
 import UIKit
 
 open class PhotoMessageCollectionViewCellDefaultStyle: PhotoMessageCollectionViewCellStyleProtocol {
+    
     typealias Class = PhotoMessageCollectionViewCellDefaultStyle
 
     public struct BubbleMasks {
@@ -118,6 +119,10 @@ open class PhotoMessageCollectionViewCellDefaultStyle: PhotoMessageCollectionVie
     lazy private var placeholderIcon: UIImage = {
         return UIImage(named: "photo-bubble-placeholder-icon", in: Bundle(for: Class.self), compatibleWith: nil)!
     }()
+    
+    lazy private var playIcon: UIImage = {
+        return UIImage(named: "play-image", in: Bundle(for: Class.self), compatibleWith: nil)!
+    }()
 
     open func maskingImage(viewModel: PhotoMessageViewModelProtocol) -> UIImage {
         switch (viewModel.isIncoming, viewModel.decorationAttributes.isShowingTail) {
@@ -141,7 +146,7 @@ open class PhotoMessageCollectionViewCellDefaultStyle: PhotoMessageCollectionVie
     }
 
     open func placeholderIconImage(viewModel: PhotoMessageViewModelProtocol) -> UIImage {
-        return self.placeholderIcon
+        return viewModel.imageType == .video ? self.playIcon : self.placeholderIcon
     }
 
     open func placeholderIconTintColor(viewModel: PhotoMessageViewModelProtocol) -> UIColor {

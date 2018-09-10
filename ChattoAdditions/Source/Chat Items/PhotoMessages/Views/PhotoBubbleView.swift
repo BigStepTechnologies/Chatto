@@ -63,9 +63,6 @@ open class PhotoBubbleView: UIView, MaximumLayoutWidthSpecificable, BackgroundSi
     public private(set) lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.autoresizingMask = UIViewAutoresizing()
-//        imageView.needsPrescaling = false
-//        imageView.runLoopMode = .defaultRunLoopMode
-//        imageView.framePreloadCount = 1
         imageView.clipsToBounds = true
         imageView.autoresizesSubviews = false
         imageView.contentMode = .scaleAspectFill
@@ -89,7 +86,7 @@ open class PhotoBubbleView: UIView, MaximumLayoutWidthSpecificable, BackgroundSi
         imageView.autoresizingMask = UIViewAutoresizing()
         return imageView
     }()
-
+    
     public var photoMessageViewModel: PhotoMessageViewModelProtocol! {
         didSet {
             self.updateViews()
@@ -159,16 +156,16 @@ open class PhotoBubbleView: UIView, MaximumLayoutWidthSpecificable, BackgroundSi
     private func updateImages() {
         self.placeholderIconView.image = self.photoMessageStyle.placeholderIconImage(viewModel: self.photoMessageViewModel)
         self.placeholderIconView.tintColor = self.photoMessageStyle.placeholderIconTintColor(viewModel: self.photoMessageViewModel)
-
+        self.placeholderIconView.isHidden =
+            self.photoMessageViewModel.imageType != .video
         if let url = self.photoMessageViewModel.imageURL.value {
             self.imageView.kf.setImage(with: url, completionHandler: {
                 (image, error, cacheType, imageUrl) in
                 print("Setting up image for - ",imageUrl)
             })
-            self.placeholderIconView.isHidden = true
         }else if let image = self.photoMessageViewModel.image.value {
             self.imageView.image = image
-            self.placeholderIconView.isHidden = true
+            
         } else {
             self.imageView.image = self.photoMessageStyle.placeholderBackgroundImage(viewModel: self.photoMessageViewModel)
             self.placeholderIconView.isHidden = self.photoMessageViewModel.transferStatus.value != .failed

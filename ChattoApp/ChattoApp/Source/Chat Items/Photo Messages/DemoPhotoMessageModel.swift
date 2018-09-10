@@ -32,7 +32,7 @@ public class DemoPhotoMessageModel: PhotoMessageModel<MessageModel>, DemoMessage
     }
     
     init(messageModel: MessageModel,url:URL?) {
-        super.init(messageModel: messageModel,imageType: .normal,imageUrl:url )
+        super.init(messageModel: messageModel,imageType: .video,imageUrl:url )
     }
     
     public var status: MessageStatus {
