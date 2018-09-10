@@ -52,15 +52,18 @@ open class PhotoMessageCollectionViewCellDefaultStyle: PhotoMessageCollectionVie
         public let photoSizeLandscape: CGSize
         public let photoSizePortrait: CGSize
         public let photoSizeSquare: CGSize
+        public let photoSizeSticker: CGSize
         public init(
             aspectRatioIntervalForSquaredSize: ClosedRange<CGFloat>,
             photoSizeLandscape: CGSize,
             photoSizePortrait: CGSize,
-            photoSizeSquare: CGSize) {
+            photoSizeSquare: CGSize,
+            photoSizeSticker:CGSize) {
                 self.aspectRatioIntervalForSquaredSize = aspectRatioIntervalForSquaredSize
                 self.photoSizeLandscape = photoSizeLandscape
                 self.photoSizePortrait = photoSizePortrait
                 self.photoSizeSquare = photoSizeSquare
+                self.photoSizeSticker = photoSizeSticker
         }
     }
 
@@ -150,14 +153,14 @@ open class PhotoMessageCollectionViewCellDefaultStyle: PhotoMessageCollectionVie
     }
 
     open func bubbleSize(viewModel: PhotoMessageViewModelProtocol) -> CGSize {
-        let aspectRatio = viewModel.imageSize.height > 0 ? viewModel.imageSize.width / viewModel.imageSize.height : 0
-
-        if aspectRatio == 0 || self.sizes.aspectRatioIntervalForSquaredSize.contains(aspectRatio) {
-            return self.sizes.photoSizeSquare
-        } else if aspectRatio < self.sizes.aspectRatioIntervalForSquaredSize.lowerBound {
-            return self.sizes.photoSizePortrait
-        } else {
+        
+        switch viewModel.imageType {
+        case .noraml,.video,.GIF:
             return self.sizes.photoSizeLandscape
+        case .sticker:
+            return self.sizes.photoSizeSticker
+        default:
+            return self.sizes.photoSizeSquare
         }
     }
 
@@ -189,7 +192,8 @@ public extension PhotoMessageCollectionViewCellDefaultStyle { // Default values
             aspectRatioIntervalForSquaredSize: 0.90...1.10,
             photoSizeLandscape: CGSize(width: 210, height: 136),
             photoSizePortrait: CGSize(width: 136, height: 210),
-            photoSizeSquare: CGSize(width: 210, height: 210)
+            photoSizeSquare: CGSize(width: 210, height: 210),
+            photoSizeSticker:CGSize(width: 100, height: 100)
         )
     }
 

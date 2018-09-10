@@ -34,6 +34,14 @@ public enum MessageStatus {
     case seen
 }
 
+public enum ImageType {
+    case GIF
+    case sticker
+    case video
+    case noraml
+    case location
+}
+
 public protocol MessageModelProtocol: ChatItemProtocol {
     var senderId: String { get }
     var isIncoming: Bool { get }

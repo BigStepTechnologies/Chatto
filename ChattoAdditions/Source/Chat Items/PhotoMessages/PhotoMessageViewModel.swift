@@ -23,7 +23,6 @@
 */
 
 import UIKit
-import FLAnimatedImage
 
 public enum TransferDirection {
     case upload
@@ -41,8 +40,9 @@ public protocol PhotoMessageViewModelProtocol: DecoratedMessageViewModelProtocol
     var transferDirection: Observable<TransferDirection> { get set }
     var transferProgress: Observable<Double> { get  set } // in [0,1]
     var transferStatus: Observable<TransferStatus> { get set }
-    var image: Observable<FLAnimatedImage?> { get set }
-    var imageSize: CGSize { get }
+    var image: Observable<UIImage?> { get set }
+    var imageURL: Observable<URL?> { get set }
+    var imageType: ImageType { get }
 }
 
 open class PhotoMessageViewModel<PhotoMessageModelT: PhotoMessageModelProtocol>: PhotoMessageViewModelProtocol {
@@ -53,9 +53,10 @@ open class PhotoMessageViewModel<PhotoMessageModelT: PhotoMessageModelProtocol>:
     public var transferStatus: Observable<TransferStatus> = Observable(.idle)
     public var transferProgress: Observable<Double> = Observable(0)
     public var transferDirection: Observable<TransferDirection> = Observable(.download)
-    public var image: Observable<FLAnimatedImage?>
-    open var imageSize: CGSize {
-        return self.photoMessage.imageSize
+    public var image: Observable<UIImage?>
+    public var imageURL: Observable<URL?>
+    open var imageType: ImageType {
+        return self.photoMessage.imageType
     }
     public let messageViewModel: MessageViewModelProtocol
     open var isShowingFailedIcon: Bool {
@@ -65,6 +66,7 @@ open class PhotoMessageViewModel<PhotoMessageModelT: PhotoMessageModelProtocol>:
     public init(photoMessage: PhotoMessageModelT, messageViewModel: MessageViewModelProtocol) {
         self._photoMessage = photoMessage
         self.image = Observable(photoMessage.image)
+        self.imageURL = Observable(photoMessage.imageUrl)
         self.messageViewModel = messageViewModel
     }
 

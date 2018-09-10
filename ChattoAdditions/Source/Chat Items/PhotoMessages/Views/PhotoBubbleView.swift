@@ -23,7 +23,7 @@
 */
 
 import UIKit
-import FLAnimatedImage
+import Kingfisher
 
 public protocol PhotoBubbleViewStyleProtocol {
     func maskingImage(viewModel: PhotoMessageViewModelProtocol) -> UIImage
@@ -60,12 +60,14 @@ open class PhotoBubbleView: UIView, MaximumLayoutWidthSpecificable, BackgroundSi
         self.addSubview(self.progressIndicatorView)
     }
 
-    public private(set) lazy var imageView: FLAnimatedImageView = {
-        let imageView = FLAnimatedImageView()
+    public private(set) lazy var imageView: UIImageView = {
+        let imageView = UIImageView()
         imageView.autoresizingMask = UIViewAutoresizing()
+//        imageView.needsPrescaling = false
+//        imageView.runLoopMode = .defaultRunLoopMode
+//        imageView.framePreloadCount = 1
         imageView.clipsToBounds = true
         imageView.autoresizesSubviews = false
-        imageView.autoresizingMask = UIViewAutoresizing()
         imageView.contentMode = .scaleAspectFill
         imageView.addSubview(self.borderView)
         return imageView
@@ -158,8 +160,14 @@ open class PhotoBubbleView: UIView, MaximumLayoutWidthSpecificable, BackgroundSi
         self.placeholderIconView.image = self.photoMessageStyle.placeholderIconImage(viewModel: self.photoMessageViewModel)
         self.placeholderIconView.tintColor = self.photoMessageStyle.placeholderIconTintColor(viewModel: self.photoMessageViewModel)
 
-        if let image = self.photoMessageViewModel.image.value {
-            self.imageView.animatedImage = image
+        if let url = self.photoMessageViewModel.imageURL.value {
+            self.imageView.kf.setImage(with: url, completionHandler: {
+                (image, error, cacheType, imageUrl) in
+                print("Setting up image for - ",imageUrl)
+            })
+            self.placeholderIconView.isHidden = true
+        }else if let image = self.photoMessageViewModel.image.value {
+            self.imageView.image = image
             self.placeholderIconView.isHidden = true
         } else {
             self.imageView.image = self.photoMessageStyle.placeholderBackgroundImage(viewModel: self.photoMessageViewModel)

@@ -2,8 +2,8 @@ PODS:
   - Chatto (3.3.1)
   - ChattoAdditions (3.3.1):
     - Chatto
-    - FLAnimatedImage (~> 1.0)
-  - FLAnimatedImage (1.0.12)
+    - Kingfisher
+  - Kingfisher (4.9.0)
 
 DEPENDENCIES:
   - Chatto (from `..`)
@@ -11,7 +11,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
-    - FLAnimatedImage
+    - Kingfisher
 
 EXTERNAL SOURCES:
   Chatto:
@@ -21,8 +21,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Chatto: c35ceb0813fbccd9c559f306ac9d9208f723f75b
-  ChattoAdditions: bc461ecca9ff896ad752e98d2c78d963aa0803af
-  FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
+  ChattoAdditions: 2c804d95d664815a2395e7a5fc7737da38e7a105
+  Kingfisher: 64539b51826b778206daa6ed815d12653caa69dd
 
 PODFILE CHECKSUM: 1d3260c9c7c4e7959c1f82d6d23323008391b149
 

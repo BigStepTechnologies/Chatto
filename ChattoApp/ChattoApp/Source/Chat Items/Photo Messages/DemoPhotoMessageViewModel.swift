@@ -27,7 +27,7 @@ import ChattoAdditions
 
 class DemoPhotoMessageViewModel: PhotoMessageViewModel<DemoPhotoMessageModel> {
 
-    let fakeImage: UIImage
+    let fakeImage: UIImage?
     override init(photoMessage: DemoPhotoMessageModel, messageViewModel: MessageViewModelProtocol) {
         self.fakeImage = photoMessage.image
         super.init(photoMessage: photoMessage, messageViewModel: messageViewModel)
@@ -37,7 +37,7 @@ class DemoPhotoMessageViewModel: PhotoMessageViewModel<DemoPhotoMessageModel> {
     }
 
     override func willBeShown() {
-        self.fakeProgress()
+       // self.fakeProgress()
     }
 
     func fakeProgress() {
@@ -47,7 +47,7 @@ class DemoPhotoMessageViewModel: PhotoMessageViewModel<DemoPhotoMessageModel> {
         if self.transferProgress.value >= 1.0 {
             if arc4random_uniform(100) % 2 == 0 {
                 self.transferStatus.value = .success
-                self.image.value = self.fakeImage
+                //self.image.value = self.fakeImage
             } else {
                 self.transferStatus.value = .failed
             }
