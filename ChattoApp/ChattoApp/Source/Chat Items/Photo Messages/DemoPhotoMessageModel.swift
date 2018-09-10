@@ -28,11 +28,11 @@ import ChattoAdditions
 public class DemoPhotoMessageModel: PhotoMessageModel<MessageModel>, DemoMessageModelProtocol {
     
     init(messageModel: MessageModel,image: UIImage?) {
-        super.init(messageModel: messageModel,imageType: .noraml,image:image )
+        super.init(messageModel: messageModel,imageType: .normal,image:image )
     }
     
     init(messageModel: MessageModel,url:URL?) {
-        super.init(messageModel: messageModel,imageType: .noraml,imageUrl:url )
+        super.init(messageModel: messageModel,imageType: .normal,imageUrl:url )
     }
     
     public var status: MessageStatus {

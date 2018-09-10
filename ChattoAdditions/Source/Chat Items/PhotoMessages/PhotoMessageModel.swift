@@ -40,7 +40,7 @@ open class PhotoMessageModel<MessageModelT: MessageModelProtocol>: PhotoMessageM
     public var imageUrl: URL?
     public var imageType: ImageType
     
-    public init(messageModel: MessageModelT, imageType: ImageType = .noraml,
+    public init(messageModel: MessageModelT, imageType: ImageType = .normal,
                 image: UIImage? = nil,imageUrl:URL? = nil) {
         self._messageModel = messageModel
         self.imageType = imageType

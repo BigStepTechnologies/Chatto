@@ -155,7 +155,7 @@ open class PhotoMessageCollectionViewCellDefaultStyle: PhotoMessageCollectionVie
     open func bubbleSize(viewModel: PhotoMessageViewModelProtocol) -> CGSize {
         
         switch viewModel.imageType {
-        case .noraml,.video,.GIF:
+        case .normal,.video,.GIF:
             return self.sizes.photoSizeLandscape
         case .sticker:
             return self.sizes.photoSizeSticker

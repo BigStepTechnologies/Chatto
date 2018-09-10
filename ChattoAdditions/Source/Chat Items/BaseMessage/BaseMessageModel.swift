@@ -38,7 +38,7 @@ public enum ImageType {
     case GIF
     case sticker
     case video
-    case noraml
+    case normal
     case location
 }
 
