@@ -117,11 +117,11 @@ open class PhotoMessageCollectionViewCellDefaultStyle: PhotoMessageCollectionVie
     }()
 
     lazy private var placeholderIcon: UIImage = {
-        return UIImage(named: "photo-bubble-placeholder-icon", in: Bundle(for: Class.self), compatibleWith: nil)!
+        return UIImage(named: "photo-bubble-placeholder-icon", in: Bundle(for: Class.self), compatibleWith: nil)!.withRenderingMode(.alwaysTemplate)
     }()
     
     lazy private var playIcon: UIImage = {
-        return UIImage(named: "play-image", in: Bundle(for: Class.self), compatibleWith: nil)!
+        return UIImage(named: "play-image", in: Bundle(for: Class.self), compatibleWith: nil)!.withRenderingMode(.alwaysTemplate)
     }()
 
     open func maskingImage(viewModel: PhotoMessageViewModelProtocol) -> UIImage {
