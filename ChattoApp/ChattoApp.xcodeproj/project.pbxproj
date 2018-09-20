@@ -38,6 +38,9 @@
 		C3F91DCD1C75EFE300D461D2 /* SendingStatusCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3F91DCA1C75EFE300D461D2 /* SendingStatusCollectionViewCell.xib */; };
 		C3F91DCE1C75EFE300D461D2 /* SendingStatusPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3F91DCB1C75EFE300D461D2 /* SendingStatusPresenter.swift */; };
 		DD49AA1095C478DD42524839 /* Pods_ChattoApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13A796C853501DB82BA5DC27 /* Pods_ChattoApp.framework */; };
+		EB489942215387CF0013CFB8 /* DemoAudioMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB489941215387CF0013CFB8 /* DemoAudioMessageModel.swift */; };
+		EB489944215387E20013CFB8 /* DemoAudioMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB489943215387E20013CFB8 /* DemoAudioMessageViewModel.swift */; };
+		EB489946215387FB0013CFB8 /* DemoAudioMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB489945215387FB0013CFB8 /* DemoAudioMessageHandler.swift */; };
 		FE2D050B1C915ADB006F902B /* BaseMessageCollectionViewCellAvatarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2D050A1C915ADB006F902B /* BaseMessageCollectionViewCellAvatarStyle.swift */; };
 /* End PBXBuildFile section */
 
@@ -103,6 +106,9 @@
 		C3F91DC91C75EFE300D461D2 /* SendingStatusCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendingStatusCollectionViewCell.swift; sourceTree = "<group>"; };
 		C3F91DCA1C75EFE300D461D2 /* SendingStatusCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SendingStatusCollectionViewCell.xib; sourceTree = "<group>"; };
 		C3F91DCB1C75EFE300D461D2 /* SendingStatusPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendingStatusPresenter.swift; sourceTree = "<group>"; };
+		EB489941215387CF0013CFB8 /* DemoAudioMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAudioMessageModel.swift; sourceTree = "<group>"; };
+		EB489943215387E20013CFB8 /* DemoAudioMessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAudioMessageViewModel.swift; sourceTree = "<group>"; };
+		EB489945215387FB0013CFB8 /* DemoAudioMessageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAudioMessageHandler.swift; sourceTree = "<group>"; };
 		FE2D050A1C915ADB006F902B /* BaseMessageCollectionViewCellAvatarStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseMessageCollectionViewCellAvatarStyle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -138,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				55A77B481FCC42250040C77E /* Base Message */,
+				EB4899402153879A0013CFB8 /* Audio Message */,
 				C3F91DAC1C75EF9E00D461D2 /* Photo Messages */,
 				C3F91DC81C75EFE300D461D2 /* Sending status */,
 				C3F91DB11C75EF9E00D461D2 /* Text Messages */,
@@ -273,6 +280,16 @@
 				C3F91DCB1C75EFE300D461D2 /* SendingStatusPresenter.swift */,
 			);
 			path = "Sending status";
+			sourceTree = "<group>";
+		};
+		EB4899402153879A0013CFB8 /* Audio Message */ = {
+			isa = PBXGroup;
+			children = (
+				EB489941215387CF0013CFB8 /* DemoAudioMessageModel.swift */,
+				EB489943215387E20013CFB8 /* DemoAudioMessageViewModel.swift */,
+				EB489945215387FB0013CFB8 /* DemoAudioMessageHandler.swift */,
+			);
+			path = "Audio Message";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -444,6 +461,7 @@
 			files = (
 				55A77B4A1FCC5EE70040C77E /* MessagesSelectorProtocol.swift in Sources */,
 				FE2D050B1C915ADB006F902B /* BaseMessageCollectionViewCellAvatarStyle.swift in Sources */,
+				EB489944215387E20013CFB8 /* DemoAudioMessageViewModel.swift in Sources */,
 				C3F91DBF1C75EF9E00D461D2 /* DemoChatMessageSender.swift in Sources */,
 				C3F91DB81C75EF9E00D461D2 /* ChatExamplesViewController.swift in Sources */,
 				C3F91DC41C75EF9E00D461D2 /* DemoTextMessageHandler.swift in Sources */,
@@ -451,12 +469,14 @@
 				C3F91DC71C75EF9E00D461D2 /* BaseMessageHandler.swift in Sources */,
 				55A77B4C1FCC5FFB0040C77E /* BaseMessagesSelector.swift in Sources */,
 				C3F91DC61C75EF9E00D461D2 /* DemoTextMessageViewModel.swift in Sources */,
+				EB489946215387FB0013CFB8 /* DemoAudioMessageHandler.swift in Sources */,
 				C341D42E1C9635DF00FD3463 /* TimeSeparatorModel.swift in Sources */,
 				C3F91DC01C75EF9E00D461D2 /* DemoPhotoMessageHandler.swift in Sources */,
 				C3F91DBC1C75EF9E00D461D2 /* DemoChatViewController.swift in Sources */,
 				C3F91DBD1C75EF9E00D461D2 /* DemoChatDataSource.swift in Sources */,
 				C3F91DB61C75EF9E00D461D2 /* AppDelegate.swift in Sources */,
 				C341D42F1C9635DF00FD3463 /* TimeSeparatorPresenter.swift in Sources */,
+				EB489942215387CF0013CFB8 /* DemoAudioMessageModel.swift in Sources */,
 				C3F91DCE1C75EFE300D461D2 /* SendingStatusPresenter.swift in Sources */,
 				C3F91DC51C75EF9E00D461D2 /* DemoTextMessageModel.swift in Sources */,
 				5587302E1FCD7EE5005BC2EC /* MessagesSelectionChatViewController.swift in Sources */,

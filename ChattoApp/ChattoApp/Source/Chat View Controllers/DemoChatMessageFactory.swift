@@ -39,7 +39,7 @@ class DemoChatMessageFactory {
         if arc4random_uniform(100) % 2 == 0 {
             return self.makeRandomTextMessage(uid, isIncoming: isIncoming)
         } else {
-            return self.makeRandomPhotoMessage(uid, isIncoming: isIncoming)
+            return self.makeRandomAudioMessage(uid, isIncoming: isIncoming)
         }
     }
 
@@ -86,6 +86,16 @@ class DemoChatMessageFactory {
         return self.makePhotoMessage(uid, image: UIImage(named: imageName)!, size: imageSize, isIncoming: isIncoming)
     }
 
+    private class func makeRandomAudioMessage(_ uid: String, isIncoming: Bool) -> DemoAudioMessageModel {
+        return self.makeAudioMessage(uid,isIncoming: isIncoming)
+    }
+    
+    private class func makeAudioMessage(_ uid: String, isIncoming: Bool)->DemoAudioMessageModel{
+        let messageModel = self.makeMessageModel(uid, isIncoming: isIncoming, type: AudioMessageModel<MessageModel>.chatItemType)
+        let audioMessageModel = DemoAudioMessageModel(messageModel: messageModel, data: nil)
+        return audioMessageModel
+    }
+    
     private class func makeMessageModel(_ uid: String, isIncoming: Bool, type: String) -> MessageModel {
         let senderId = isIncoming ? "1" : "2"
         let messageStatus = isIncoming || arc4random_uniform(100) % 3 == 0 ? MessageStatus.success : .failed
@@ -102,6 +112,11 @@ extension TextMessageModel {
 extension PhotoMessageModel {
     static var chatItemType: ChatItemType {
         return "photo"
+    }
+}
+extension AudioMessageModel {
+    static var chatItemType: ChatItemType {
+        return "audio"
     }
 }
 
