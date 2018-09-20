@@ -132,7 +132,7 @@ public extension AudioMessageCollectionViewCellDefaultStyle { // Default values
     static public func createDefaultSizes() -> Sizes {
         return Sizes(
             audioSizeLandscape: CGSize(width: 210, height: 75),
-            audioSizePortrait: CGSize(width: 136, height: 75)
+            audioSizePortrait: CGSize(width: 175, height: 50)
         )
     }
     

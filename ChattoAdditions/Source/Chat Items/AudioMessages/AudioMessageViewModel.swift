@@ -11,6 +11,7 @@ public protocol AudioMessageViewModelProtocol: DecoratedMessageViewModelProtocol
     var transferProgress: Observable<Double> { get  set } // in [0,1]
     var transferStatus: Observable<TransferStatus> { get set }
     var data: Observable<Data?> { get set }
+    var duration: Double? { get set }
 }
 
 open class AudioMessageViewModel<AudioMessageModelT: AudioMessageModelProtocol>: AudioMessageViewModelProtocol {
@@ -22,6 +23,7 @@ open class AudioMessageViewModel<AudioMessageModelT: AudioMessageModelProtocol>:
     public var transferProgress: Observable<Double> = Observable(0)
     public var transferDirection: Observable<TransferDirection> = Observable(.download)
     public var data: Observable<Data?>
+    public var duration: Double?
     public let messageViewModel: MessageViewModelProtocol
     open var isShowingFailedIcon: Bool {
         return self.messageViewModel.isShowingFailedIcon || self.transferStatus.value == .failed
@@ -30,6 +32,7 @@ open class AudioMessageViewModel<AudioMessageModelT: AudioMessageModelProtocol>:
     public init(audioMessage: AudioMessageModelT, messageViewModel: MessageViewModelProtocol) {
         self._audioMessage = audioMessage
         self.data = Observable(audioMessage.data)
+        self.duration = audioMessage.duration
         self.messageViewModel = messageViewModel
     }
     

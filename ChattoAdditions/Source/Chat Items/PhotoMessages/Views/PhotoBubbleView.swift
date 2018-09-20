@@ -161,7 +161,6 @@ open class PhotoBubbleView: UIView, MaximumLayoutWidthSpecificable, BackgroundSi
         if let url = self.photoMessageViewModel.imageURL.value {
             self.imageView.kf.setImage(with: url, completionHandler: {
                 (image, error, cacheType, imageUrl) in
-                print("Setting up image for - ",imageUrl)
             })
         }else if let image = self.photoMessageViewModel.image.value {
             self.imageView.image = image

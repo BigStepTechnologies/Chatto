@@ -36,7 +36,7 @@ open class PhotoMessageModel<MessageModelT: MessageModelProtocol>: PhotoMessageM
         return self._messageModel
     }
     public let _messageModel: MessageModelT // Can't make messasgeModel: MessageModelT: https://gist.github.com/diegosanchezr/5a66c7af862e1117b556
-    public let image: UIImage?
+    public var image: UIImage?
     public var imageUrl: URL?
     public var imageType: ImageType
     

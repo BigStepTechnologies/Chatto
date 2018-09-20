@@ -33,9 +33,11 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
     
     private func commonInit() {
         self.autoresizesSubviews = false
+        //self.addSubview(self.audioButton)
         self.addSubview(self.bubbleImageView)
-        self.addSubview(self.progressView)
-        self.addSubview(self.durationLabel)
+        //self.addSubview(self.progressView)
+        //self.addSubview(self.durationLabel)
+        self.contentMode = .center
     }
     
     private var borderImageView: UIImageView = UIImageView()
@@ -45,9 +47,17 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
         return imageView
     }()
     
+    private lazy var audioButton: UIImageView = {
+        let iconView = UIImageView()
+        iconView.contentMode = .scaleAspectFit
+        iconView.sizeToFit()
+        return iconView
+    }()
+    
     private lazy var progressView: UIProgressView = {
         let voiceView = UIProgressView()
         voiceView.progressViewStyle = .default
+        voiceView.sizeToFit()
         return voiceView
     }()
     
@@ -95,9 +105,10 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
         if self.viewContext == .sizing { return }
         if isUpdating { return }
         guard let viewModel = self.audioMessageViewModel, let style = self.audioMessageViewStyle else { return }
-        
-        self.updateAudioView()
-        self.durationLabel.text = "\(viewModel.duration)″"
+//        self.audioButton.image = style.playIconImage(viewModel: viewModel)
+        self.borderImageView.image = style.borderImage(viewModel: viewModel)
+        self.bubbleImageView.layer.mask = UIImageView(image: style.maskingImage(viewModel: viewModel)).layer
+//        self.durationLabel.text = "0:00"
     }
     
     public func playAudio() {
@@ -107,13 +118,13 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
     // MARK: Layout
     public override func layoutSubviews() {
         super.layoutSubviews()
-        
         let layout = self.calculateAudioBubbleLayout(maximumWidth: self.preferredMaxLayoutWidth)
         self.bubbleImageView.bma_rect = layout.bubbleFrame
         self.borderImageView.bma_rect = self.bubbleImageView.bounds
-        let voiceIconHeight: CGFloat = 15.0
-        self.progressView.frame = CGRect(x:layout.bubbleFrame.width - 36, y:(layout.bubbleFrame.height - voiceIconHeight) / 2,width: voiceIconHeight, height: voiceIconHeight)
-        self.durationLabel.frame = CGRect(x:-21, y:layout.bubbleFrame.height / 2, width:20, height:20)
+        self.bubbleImageView.layer.mask?.frame = self.bubbleImageView.layer.bounds
+//        self.audioButton.frame = layout.iconFrame
+//        self.progressView.frame = layout.progressViewFrame
+//        self.durationLabel.frame = layout.progressLableFrame
     }
     
     public override func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -136,39 +147,55 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
         
         return layoutModel
     }
+    
+    private func timeStampString(currentTime: TimeInterval, duration: TimeInterval) -> String {
+        // print the time as 0:ss or ss.x up to 59 seconds
+        // print the time as m:ss up to 59:59 seconds
+        // print the time as h:mm:ss for anything longer
+        if (duration < 60) {
+            
+            if (currentTime < duration) {
+                return String.init(format: "0:%02d",Int(round(currentTime)))
+            }
+            return String.init(format: "0:%02d",Int(ceil(currentTime)))
+        }
+        else if (duration < 3600) {
+            return String.init(format: "%d:%02d",Int(currentTime) / 60, Int(currentTime) % 60)
+        }
+        return String.init(format: "%d:%02d:%02d",Int(currentTime) / 3600,Int(currentTime) / 60, Int(currentTime) % 60)
+    }
 }
 
 
 private class AudioBubbleLayoutModel {
-    var bubbleFrame: CGRect = CGRect.zero
+    var bubbleFrame:CGRect = CGRect.zero
+    var iconFrame: CGRect = CGRect.zero
+    var progressViewFrame: CGRect = CGRect.zero
+    var progressLableFrame: CGRect = CGRect.zero
     var size: CGSize = CGSize.zero
     
     struct LayoutContext {
+        let duration:String
         let bubbleSize: CGSize
         let preferredMaxLayoutWidth: CGFloat
         let iconSize: CGSize
-        let timeLabelWidth: CGFloat
-        let seekBarWidth:CGFloat
         
-        init(bubbleSize: CGSize,
+        init(duration:String,
+             bubbleSize: CGSize,
              iconSize: CGSize,
-             seekBarWidth: CGFloat,
-             timeLabelWidth: CGFloat,
              preferredMaxLayoutWidth width: CGFloat) {
+            self.duration = duration
             self.bubbleSize = bubbleSize
             self.iconSize = iconSize
-            self.timeLabelWidth = timeLabelWidth
-            self.seekBarWidth = seekBarWidth
             self.preferredMaxLayoutWidth = width
         }
         
         init(audioMessageViewModel model: AudioMessageViewModelProtocol,
              style: AudioBubbleViewStyleProtocol,
              containerWidth width: CGFloat) {
-            self.init(bubbleSize: style.bubbleSize(viewModel: model),
+            self.init(duration: "00:00",
+                      bubbleSize: style.bubbleSize(viewModel: model),
                       iconSize: style.playIconImage(viewModel: model).size,
-                      seekBarWidth: style.seekBarWidth(viewModel: model),
-                      timeLabelWidth: style.timeLabelWidth(viewModel: model),
                       preferredMaxLayoutWidth: width)
         }
     }
@@ -179,6 +206,15 @@ private class AudioBubbleLayoutModel {
     }
     
     func calculateLayout() {
-        
+        let size = self.layoutContext.bubbleSize
+        self.bubbleFrame = CGRect(origin: .zero, size: size)
+        let labelFrame = CGRect(x: size.width - 24 - 5, y: size.height/2, width: 24, height: 18)
+        let xOffset:CGFloat = 40 + 10
+        let width = labelFrame.origin.x - xOffset - 5;
+        self.progressLableFrame = labelFrame
+        self.progressViewFrame = CGRect(x: xOffset, y: (size.height-15)/2, width: width, height: 15)
+        self.iconFrame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        self.size = size
     }
+
 }
