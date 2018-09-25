@@ -53,7 +53,7 @@ final class DemoChatItemsDecorator: ChatItemsDecoratorProtocol {
             var isSelected = false
             var isShowingSelectionIndicator = false
 
-            if let currentMessage = chatItem as? MessageModelProtocol {
+            if let currentMessage = chatItem as? DemoMessageModelProtocol {
                 if let nextMessage = next as? MessageModelProtocol {
                     showsTail = currentMessage.senderId != nextMessage.senderId
                 } else {

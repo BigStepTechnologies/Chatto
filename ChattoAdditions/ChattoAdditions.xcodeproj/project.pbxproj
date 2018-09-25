@@ -110,6 +110,7 @@
 		EB54742B214935A9005C7564 /* AudioBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB54742A214935A9005C7564 /* AudioBubbleView.swift */; };
 		EB54742D2149392F005C7564 /* AudioMessageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB54742C2149392F005C7564 /* AudioMessageCollectionViewCell.swift */; };
 		EB54742F21493A47005C7564 /* AudioMessageCollectionViewCellDefaultStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB54742E21493A47005C7564 /* AudioMessageCollectionViewCellDefaultStyle.swift */; };
+		EB8021FD2158977A00AA94DE /* AudioMessageAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB8021FC2158977A00AA94DE /* AudioMessageAssets.xcassets */; };
 		F6D04BA71CA46C0200E803FA /* PhotosInputPlaceholderDataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D04BA61CA46C0200E803FA /* PhotosInputPlaceholderDataProviderTests.swift */; };
 		F6D04BA91CA46D5000E803FA /* PhotosInputWithPlaceholdersDataProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D04BA81CA46D5000E803FA /* PhotosInputWithPlaceholdersDataProviderTests.swift */; };
 /* End PBXBuildFile section */
@@ -231,6 +232,7 @@
 		EB54742A214935A9005C7564 /* AudioBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioBubbleView.swift; sourceTree = "<group>"; };
 		EB54742C2149392F005C7564 /* AudioMessageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMessageCollectionViewCell.swift; sourceTree = "<group>"; };
 		EB54742E21493A47005C7564 /* AudioMessageCollectionViewCellDefaultStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMessageCollectionViewCellDefaultStyle.swift; sourceTree = "<group>"; };
+		EB8021FC2158977A00AA94DE /* AudioMessageAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = AudioMessageAssets.xcassets; sourceTree = "<group>"; };
 		F6D04BA61CA46C0200E803FA /* PhotosInputPlaceholderDataProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosInputPlaceholderDataProviderTests.swift; sourceTree = "<group>"; };
 		F6D04BA81CA46D5000E803FA /* PhotosInputWithPlaceholdersDataProviderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosInputWithPlaceholdersDataProviderTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -589,6 +591,7 @@
 				EB54742A214935A9005C7564 /* AudioBubbleView.swift */,
 				EB54742C2149392F005C7564 /* AudioMessageCollectionViewCell.swift */,
 				EB54742E21493A47005C7564 /* AudioMessageCollectionViewCellDefaultStyle.swift */,
+				EB8021FC2158977A00AA94DE /* AudioMessageAssets.xcassets */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -692,6 +695,7 @@
 				C3C0CC581BFE496A0052747C /* Photos.xcassets in Resources */,
 				C3C0CC2D1BFE496A0052747C /* BaseMessageAssets.xcassets in Resources */,
 				C3C0CC611BFE496A0052747C /* Text.xcassets in Resources */,
+				EB8021FD2158977A00AA94DE /* AudioMessageAssets.xcassets in Resources */,
 				C3C0CC501BFE496A0052747C /* ChatInputBar.xib in Resources */,
 				C3C0CC391BFE496A0052747C /* PhotoMessageAssets.xcassets in Resources */,
 			);

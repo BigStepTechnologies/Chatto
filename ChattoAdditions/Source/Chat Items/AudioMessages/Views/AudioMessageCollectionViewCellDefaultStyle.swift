@@ -62,11 +62,11 @@ open class AudioMessageCollectionViewCellDefaultStyle: AudioMessageCollectionVie
     
     
     lazy private var pauseIcon: UIImage = {
-        return UIImage(named: "photo-bubble-placeholder-icon", in: Bundle(for: Class.self), compatibleWith: nil)!
+        return UIImage(named: "pause_icon", in: Bundle(for: Class.self), compatibleWith: nil)!
     }()
     
     lazy private var playIcon: UIImage = {
-        return UIImage(named: "play-image", in: Bundle(for: Class.self), compatibleWith: nil)!
+        return UIImage(named: "play_icon", in: Bundle(for: Class.self), compatibleWith: nil)!
     }()
     
     open func maskingImage(viewModel: AudioMessageViewModelProtocol) -> UIImage {
@@ -131,7 +131,7 @@ public extension AudioMessageCollectionViewCellDefaultStyle { // Default values
     
     static public func createDefaultSizes() -> Sizes {
         return Sizes(
-            audioSizeLandscape: CGSize(width: 210, height: 75),
+            audioSizeLandscape: CGSize(width: 210, height: 50),
             audioSizePortrait: CGSize(width: 175, height: 50)
         )
     }

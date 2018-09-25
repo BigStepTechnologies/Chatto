@@ -33,10 +33,10 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
     
     private func commonInit() {
         self.autoresizesSubviews = false
-        //self.addSubview(self.audioButton)
+        self.addSubview(self.audioButton)
         self.addSubview(self.bubbleImageView)
-        //self.addSubview(self.progressView)
-        //self.addSubview(self.durationLabel)
+        self.addSubview(self.progressView)
+        self.addSubview(self.durationLabel)
         self.contentMode = .center
     }
     
@@ -63,9 +63,8 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
     
     private lazy var durationLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor(red:0.62, green:0.62, blue:0.62, alpha:1.00)
-        label.font = label.font.withSize(14)
-        
+        label.textAlignment = .center
+        label.font = label.font.withSize(12)
         return label
     }()
     
@@ -105,10 +104,11 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
         if self.viewContext == .sizing { return }
         if isUpdating { return }
         guard let viewModel = self.audioMessageViewModel, let style = self.audioMessageViewStyle else { return }
-//        self.audioButton.image = style.playIconImage(viewModel: viewModel)
+        self.audioButton.image = style.playIconImage(viewModel: viewModel)
         self.borderImageView.image = style.borderImage(viewModel: viewModel)
         self.bubbleImageView.layer.mask = UIImageView(image: style.maskingImage(viewModel: viewModel)).layer
-//        self.durationLabel.text = "0:00"
+        self.durationLabel.text = "0:00"
+        self.durationLabel.textColor = style.audioViewTintColot(viewModel: viewModel)
     }
     
     public func playAudio() {
@@ -122,9 +122,9 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
         self.bubbleImageView.bma_rect = layout.bubbleFrame
         self.borderImageView.bma_rect = self.bubbleImageView.bounds
         self.bubbleImageView.layer.mask?.frame = self.bubbleImageView.layer.bounds
-//        self.audioButton.frame = layout.iconFrame
-//        self.progressView.frame = layout.progressViewFrame
-//        self.durationLabel.frame = layout.progressLableFrame
+        self.audioButton.frame = layout.iconFrame
+        self.progressView.frame = layout.progressViewFrame
+        self.durationLabel.frame = layout.progressLableFrame
     }
     
     public override func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -208,13 +208,15 @@ private class AudioBubbleLayoutModel {
     func calculateLayout() {
         let size = self.layoutContext.bubbleSize
         self.bubbleFrame = CGRect(origin: .zero, size: size)
-        let labelFrame = CGRect(x: size.width - 24 - 5, y: size.height/2, width: 24, height: 18)
-        let xOffset:CGFloat = 40 + 10
+        self.iconFrame = CGRect(x: 10, y: 5, width: 40, height: 40)
+        self.size = size
+        
+        let labelFrame = CGRect(x: size.width - 35 - 5, y: 15, width: 25, height: 18)
+        let xOffset:CGFloat = iconFrame.width + 15
         let width = labelFrame.origin.x - xOffset - 5;
         self.progressLableFrame = labelFrame
-        self.progressViewFrame = CGRect(x: xOffset, y: (size.height-15)/2, width: width, height: 15)
-        self.iconFrame = CGRect(x: 0, y: 0, width: 40, height: 40)
-        self.size = size
+        self.progressViewFrame = CGRect(x: xOffset, y: 25, width: width, height: 15)
+        
     }
 
 }
