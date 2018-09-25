@@ -179,7 +179,14 @@ open class PhotoBubbleView: UIView, MaximumLayoutWidthSpecificable, BackgroundSi
         } else {
             self.overlayView.alpha = 0
         }
-        self.borderView.image = self.photoMessageStyle.borderImage(viewModel: photoMessageViewModel)
+        if self.photoMessageViewModel.imageType == .sticker{
+            self.imageView.contentMode = .scaleAspectFit
+            self.borderView.image = nil
+        }else{
+            self.imageView.contentMode = .scaleAspectFill
+            self.borderView.image = self.photoMessageStyle.borderImage(viewModel: photoMessageViewModel)
+        }
+        
         self.imageView.layer.mask = UIImageView(image: self.photoMessageStyle.maskingImage(viewModel: self.photoMessageViewModel)).layer
     }
 
