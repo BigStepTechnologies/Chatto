@@ -63,23 +63,31 @@ class DemoChatViewController: BaseChatViewController {
 
     override func createPresenterBuilders() -> [ChatItemType: [ChatItemPresenterBuilderProtocol]] {
 
+        // used for base message background + text background
+        let baseMessageStyle = BaseMessageCollectionViewCellAvatarStyle()
+        baseMessageStyle.baseColorOutgoing = UIColor.black
+        
         let textMessagePresenter = TextMessagePresenterBuilder(
             viewModelBuilder: DemoTextMessageViewModelBuilder(),
             interactionHandler: DemoTextMessageHandler(baseHandler: self.baseMessageHandler)
         )
-        textMessagePresenter.baseMessageStyle = BaseMessageCollectionViewCellAvatarStyle()
+        textMessagePresenter.baseMessageStyle = baseMessageStyle
 
         let photoMessagePresenter = PhotoMessagePresenterBuilder(
             viewModelBuilder: DemoPhotoMessageViewModelBuilder(),
             interactionHandler: DemoPhotoMessageHandler(baseHandler: self.baseMessageHandler)
         )
-        photoMessagePresenter.baseCellStyle = BaseMessageCollectionViewCellAvatarStyle()
+        photoMessagePresenter.baseCellStyle = baseMessageStyle
         
         let audioMessagePresenter = AudioMessagePresenterBuilder(
             viewModelBuilder: DemoAudioMessageViewModelBuilder(),
             interactionHandler: DemoAudioMessageHandler(baseHandler: self.baseMessageHandler)
         )
-        audioMessagePresenter.baseCellStyle = BaseMessageCollectionViewCellAvatarStyle()
+        
+        
+        audioMessagePresenter.baseCellStyle = baseMessageStyle
+        
+        
 
         return [
             DemoTextMessageModel.chatItemType: [textMessagePresenter],

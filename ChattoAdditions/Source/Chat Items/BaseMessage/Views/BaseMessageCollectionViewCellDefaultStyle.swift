@@ -183,8 +183,8 @@ open class BaseMessageCollectionViewCellDefaultStyle: BaseMessageCollectionViewC
 
 public extension BaseMessageCollectionViewCellDefaultStyle { // Default values
 
-    private static let defaultIncomingColor = UIColor.bma_color(rgb: 0xE6ECF2)
-    private static let defaultOutgoingColor = UIColor.bma_color(rgb: 0x3D68F5)
+    public static var defaultIncomingColor = UIColor.bma_color(rgb: 0xE6ECF2)
+    public static var defaultOutgoingColor = UIColor.bma_color(rgb: 0x3D68F5)
 
     static public func createDefaultColors() -> Colors {
         return Colors(incoming: self.defaultIncomingColor, outgoing: self.defaultOutgoingColor)

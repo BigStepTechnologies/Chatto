@@ -28,7 +28,6 @@ import ChattoAdditions
 
 public protocol DemoMessageModelProtocol: MessageModelProtocol {
     var status: MessageStatus { get set }
-    var userDisplayName: String { get set }
 }
 
 public class DemoChatMessageSender {
