@@ -95,7 +95,7 @@ open class AudioMessageCollectionViewCellDefaultStyle: AudioMessageCollectionVie
     }
     
     public func audioViewTintColot(viewModel: AudioMessageViewModelProtocol) -> UIColor {
-        return viewModel.isIncoming ? self.baseStyle.baseColorIncoming : self.baseStyle.baseColorOutgoing
+        return self.baseStyle.baseColorOutgoing
     }
     
     open func tailWidth(viewModel: AudioMessageViewModelProtocol) -> CGFloat {
@@ -132,7 +132,7 @@ public extension AudioMessageCollectionViewCellDefaultStyle { // Default values
     static public func createDefaultSizes() -> Sizes {
         return Sizes(
             audioSizeLandscape: CGSize(width: 210, height: 50),
-            audioSizePortrait: CGSize(width: 175, height: 50)
+            audioSizePortrait: CGSize(width: 170, height: 40)
         )
     }
     

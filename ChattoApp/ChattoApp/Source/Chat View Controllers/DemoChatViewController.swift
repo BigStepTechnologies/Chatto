@@ -63,6 +63,8 @@ class DemoChatViewController: BaseChatViewController {
 
     override func createPresenterBuilders() -> [ChatItemType: [ChatItemPresenterBuilderProtocol]] {
 
+        BaseMessageCollectionViewCellAvatarStyle.defaultOutgoingColor = UIColor.black
+        
         // used for base message background + text background
         let baseMessageStyle = BaseMessageCollectionViewCellAvatarStyle()
         baseMessageStyle.baseColorOutgoing = UIColor.black
