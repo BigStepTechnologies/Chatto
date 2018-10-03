@@ -30,8 +30,8 @@
     "Chatto": [
 
     ],
-    "Kingfisher": [
-
+    "FLAnimatedImage": [
+      "~> 1.0"
     ]
   }
 }

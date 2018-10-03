@@ -23,7 +23,7 @@
 */
 
 import UIKit
-import Kingfisher
+import FLAnimatedImage
 
 public protocol PhotoBubbleViewStyleProtocol {
     func maskingImage(viewModel: PhotoMessageViewModelProtocol) -> UIImage
@@ -60,8 +60,8 @@ open class PhotoBubbleView: UIView, MaximumLayoutWidthSpecificable, BackgroundSi
         self.addSubview(self.progressIndicatorView)
     }
 
-    public private(set) lazy var imageView: UIImageView = {
-        let imageView = UIImageView()
+    public private(set) lazy var imageView: FLAnimatedImageView = {
+        let imageView = FLAnimatedImageView()
         imageView.autoresizingMask = UIViewAutoresizing()
         imageView.clipsToBounds = true
         imageView.autoresizesSubviews = false
@@ -154,17 +154,18 @@ open class PhotoBubbleView: UIView, MaximumLayoutWidthSpecificable, BackgroundSi
     }
 
     private func updateImages() {
+        
         self.placeholderIconView.image = self.photoMessageStyle.placeholderIconImage(viewModel: self.photoMessageViewModel)
+        
         self.placeholderIconView.tintColor = self.photoMessageStyle.placeholderIconTintColor(viewModel: self.photoMessageViewModel)
+        
         self.placeholderIconView.isHidden =
             self.photoMessageViewModel.imageType != .video
-        if let url = self.photoMessageViewModel.imageURL.value {
-            self.imageView.kf.setImage(with: url, completionHandler: {
-                (image, error, cacheType, imageUrl) in
-            })
+        
+        if let animatedImage = self.photoMessageViewModel.animatedImage.value {
+            self.imageView.animatedImage = animatedImage
         }else if let image = self.photoMessageViewModel.image.value {
             self.imageView.image = image
-            
         } else {
             self.imageView.image = self.photoMessageStyle.placeholderBackgroundImage(viewModel: self.photoMessageViewModel)
             self.placeholderIconView.isHidden = self.photoMessageViewModel.transferStatus.value != .failed
@@ -179,12 +180,13 @@ open class PhotoBubbleView: UIView, MaximumLayoutWidthSpecificable, BackgroundSi
         } else {
             self.overlayView.alpha = 0
         }
+        
+        self.borderView.image = self.photoMessageStyle.borderImage(viewModel: photoMessageViewModel)
+        
         if self.photoMessageViewModel.imageType == .sticker{
             self.imageView.contentMode = .scaleAspectFit
-            self.borderView.image = nil
         }else{
             self.imageView.contentMode = .scaleAspectFill
-            self.borderView.image = self.photoMessageStyle.borderImage(viewModel: photoMessageViewModel)
         }
         
         self.imageView.layer.mask = UIImageView(image: self.photoMessageStyle.maskingImage(viewModel: self.photoMessageViewModel)).layer

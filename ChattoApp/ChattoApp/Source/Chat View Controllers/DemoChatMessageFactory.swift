@@ -39,7 +39,7 @@ class DemoChatMessageFactory {
         if arc4random_uniform(100) % 2 == 0 {
             return self.makeRandomTextMessage(uid, isIncoming: isIncoming)
         } else {
-            return self.makeRandomAudioMessage(uid, isIncoming: isIncoming)
+            return self.makeRandomPhotoMessage(uid, isIncoming: isIncoming)
         }
     }
 
@@ -51,7 +51,7 @@ class DemoChatMessageFactory {
 
     class func makePhotoMessage(_ uid: String, image: UIImage, size: CGSize, isIncoming: Bool) -> DemoPhotoMessageModel {
         let messageModel = self.makeMessageModel(uid, isIncoming: isIncoming, type: PhotoMessageModel<MessageModel>.chatItemType)
-        let photoMessageModel = DemoPhotoMessageModel(messageModel: messageModel,url: URL(string: "https://media.giphy.com/media/xUA7aZwWq6Rve85XlC/giphy.gif"))
+        let photoMessageModel = DemoPhotoMessageModel(messageModel: messageModel, image: image)
         return photoMessageModel
     }
 

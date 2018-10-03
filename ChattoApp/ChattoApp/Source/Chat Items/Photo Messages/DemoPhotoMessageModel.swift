@@ -23,6 +23,7 @@
 */
 
 import Foundation
+import FLAnimatedImage
 import ChattoAdditions
 
 public class DemoPhotoMessageModel: PhotoMessageModel<MessageModel>, DemoMessageModelProtocol {
@@ -31,8 +32,8 @@ public class DemoPhotoMessageModel: PhotoMessageModel<MessageModel>, DemoMessage
         super.init(messageModel: messageModel,imageType: .normal,image:image )
     }
     
-    init(messageModel: MessageModel,url:URL?) {
-        super.init(messageModel: messageModel,imageType: .video,imageUrl:url )
+    init(messageModel: MessageModel,animatedImage:FLAnimatedImage?) {
+        super.init(messageModel: messageModel,imageType: .video,animatedImage:animatedImage )
     }
     
     public var status: MessageStatus {

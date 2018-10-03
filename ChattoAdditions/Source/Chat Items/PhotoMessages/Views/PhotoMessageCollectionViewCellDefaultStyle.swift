@@ -138,7 +138,7 @@ open class PhotoMessageCollectionViewCellDefaultStyle: PhotoMessageCollectionVie
     }
 
     open func borderImage(viewModel: PhotoMessageViewModelProtocol) -> UIImage? {
-        return self.baseStyle.borderImage(viewModel: viewModel)
+        return viewModel.imageType == .sticker ? nil : self.baseStyle.borderImage(viewModel: viewModel)
     }
 
     open func placeholderBackgroundImage(viewModel: PhotoMessageViewModelProtocol) -> UIImage {

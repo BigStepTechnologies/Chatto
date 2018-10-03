@@ -23,10 +23,11 @@
 */
 
 import UIKit
+import FLAnimatedImage
 
 public protocol PhotoMessageModelProtocol: DecoratedMessageModelProtocol {
     var image: UIImage? { get }
-    var imageUrl: URL? { get }
+    var animatedImage: FLAnimatedImage? { get }
     var imageType: ImageType { get }
 }
 
@@ -37,14 +38,14 @@ open class PhotoMessageModel<MessageModelT: MessageModelProtocol>: PhotoMessageM
     }
     public let _messageModel: MessageModelT // Can't make messasgeModel: MessageModelT: https://gist.github.com/diegosanchezr/5a66c7af862e1117b556
     public var image: UIImage?
-    public var imageUrl: URL?
+    public var animatedImage: FLAnimatedImage?
     public var imageType: ImageType
     
     public init(messageModel: MessageModelT, imageType: ImageType = .normal,
-                image: UIImage? = nil,imageUrl:URL? = nil) {
+                image: UIImage? = nil,animatedImage:FLAnimatedImage? = nil) {
         self._messageModel = messageModel
         self.imageType = imageType
         self.image = image
-        self.imageUrl = imageUrl
+        self.animatedImage = animatedImage
     }
 }
