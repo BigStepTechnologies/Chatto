@@ -168,10 +168,13 @@ open class PhotoBubbleView: UIView, MaximumLayoutWidthSpecificable, BackgroundSi
         if let image = self.photoMessageViewModel.image.value {
             self.imageView.image = image
         } else {
-            self.imageView.sd_setImage(with: self.photoMessageViewModel.imageUrl.value, placeholderImage: nil,progress: {(downloadedSize,totalSize,url) in
-                self.photoMessageViewModel.transferStatus.value = .transfering
-            }, completed: { (image,error,cacheType,url) in
-                self.photoMessageViewModel.transferStatus.value = .success
+            self.photoMessageViewModel.transferStatus.value = .transfering
+            self.progressIndicatorView.isHidden = true
+            self.imageView.sd_setImage(with: self.photoMessageViewModel.imageUrl.value, placeholderImage: nil,completed: { (image,error,cacheType,url) in
+                DispatchQueue.main.async {
+                    self.progressIndicatorView.progressStatus = .completed
+                    self.progressIndicatorView.isHidden = true
+                }
             })
         }
 
