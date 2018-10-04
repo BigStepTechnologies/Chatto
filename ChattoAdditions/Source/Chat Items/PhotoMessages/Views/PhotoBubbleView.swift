@@ -24,6 +24,7 @@
 
 import UIKit
 import FLAnimatedImage
+import SDWebImage
 
 public protocol PhotoBubbleViewStyleProtocol {
     func maskingImage(viewModel: PhotoMessageViewModelProtocol) -> UIImage
@@ -155,20 +156,23 @@ open class PhotoBubbleView: UIView, MaximumLayoutWidthSpecificable, BackgroundSi
 
     private func updateImages() {
         
-        self.placeholderIconView.image = self.photoMessageStyle.placeholderIconImage(viewModel: self.photoMessageViewModel)
+        if self.photoMessageViewModel.imageType == .video{
+            self.placeholderIconView.isHidden = false
+            self.placeholderIconView.image = self.photoMessageStyle.placeholderIconImage(viewModel: self.photoMessageViewModel)
+            
+            self.placeholderIconView.tintColor = self.photoMessageStyle.placeholderIconTintColor(viewModel: self.photoMessageViewModel)
+        }else{
+            self.placeholderIconView.isHidden = true
+        }
         
-        self.placeholderIconView.tintColor = self.photoMessageStyle.placeholderIconTintColor(viewModel: self.photoMessageViewModel)
-        
-        self.placeholderIconView.isHidden =
-            self.photoMessageViewModel.imageType != .video
-        
-        if let animatedImage = self.photoMessageViewModel.animatedImage.value {
-            self.imageView.animatedImage = animatedImage
-        }else if let image = self.photoMessageViewModel.image.value {
+        if let image = self.photoMessageViewModel.image.value {
             self.imageView.image = image
         } else {
-            self.imageView.image = self.photoMessageStyle.placeholderBackgroundImage(viewModel: self.photoMessageViewModel)
-            self.placeholderIconView.isHidden = self.photoMessageViewModel.transferStatus.value != .failed
+            self.imageView.sd_setImage(with: self.photoMessageViewModel.imageUrl.value, placeholderImage: nil,progress: {(downloadedSize,totalSize,url) in
+                self.photoMessageViewModel.transferStatus.value = .transfering
+            }, completed: { (image,error,cacheType,url) in
+                self.photoMessageViewModel.transferStatus.value = .success
+            })
         }
 
         if let overlayColor = self.photoMessageStyle.overlayColor(viewModel: self.photoMessageViewModel) {

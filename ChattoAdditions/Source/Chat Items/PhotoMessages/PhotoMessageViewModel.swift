@@ -23,7 +23,6 @@
 */
 
 import UIKit
-import FLAnimatedImage
 
 public enum TransferDirection {
     case upload
@@ -42,7 +41,7 @@ public protocol PhotoMessageViewModelProtocol: DecoratedMessageViewModelProtocol
     var transferProgress: Observable<Double> { get  set } // in [0,1]
     var transferStatus: Observable<TransferStatus> { get set }
     var image: Observable<UIImage?> { get set }
-    var animatedImage: Observable<FLAnimatedImage?> { get set }
+    var imageUrl: Observable<URL?> { get set }
     var imageType: ImageType { get }
 }
 
@@ -55,7 +54,7 @@ open class PhotoMessageViewModel<PhotoMessageModelT: PhotoMessageModelProtocol>:
     public var transferProgress: Observable<Double> = Observable(0)
     public var transferDirection: Observable<TransferDirection> = Observable(.download)
     public var image: Observable<UIImage?>
-    public var animatedImage: Observable<FLAnimatedImage?>
+    public var imageUrl: Observable<URL?>
     open var imageType: ImageType {
         return self.photoMessage.imageType
     }
@@ -67,7 +66,7 @@ open class PhotoMessageViewModel<PhotoMessageModelT: PhotoMessageModelProtocol>:
     public init(photoMessage: PhotoMessageModelT, messageViewModel: MessageViewModelProtocol) {
         self._photoMessage = photoMessage
         self.image = Observable(photoMessage.image)
-        self.animatedImage = Observable(photoMessage.animatedImage)
+        self.imageUrl = Observable(photoMessage.imageUrl)
         self.messageViewModel = messageViewModel
     }
 
