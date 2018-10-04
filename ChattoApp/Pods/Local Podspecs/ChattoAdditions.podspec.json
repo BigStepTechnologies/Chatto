@@ -30,8 +30,8 @@
     "Chatto": [
 
     ],
-    "FLAnimatedImage": [
-      "~> 1.0"
+    "SDWebImage/GIF": [
+
     ]
   }
 }

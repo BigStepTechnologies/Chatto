@@ -2,8 +2,12 @@ PODS:
   - Chatto (3.3.1)
   - ChattoAdditions (3.3.1):
     - Chatto
-    - FLAnimatedImage (~> 1.0)
+    - SDWebImage/GIF
   - FLAnimatedImage (1.0.12)
+  - SDWebImage/Core (4.4.2)
+  - SDWebImage/GIF (4.4.2):
+    - FLAnimatedImage (~> 1.0)
+    - SDWebImage/Core
 
 DEPENDENCIES:
   - Chatto (from `..`)
@@ -12,6 +16,7 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - FLAnimatedImage
+    - SDWebImage
 
 EXTERNAL SOURCES:
   Chatto:
@@ -21,8 +26,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Chatto: c35ceb0813fbccd9c559f306ac9d9208f723f75b
-  ChattoAdditions: bc461ecca9ff896ad752e98d2c78d963aa0803af
+  ChattoAdditions: bc4dff55dbd2a4d1892fa0bbac442e0500c33c76
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
+  SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
 
 PODFILE CHECKSUM: 1d3260c9c7c4e7959c1f82d6d23323008391b149
 
