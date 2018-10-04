@@ -41,7 +41,8 @@ public protocol PhotoMessageViewModelProtocol: DecoratedMessageViewModelProtocol
     var transferProgress: Observable<Double> { get  set } // in [0,1]
     var transferStatus: Observable<TransferStatus> { get set }
     var image: Observable<UIImage?> { get set }
-    var imageSize: CGSize { get }
+    var imageUrl: Observable<URL?> { get set }
+    var imageType: ImageType { get }
 }
 
 open class PhotoMessageViewModel<PhotoMessageModelT: PhotoMessageModelProtocol>: PhotoMessageViewModelProtocol {
@@ -53,8 +54,9 @@ open class PhotoMessageViewModel<PhotoMessageModelT: PhotoMessageModelProtocol>:
     public var transferProgress: Observable<Double> = Observable(0)
     public var transferDirection: Observable<TransferDirection> = Observable(.download)
     public var image: Observable<UIImage?>
-    open var imageSize: CGSize {
-        return self.photoMessage.imageSize
+    public var imageUrl: Observable<URL?>
+    open var imageType: ImageType {
+        return self.photoMessage.imageType
     }
     public let messageViewModel: MessageViewModelProtocol
     open var isShowingFailedIcon: Bool {
@@ -64,6 +66,7 @@ open class PhotoMessageViewModel<PhotoMessageModelT: PhotoMessageModelProtocol>:
     public init(photoMessage: PhotoMessageModelT, messageViewModel: MessageViewModelProtocol) {
         self._photoMessage = photoMessage
         self.image = Observable(photoMessage.image)
+        self.imageUrl = Observable(photoMessage.imageUrl)
         self.messageViewModel = messageViewModel
     }
 

@@ -25,6 +25,7 @@
 import UIKit
 
 open class PhotoMessageCollectionViewCellDefaultStyle: PhotoMessageCollectionViewCellStyleProtocol {
+    
     typealias Class = PhotoMessageCollectionViewCellDefaultStyle
 
     public struct BubbleMasks {
@@ -52,15 +53,18 @@ open class PhotoMessageCollectionViewCellDefaultStyle: PhotoMessageCollectionVie
         public let photoSizeLandscape: CGSize
         public let photoSizePortrait: CGSize
         public let photoSizeSquare: CGSize
+        public let photoSizeSticker: CGSize
         public init(
             aspectRatioIntervalForSquaredSize: ClosedRange<CGFloat>,
             photoSizeLandscape: CGSize,
             photoSizePortrait: CGSize,
-            photoSizeSquare: CGSize) {
+            photoSizeSquare: CGSize,
+            photoSizeSticker:CGSize) {
                 self.aspectRatioIntervalForSquaredSize = aspectRatioIntervalForSquaredSize
                 self.photoSizeLandscape = photoSizeLandscape
                 self.photoSizePortrait = photoSizePortrait
                 self.photoSizeSquare = photoSizeSquare
+                self.photoSizeSticker = photoSizeSticker
         }
     }
 
@@ -115,6 +119,10 @@ open class PhotoMessageCollectionViewCellDefaultStyle: PhotoMessageCollectionVie
     lazy private var placeholderIcon: UIImage = {
         return UIImage(named: "photo-bubble-placeholder-icon", in: Bundle(for: Class.self), compatibleWith: nil)!
     }()
+    
+    lazy private var playIcon: UIImage = {
+        return UIImage(named: "play-image", in: Bundle(for: Class.self), compatibleWith: nil)!
+    }()
 
     open func maskingImage(viewModel: PhotoMessageViewModelProtocol) -> UIImage {
         switch (viewModel.isIncoming, viewModel.decorationAttributes.isShowingTail) {
@@ -130,7 +138,7 @@ open class PhotoMessageCollectionViewCellDefaultStyle: PhotoMessageCollectionVie
     }
 
     open func borderImage(viewModel: PhotoMessageViewModelProtocol) -> UIImage? {
-        return self.baseStyle.borderImage(viewModel: viewModel)
+        return viewModel.imageType == .sticker ? nil : self.baseStyle.borderImage(viewModel: viewModel)
     }
 
     open func placeholderBackgroundImage(viewModel: PhotoMessageViewModelProtocol) -> UIImage {
@@ -138,7 +146,7 @@ open class PhotoMessageCollectionViewCellDefaultStyle: PhotoMessageCollectionVie
     }
 
     open func placeholderIconImage(viewModel: PhotoMessageViewModelProtocol) -> UIImage {
-        return self.placeholderIcon
+        return viewModel.imageType == .video ? self.playIcon : self.placeholderIcon
     }
 
     open func placeholderIconTintColor(viewModel: PhotoMessageViewModelProtocol) -> UIColor {
@@ -150,14 +158,12 @@ open class PhotoMessageCollectionViewCellDefaultStyle: PhotoMessageCollectionVie
     }
 
     open func bubbleSize(viewModel: PhotoMessageViewModelProtocol) -> CGSize {
-        let aspectRatio = viewModel.imageSize.height > 0 ? viewModel.imageSize.width / viewModel.imageSize.height : 0
-
-        if aspectRatio == 0 || self.sizes.aspectRatioIntervalForSquaredSize.contains(aspectRatio) {
-            return self.sizes.photoSizeSquare
-        } else if aspectRatio < self.sizes.aspectRatioIntervalForSquaredSize.lowerBound {
-            return self.sizes.photoSizePortrait
-        } else {
+        
+        switch viewModel.imageType {
+        case .normal,.video,.GIF,.location:
             return self.sizes.photoSizeLandscape
+        case .sticker:
+            return self.sizes.photoSizeSticker
         }
     }
 
@@ -166,7 +172,7 @@ open class PhotoMessageCollectionViewCellDefaultStyle: PhotoMessageCollectionVie
     }
 
     open func overlayColor(viewModel: PhotoMessageViewModelProtocol) -> UIColor? {
-        let showsOverlay = viewModel.image.value != nil && (viewModel.transferStatus.value == .transfering || viewModel.status != MessageViewModelStatus.success)
+        let showsOverlay = viewModel.image.value != nil && (viewModel.transferStatus.value == .transfering || viewModel.status == MessageViewModelStatus.sending || viewModel.status == MessageViewModelStatus.failed)
         return showsOverlay ? self.colors.overlayColor : nil
     }
 
@@ -189,7 +195,8 @@ public extension PhotoMessageCollectionViewCellDefaultStyle { // Default values
             aspectRatioIntervalForSquaredSize: 0.90...1.10,
             photoSizeLandscape: CGSize(width: 210, height: 136),
             photoSizePortrait: CGSize(width: 136, height: 210),
-            photoSizeSquare: CGSize(width: 210, height: 210)
+            photoSizeSquare: CGSize(width: 210, height: 210),
+            photoSizeSticker:CGSize(width: 100, height: 100)
         )
     }
 

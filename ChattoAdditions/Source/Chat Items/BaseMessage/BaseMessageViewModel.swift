@@ -28,6 +28,9 @@ public enum MessageViewModelStatus {
     case success
     case sending
     case failed
+    case sent
+    case delivered
+    case seen
 }
 
 public extension MessageStatus {
@@ -39,6 +42,12 @@ public extension MessageStatus {
             return MessageViewModelStatus.failed
         case .sending:
             return MessageViewModelStatus.sending
+        case .sent:
+            return MessageViewModelStatus.sent
+        case .delivered:
+            return MessageViewModelStatus.delivered
+        case .seen:
+            return MessageViewModelStatus.seen
         }
     }
 }

@@ -29,6 +29,17 @@ public enum MessageStatus {
     case failed
     case sending
     case success
+    case sent
+    case delivered
+    case seen
+}
+
+public enum ImageType {
+    case GIF
+    case sticker
+    case video
+    case normal
+    case location
 }
 
 public protocol MessageModelProtocol: ChatItemProtocol {
@@ -36,6 +47,7 @@ public protocol MessageModelProtocol: ChatItemProtocol {
     var isIncoming: Bool { get }
     var date: Date { get }
     var status: MessageStatus { get }
+    var userDisplayName: String { get }
 }
 
 public protocol DecoratedMessageModelProtocol: MessageModelProtocol {
@@ -66,6 +78,9 @@ public extension DecoratedMessageModelProtocol {
     var status: MessageStatus {
         return self.messageModel.status
     }
+    var userDisplayName: String {
+        return self.messageModel.userDisplayName
+    }
 }
 
 open class MessageModel: MessageModelProtocol {
@@ -75,13 +90,15 @@ open class MessageModel: MessageModelProtocol {
     open var isIncoming: Bool
     open var date: Date
     open var status: MessageStatus
+    open var userDisplayName: String
 
-    public init(uid: String, senderId: String, type: String, isIncoming: Bool, date: Date, status: MessageStatus) {
+    public init(uid: String, senderId: String, type: String, isIncoming: Bool, date: Date, status: MessageStatus,name:String? = "") {
         self.uid = uid
         self.senderId = senderId
         self.type = type
         self.isIncoming = isIncoming
         self.date = date
         self.status = status
+        self.userDisplayName = name!
     }
 }

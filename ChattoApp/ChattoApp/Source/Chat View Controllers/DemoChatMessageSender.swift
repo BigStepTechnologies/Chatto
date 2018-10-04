@@ -66,6 +66,12 @@ public class DemoChatMessageSender {
                     self.fakeMessageStatus(message)
                 }
             }
+        case .sent:
+            break
+        case .delivered:
+            break
+        case .seen:
+            break
         }
     }
 

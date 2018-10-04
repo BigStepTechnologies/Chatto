@@ -106,20 +106,21 @@ open class TextMessagePresenter<ViewModelBuilderT, InteractionHandlerT>
     }
 
     open override func canShowMenu() -> Bool {
-        return true
+        return false
     }
 
     open override func canPerformMenuControllerAction(_ action: Selector) -> Bool {
-        let selector = #selector(UIResponderStandardEditActions.copy(_:))
-        return action == selector
+//        let selector = #selector(UIResponderStandardEditActions.copy(_:))
+//        return action == selector
+        return false
     }
 
     open override func performMenuControllerAction(_ action: Selector) {
-        let selector = #selector(UIResponderStandardEditActions.copy(_:))
-        if action == selector {
-            UIPasteboard.general.string = self.messageViewModel.text
-        } else {
-            assert(false, "Unexpected action")
-        }
+//        let selector = #selector(UIResponderStandardEditActions.copy(_:))
+//        if action == selector {
+//            UIPasteboard.general.string = self.messageViewModel.text
+//        } else {
+//            assert(false, "Unexpected action")
+//        }
     }
 }

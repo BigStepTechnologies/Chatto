@@ -27,7 +27,7 @@ import Chatto
 
 class DemoChatDataSource: ChatDataSourceProtocol {
     var nextMessageId: Int = 0
-    let preferredMaxWindowSize = 500
+    let preferredMaxWindowSize = 100
 
     var slidingWindow: SlidingDataSource<ChatItemProtocol>!
     init(count: Int, pageSize: Int) {

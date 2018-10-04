@@ -30,4 +30,5 @@ class BaseMessageCollectionViewCellAvatarStyle: BaseMessageCollectionViewCellDef
         // Display avatar for both incoming and outgoing messages for demo purpose
         return CGSize(width: 35, height: 35)
     }
+
 }

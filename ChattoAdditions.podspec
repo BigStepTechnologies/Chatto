@@ -16,4 +16,5 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   s.resources = ["ChattoAdditions/Source/**/*.xib", "ChattoAdditions/Source/**/*.storyboard", "ChattoAdditions/Source/**/*.xcassets"]
   s.dependency 'Chatto'
+  s.dependency 'SDWebImage/GIF'
 end

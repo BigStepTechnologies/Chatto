@@ -23,6 +23,8 @@
 */
 
 import UIKit
+import FLAnimatedImage
+import SDWebImage
 
 public protocol PhotoBubbleViewStyleProtocol {
     func maskingImage(viewModel: PhotoMessageViewModelProtocol) -> UIImage
@@ -59,12 +61,11 @@ open class PhotoBubbleView: UIView, MaximumLayoutWidthSpecificable, BackgroundSi
         self.addSubview(self.progressIndicatorView)
     }
 
-    public private(set) lazy var imageView: UIImageView = {
-        let imageView = UIImageView()
+    public private(set) lazy var imageView: FLAnimatedImageView = {
+        let imageView = FLAnimatedImageView()
         imageView.autoresizingMask = UIViewAutoresizing()
         imageView.clipsToBounds = true
         imageView.autoresizesSubviews = false
-        imageView.autoresizingMask = UIViewAutoresizing()
         imageView.contentMode = .scaleAspectFill
         imageView.addSubview(self.borderView)
         return imageView
@@ -86,7 +87,7 @@ open class PhotoBubbleView: UIView, MaximumLayoutWidthSpecificable, BackgroundSi
         imageView.autoresizingMask = UIViewAutoresizing()
         return imageView
     }()
-
+    
     public var photoMessageViewModel: PhotoMessageViewModelProtocol! {
         didSet {
             self.updateViews()
@@ -154,15 +155,27 @@ open class PhotoBubbleView: UIView, MaximumLayoutWidthSpecificable, BackgroundSi
     }
 
     private func updateImages() {
-        self.placeholderIconView.image = self.photoMessageStyle.placeholderIconImage(viewModel: self.photoMessageViewModel)
-        self.placeholderIconView.tintColor = self.photoMessageStyle.placeholderIconTintColor(viewModel: self.photoMessageViewModel)
-
+        
+        if self.photoMessageViewModel.imageType == .video{
+            self.placeholderIconView.isHidden = false
+            self.placeholderIconView.image = self.photoMessageStyle.placeholderIconImage(viewModel: self.photoMessageViewModel)
+            
+            self.placeholderIconView.tintColor = self.photoMessageStyle.placeholderIconTintColor(viewModel: self.photoMessageViewModel)
+        }else{
+            self.placeholderIconView.isHidden = true
+        }
+        
         if let image = self.photoMessageViewModel.image.value {
             self.imageView.image = image
-            self.placeholderIconView.isHidden = true
         } else {
-            self.imageView.image = self.photoMessageStyle.placeholderBackgroundImage(viewModel: self.photoMessageViewModel)
-            self.placeholderIconView.isHidden = self.photoMessageViewModel.transferStatus.value != .failed
+            self.photoMessageViewModel.transferStatus.value = .transfering
+            self.progressIndicatorView.isHidden = false
+            self.imageView.sd_setImage(with: self.photoMessageViewModel.imageUrl.value, placeholderImage: nil,completed: { (image,error,cacheType,url) in
+                DispatchQueue.main.async {
+                    self.progressIndicatorView.progressStatus = .completed
+                    self.progressIndicatorView.isHidden = true
+                }
+            })
         }
 
         if let overlayColor = self.photoMessageStyle.overlayColor(viewModel: self.photoMessageViewModel) {
@@ -174,7 +187,15 @@ open class PhotoBubbleView: UIView, MaximumLayoutWidthSpecificable, BackgroundSi
         } else {
             self.overlayView.alpha = 0
         }
+        
         self.borderView.image = self.photoMessageStyle.borderImage(viewModel: photoMessageViewModel)
+        
+        if self.photoMessageViewModel.imageType == .sticker{
+            self.imageView.contentMode = .scaleAspectFit
+        }else{
+            self.imageView.contentMode = .scaleAspectFill
+        }
+        
         self.imageView.layer.mask = UIImageView(image: self.photoMessageStyle.maskingImage(viewModel: self.photoMessageViewModel)).layer
     }
 

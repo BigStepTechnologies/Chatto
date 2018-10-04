@@ -100,6 +100,7 @@ public class SlidingDataSource<Element> {
         let nextWindowOffset = max(0, self.windowOffset - self.pageSize)
         let messagesNeeded = self.itemsOffset - nextWindowOffset
         if messagesNeeded > 0 {
+            print("Loading more items")
             self.generateItems(messagesNeeded, position: .top)
         }
         let newItemsCount = previousWindowOffset - nextWindowOffset

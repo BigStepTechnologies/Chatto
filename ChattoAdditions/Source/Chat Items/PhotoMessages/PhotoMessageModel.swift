@@ -25,20 +25,26 @@
 import UIKit
 
 public protocol PhotoMessageModelProtocol: DecoratedMessageModelProtocol {
-    var image: UIImage { get }
-    var imageSize: CGSize { get }
+    var image: UIImage? { get }
+    var imageUrl: URL? { get }
+    var imageType: ImageType { get }
 }
 
 open class PhotoMessageModel<MessageModelT: MessageModelProtocol>: PhotoMessageModelProtocol {
+   
     public var messageModel: MessageModelProtocol {
         return self._messageModel
     }
     public let _messageModel: MessageModelT // Can't make messasgeModel: MessageModelT: https://gist.github.com/diegosanchezr/5a66c7af862e1117b556
-    public let image: UIImage
-    public let imageSize: CGSize
-    public init(messageModel: MessageModelT, imageSize: CGSize, image: UIImage) {
+    public var image: UIImage?
+    public var imageUrl: URL?
+    public var imageType: ImageType
+    
+    public init(messageModel: MessageModelT, imageType: ImageType = .normal,
+                image: UIImage? = nil,imageUrl:URL? = nil) {
         self._messageModel = messageModel
-        self.imageSize = imageSize
+        self.imageType = imageType
         self.image = image
+        self.imageUrl = imageUrl
     }
 }
