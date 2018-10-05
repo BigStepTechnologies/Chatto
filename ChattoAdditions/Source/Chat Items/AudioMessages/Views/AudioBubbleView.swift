@@ -32,11 +32,11 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
     }
     
     private func commonInit() {
+        self.autoresizesSubviews = false
         self.addSubview(self.audioButton)
         self.addSubview(self.bubbleImageView)
         self.addSubview(self.progressView)
         self.addSubview(self.durationLabel)
-        //self.autoresizesSubviews = false
     }
     
     private var borderImageView: UIImageView = UIImageView()
@@ -49,7 +49,6 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
     private lazy var audioButton: UIImageView = {
         let iconView = UIImageView()
         iconView.contentMode = .scaleAspectFit
-        //iconView.sizeToFit()
         return iconView
     }()
     
@@ -57,7 +56,6 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
         let voiceView = UIProgressView()
         voiceView.progressViewStyle = .default
         voiceView.setProgress(0.3, animated: false)
-        //voiceView.sizeToFit()
         return voiceView
     }()
     
@@ -65,6 +63,7 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
         let label = UILabel()
         label.textAlignment = .center
         label.font = label.font.withSize(12)
+        label.sizeToFit()
         return label
     }()
     
@@ -107,7 +106,7 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
         self.audioButton.image = style.playIconImage(viewModel: viewModel)
         self.audioButton.tintColor = style.audioViewTintColot(viewModel: viewModel)
         self.borderImageView.image = style.borderImage(viewModel: viewModel)
-        self.durationLabel.text = "0:00"
+        self.durationLabel.text = viewModel.fileProgress.value
         self.durationLabel.textColor = style.audioViewTintColot(viewModel: viewModel)
         self.progressView.tintColor = style.audioViewTintColot(viewModel: viewModel)
     }
@@ -125,7 +124,6 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
         self.audioButton.frame = layout.iconFrame
         self.progressView.frame = layout.progressViewFrame
         self.durationLabel.frame = layout.progressLableFrame
-        self.durationLabel.sizeToFit()
     }
     
     public override func sizeThatFits(_ size: CGSize) -> CGSize {

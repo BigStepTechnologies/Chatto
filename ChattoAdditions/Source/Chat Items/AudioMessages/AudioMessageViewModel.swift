@@ -8,7 +8,7 @@
 
 public protocol AudioMessageViewModelProtocol: DecoratedMessageViewModelProtocol {
     var transferDirection: Observable<TransferDirection> { get set }
-    var transferProgress: Observable<Double> { get  set } // in [0,1]
+    var fileProgress: Observable<String> { get  set } // in [0,1]
     var transferStatus: Observable<TransferStatus> { get set }
     var data: Observable<Data?> { get set }
     var duration: Double? { get set }
@@ -20,7 +20,7 @@ open class AudioMessageViewModel<AudioMessageModelT: AudioMessageModelProtocol>:
     }
     public let _audioMessage: AudioMessageModelT // Can't make audioMessage: AudioMessageModelT: https://gist.github.com/diegosanchezr/5a66c7af862e1117b556
     public var transferStatus: Observable<TransferStatus> = Observable(.idle)
-    public var transferProgress: Observable<Double> = Observable(0)
+    public var fileProgress: Observable<String> = Observable("0")
     public var transferDirection: Observable<TransferDirection> = Observable(.download)
     public var data: Observable<Data?>
     public var duration: Double?
