@@ -104,16 +104,24 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
         if isUpdating { return }
         guard let viewModel = self.audioMessageViewModel, let style = self.audioMessageViewStyle else { return }
         
+        
         self.audioButton.tintColor = style.audioViewTintColot(viewModel: viewModel)
         self.borderImageView.image = style.borderImage(viewModel: viewModel)
         self.durationLabel.textColor = style.audioViewTintColot(viewModel: viewModel)
         self.progressView.tintColor = style.audioViewTintColot(viewModel: viewModel)
+        self.durationLabel.text = viewModel.duration
+        self.audioButton.image = style.playIconImage(viewModel: viewModel)
         if viewModel.fileStatus.value == .stopped{
-            self.audioButton.image = style.playIconImage(viewModel: viewModel)
-            self.durationLabel.text = viewModel.duration
+            self.progressView.setProgress(0, animated: true)
         }else{
-            
+            if viewModel.fileStatus.value == .playing{
+                self.audioButton.image = style.pauseIconImage(viewModel: viewModel)
+            }else{
+                self.audioButton.image = style.playIconImage(viewModel: viewModel)
+            }
+            self.progressView.setProgress(viewModel.fileProgress.value, animated: true)
         }
+        
     }
     
     

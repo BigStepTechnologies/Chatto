@@ -14,7 +14,7 @@ public enum PlayerStatus {
 
 public protocol AudioMessageViewModelProtocol: DecoratedMessageViewModelProtocol {
     var transferDirection: Observable<TransferDirection> { get set }
-    var fileProgress: Observable<String> { get  set } // in [0,1]
+    var fileProgress: Observable<Float> { get  set } // in [0,1]
     var transferStatus: Observable<TransferStatus> { get set }
     var fileStatus: Observable<PlayerStatus> { get set }
     var duration: String? { get set }
@@ -26,7 +26,7 @@ open class AudioMessageViewModel<AudioMessageModelT: AudioMessageModelProtocol>:
     }
     public let _audioMessage: AudioMessageModelT // Can't make audioMessage: AudioMessageModelT: https://gist.github.com/diegosanchezr/5a66c7af862e1117b556
     public var transferStatus: Observable<TransferStatus> = Observable(.idle)
-    public var fileProgress: Observable<String> = Observable("0")
+    public var fileProgress: Observable<Float> = Observable(0.0)
     public var transferDirection: Observable<TransferDirection> = Observable(.download)
     public var fileStatus: Observable<PlayerStatus> = Observable(.stopped)
     public var duration: String?
