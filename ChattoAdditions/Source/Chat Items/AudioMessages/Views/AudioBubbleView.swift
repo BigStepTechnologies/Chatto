@@ -103,17 +103,19 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
         if self.viewContext == .sizing { return }
         if isUpdating { return }
         guard let viewModel = self.audioMessageViewModel, let style = self.audioMessageViewStyle else { return }
-        self.audioButton.image = style.playIconImage(viewModel: viewModel)
+        
         self.audioButton.tintColor = style.audioViewTintColot(viewModel: viewModel)
         self.borderImageView.image = style.borderImage(viewModel: viewModel)
-        self.durationLabel.text = viewModel.fileProgress.value
         self.durationLabel.textColor = style.audioViewTintColot(viewModel: viewModel)
         self.progressView.tintColor = style.audioViewTintColot(viewModel: viewModel)
+        if viewModel.fileStatus.value == .stopped{
+            self.audioButton.image = style.playIconImage(viewModel: viewModel)
+            self.durationLabel.text = viewModel.duration
+        }else{
+            
+        }
     }
     
-    public func playAudio() {
-        // make the audio to start
-    }
     
     // MARK: Layout
     public override func layoutSubviews() {
@@ -145,22 +147,6 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
         layoutModel.calculateLayout()
         
         return layoutModel
-    }
-    
-    private func timeStampString(currentTime: TimeInterval, duration: TimeInterval) -> String {
-        // print the time as 0:ss or ss.x up to 59 seconds
-        // print the time as m:ss up to 59:59 seconds
-        // print the time as h:mm:ss for anything longer
-        if (duration < 60) {
-            if (currentTime < duration) {
-                return String.init(format: "0:%02d",Int(round(currentTime)))
-            }
-            return String.init(format: "0:%02d",Int(ceil(currentTime)))
-        }
-        else if (duration < 3600) {
-            return String.init(format: "%d:%02d",Int(currentTime) / 60, Int(currentTime) % 60)
-        }
-        return String.init(format: "%d:%02d:%02d",Int(currentTime) / 3600,Int(currentTime) / 60, Int(currentTime) % 60)
     }
 }
 
