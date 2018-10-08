@@ -167,6 +167,8 @@ open class PhotoBubbleView: UIView, MaximumLayoutWidthSpecificable, BackgroundSi
         
         if let image = self.photoMessageViewModel.image.value {
             self.imageView.image = image
+            self.progressIndicatorView.progressStatus = .completed
+            self.progressIndicatorView.isHidden = false
         } else {
             self.progressIndicatorView.progressStatus = .inProgress
             self.progressIndicatorView.isHidden = false

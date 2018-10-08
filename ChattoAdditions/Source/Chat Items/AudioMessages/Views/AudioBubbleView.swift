@@ -37,6 +37,7 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
         self.addSubview(self.bubbleImageView)
         self.addSubview(self.progressView)
         self.addSubview(self.durationLabel)
+        self.addSubview(self.progressIndicatorView)
     }
     
     private var borderImageView: UIImageView = UIImageView()
@@ -65,6 +66,10 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
         label.font = UIFont.systemFont(ofSize: 12)
         label.sizeToFit()
         return label
+    }()
+    
+    public private(set) var progressIndicatorView: CircleProgressIndicatorView = {
+        return CircleProgressIndicatorView(size: CGSize(width: 30, height: 30))
     }()
     
     var audioMessageViewModel: AudioMessageViewModelProtocol! {
@@ -109,22 +114,39 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
         self.borderImageView.image = style.borderImage(viewModel: viewModel)
         self.durationLabel.textColor = style.audioViewTintColot(viewModel: viewModel)
         self.progressView.tintColor = style.audioViewTintColot(viewModel: viewModel)
+        
+        self.progressIndicatorView.progressLineColor = style.audioViewTintColot(viewModel: viewModel)
+        
         self.durationLabel.text = viewModel.duration
         
-        if viewModel.fileStatus.value == .stopped{
+        updateProgressIndicator()
+        
+        switch viewModel.fileStatus.value {
+        case .playing:
+            self.audioButton.image = style.pauseIconImage(viewModel: viewModel)
+            self.progressView.setProgress(viewModel.fileProgress.value, animated: true)
+        case .stopped:
             self.audioButton.image = style.playIconImage(viewModel: viewModel)
             self.progressView.setProgress(0, animated: true)
-        }else{
-            if viewModel.fileStatus.value == .playing{
-                self.audioButton.image = style.pauseIconImage(viewModel: viewModel)
-            }else{
-                self.audioButton.image = style.playIconImage(viewModel: viewModel)
-            }
+        case .pause:
+            self.audioButton.image = style.playIconImage(viewModel: viewModel)
             self.progressView.setProgress(viewModel.fileProgress.value, animated: true)
         }
-        
     }
     
+    private func updateProgressIndicator() {
+        let transferStatus = self.audioMessageViewModel.transferStatus.value
+        self.progressIndicatorView.isHidden = [TransferStatus.idle, TransferStatus.success, TransferStatus.failed].contains(self.audioMessageViewModel.transferStatus.value)
+        
+        self.progressIndicatorView.progressLineWidth = 1
+        
+        switch transferStatus {
+        case .idle, .success, .failed:
+            break
+        case .transfering:
+            self.progressIndicatorView.progressStatus = .inProgress
+        }
+    }
     
     // MARK: Layout
     public override func layoutSubviews() {
@@ -135,6 +157,7 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
         self.audioButton.frame = layout.iconFrame
         self.progressView.frame = layout.progressViewFrame
         self.durationLabel.frame = layout.progressLableFrame
+        self.progressIndicatorView.center = self.durationLabel.center
     }
     
     public override func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -207,8 +230,8 @@ private class AudioBubbleLayoutModel {
         let font = UIFont.systemFont(ofSize: 12)
         let fontAttributes = [NSAttributedStringKey.font: font]
         let labelSize = duration.size(withAttributes: fontAttributes)
-        let labelFrame = CGRect(x: size.width - labelSize.width, y: 15, width: labelSize.width, height: labelSize.height)
-        let xOffset:CGFloat = iconFrame.width + 10
+        let labelFrame = CGRect(x: size.width - labelSize.width, y: (size.height - labelSize.height )/2, width: labelSize.width, height: labelSize.height)
+        let xOffset:CGFloat = iconFrame.width + 20
         let width = labelFrame.origin.x - xOffset - 10;
         self.progressLableFrame = labelFrame
         self.progressViewFrame = CGRect(x: xOffset, y: size.height/2, width: width, height: 15)
