@@ -226,7 +226,7 @@ private class AudioBubbleLayoutModel {
         let font = UIFont.systemFont(ofSize: 12)
         let fontAttributes = [NSAttributedStringKey.font: font]
         let labelSize = duration.size(withAttributes: fontAttributes)
-        let labelFrame = CGRect(x: size.width - labelSize.width, y: (size.height - labelSize.height )/2, width: labelSize.width, height: labelSize.height)
+        let labelFrame = CGRect(x: size.width - labelSize.width-5, y: (size.height - labelSize.height )/2, width: labelSize.width+5, height: labelSize.height)
         let xOffset:CGFloat = iconFrame.width + 20
         let width = labelFrame.origin.x - xOffset - 10;
         self.progressLableFrame = labelFrame
