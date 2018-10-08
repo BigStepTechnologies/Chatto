@@ -64,7 +64,6 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
         let label = UILabel()
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 12)
-        label.sizeToFit()
         return label
     }()
     
@@ -168,11 +167,6 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
     
     public var canCalculateSizeInBackground: Bool {
         return true
-    }
-    
-    // MARK: Private Helper Methods
-    private func updateAudioView() {
-        
     }
     
     private func calculateAudioBubbleLayout(maximumWidth: CGFloat) -> AudioBubbleLayoutModel {
