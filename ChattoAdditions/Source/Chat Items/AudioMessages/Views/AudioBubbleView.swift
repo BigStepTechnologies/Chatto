@@ -62,7 +62,7 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
     private lazy var durationLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = label.font.withSize(12)
+        label.font = UIFont.systemFont(ofSize: 12)
         label.sizeToFit()
         return label
     }()
@@ -110,8 +110,9 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
         self.durationLabel.textColor = style.audioViewTintColot(viewModel: viewModel)
         self.progressView.tintColor = style.audioViewTintColot(viewModel: viewModel)
         self.durationLabel.text = viewModel.duration
-        self.audioButton.image = style.playIconImage(viewModel: viewModel)
+        
         if viewModel.fileStatus.value == .stopped{
+            self.audioButton.image = style.playIconImage(viewModel: viewModel)
             self.progressView.setProgress(0, animated: true)
         }else{
             if viewModel.fileStatus.value == .playing{
@@ -185,7 +186,7 @@ private class AudioBubbleLayoutModel {
         init(audioMessageViewModel model: AudioMessageViewModelProtocol,
              style: AudioBubbleViewStyleProtocol,
              containerWidth width: CGFloat) {
-            self.init(duration: "00:00",
+            self.init(duration: model.duration!,
                       bubbleSize: style.bubbleSize(viewModel: model),
                       iconSize: style.playIconImage(viewModel: model).size,
                       preferredMaxLayoutWidth: width)
@@ -202,9 +203,13 @@ private class AudioBubbleLayoutModel {
         self.bubbleFrame = CGRect(origin: .zero, size: size)
         self.iconFrame = CGRect(x: 10, y: 5, width: 30, height: 30)
         self.size = size
-        let labelFrame = CGRect(x: size.width - 35, y: 15, width: 35, height: 18)
-        let xOffset:CGFloat = iconFrame.width + 12
-        let width = labelFrame.origin.x - xOffset - 5;
+        let duration = self.layoutContext.duration as NSString
+        let font = UIFont.systemFont(ofSize: 12)
+        let fontAttributes = [NSAttributedStringKey.font: font]
+        let labelSize = duration.size(withAttributes: fontAttributes)
+        let labelFrame = CGRect(x: size.width - labelSize.width, y: 15, width: labelSize.width, height: labelSize.height)
+        let xOffset:CGFloat = iconFrame.width + 10
+        let width = labelFrame.origin.x - xOffset - 10;
         self.progressLableFrame = labelFrame
         self.progressViewFrame = CGRect(x: xOffset, y: size.height/2, width: width, height: 15)
         
