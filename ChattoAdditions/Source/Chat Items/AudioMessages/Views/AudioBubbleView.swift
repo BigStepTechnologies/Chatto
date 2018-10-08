@@ -69,7 +69,7 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
     }()
     
     public private(set) var progressIndicatorView: CircleProgressIndicatorView = {
-        return CircleProgressIndicatorView(size: CGSize(width: 30, height: 30))
+        return CircleProgressIndicatorView(size: CGSize(width: 20, height: 20))
     }()
     
     var audioMessageViewModel: AudioMessageViewModelProtocol! {
@@ -138,13 +138,15 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
         let transferStatus = self.audioMessageViewModel.transferStatus.value
         self.progressIndicatorView.isHidden = [TransferStatus.idle, TransferStatus.success, TransferStatus.failed].contains(self.audioMessageViewModel.transferStatus.value)
         
+        self.durationLabel.isHidden = !self.progressIndicatorView.isHidden
+        
         self.progressIndicatorView.progressLineWidth = 1
         
         switch transferStatus {
         case .idle, .success, .failed:
             break
         case .transfering:
-            self.progressIndicatorView.progressStatus = .inProgress
+            self.progressIndicatorView.progressStatus = .starting
         }
     }
     
