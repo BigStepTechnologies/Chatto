@@ -85,7 +85,15 @@ class DemoChatDataSource: ChatDataSourceProtocol {
         self.slidingWindow.insertItem(message, position: .bottom)
         self.delegate?.chatDataSourceDidUpdate(self)
     }
-
+    func addQuotedMessage(_ text: String, quotedMessageParameter: [String: Any])
+    {
+        let uid = "\(self.nextMessageId)"
+        self.nextMessageId += 1
+        let message = DemoChatMessageFactory.makeQuoteMessage(uid, text: text, isIncoming: false, quoteMessageParameter: quotedMessageParameter)
+        self.messageSender.sendMessage(message)
+        self.slidingWindow.insertItem(message, position: .bottom)
+        self.delegate?.chatDataSourceDidUpdate(self)
+    }
     func addPhotoMessage(_ image: UIImage) {
         let uid = "\(self.nextMessageId)"
         self.nextMessageId += 1

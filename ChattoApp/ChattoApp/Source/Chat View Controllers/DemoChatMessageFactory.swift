@@ -54,12 +54,20 @@ class DemoChatMessageFactory {
         let photoMessageModel = DemoPhotoMessageModel(messageModel: messageModel, image: image)
         return photoMessageModel
     }
+    
+    class func makeQuoteMessage(_ uid: String, text: String, isIncoming: Bool, quoteMessageParameter: [String: Any]) -> DemoTextMessageModel
+    {
+        let messageModel = self.makeMessageModel(uid, isIncoming: isIncoming, type: TextMessageModel<MessageModel>.chatItemType)
+        let quoteMessageModel = DemoTextMessageModel(messageModel: messageModel, text: text, quoteMessageParameter: quoteMessageParameter)
+        return quoteMessageModel
+    }
 
     private class func makeRandomTextMessage(_ uid: String, isIncoming: Bool) -> DemoTextMessageModel {
         let incomingText: String = isIncoming ? "incoming" : "outgoing"
         let maxText = self.demoText
         let length: Int = 10 + Int(arc4random_uniform(300))
         let text = "\(String(maxText[..<maxText.characters.index(maxText.startIndex, offsetBy: length)]))\n\n\(incomingText)\n#\(uid)"
+        let quoteMessageParameter = ["name": "Mohd Kaleem", "body": "Hi kaleem", "image": "https://developer.apple.com/swift/images/swift-og.png"]
         return self.makeTextMessage(uid, text: text, isIncoming: isIncoming)
     }
 
@@ -125,6 +133,7 @@ extension DemoChatMessageFactory {
     private enum DemoMessage {
         case text(String)
         case image(String)
+        case quoteMessage(String, [String: Any])
     }
 
     private static let overviewMessages: [DemoMessage] = [
@@ -140,7 +149,10 @@ extension DemoChatMessageFactory {
         .text("Each message is paired with a Presenter. Each presenter is responsible to present a message by managing a corresponding UICollectionViewCell. New types of messages can be easily added by creating new types of presenters!"),
         .text("Messages have different margins and only some bubbles show a tail. This is done with a decorator that conforms to ChatItemsDecoratorProtocol"),
         .text("Failed/sending status are completly separated cells. This helps to keep cells them simpler. They are generated with the decorator as well, but other approaches are possible, like being returned by the DataSource or using more complex cells"),
-        .text("More info on https://github.com/badoo/Chatto. We are waiting for your pull requests!")
+        .quoteMessage("Hi all", ["name" : "Bob", "body" : "Hello", "image" : "pic-test-2"]),
+        .text("More info on https://github.com/badoo/Chatto. We are waiting for your pull requests!"),
+        .quoteMessage("Hi there", ["name" : "Mohd Kaleem", "body" : "How are you", "image" : "pic-test-1"]),
+        .quoteMessage("Hi", ["name" : "Sam", "body" : "Hello", "image" : "pic-test-2"])
     ]
 
     private static func messages(fromDemoMessages demoMessages: [DemoMessage]) -> [MessageModelProtocol] {
@@ -152,6 +164,9 @@ extension DemoChatMessageFactory {
             case .image(let name):
                 let image = UIImage(named: name)!
                 return DemoChatMessageFactory.makePhotoMessage(NSUUID().uuidString, image: image, size: image.size, isIncoming: isIncoming)
+            case .quoteMessage(let text, let quoteMessageParameter):
+                return DemoChatMessageFactory.makeQuoteMessage(NSUUID().uuidString, text: text, isIncoming: isIncoming, quoteMessageParameter: quoteMessageParameter)
+                
             }
         }
     }
