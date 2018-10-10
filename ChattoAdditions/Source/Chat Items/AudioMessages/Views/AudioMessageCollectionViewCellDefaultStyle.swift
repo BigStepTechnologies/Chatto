@@ -111,7 +111,7 @@ open class AudioMessageCollectionViewCellDefaultStyle: AudioMessageCollectionVie
     }
     
     open func overlayColor(viewModel: AudioMessageViewModelProtocol) -> UIColor? {
-        let showsOverlay = viewModel.data.value != nil && (viewModel.transferStatus.value == .transfering || viewModel.status == MessageViewModelStatus.sending || viewModel.status == MessageViewModelStatus.failed)
+        let showsOverlay = (viewModel.transferStatus.value == .transfering || viewModel.status == MessageViewModelStatus.sending || viewModel.status == MessageViewModelStatus.failed)
         return showsOverlay ? UIColor.black.withAlphaComponent(0.70) : nil
     }
     

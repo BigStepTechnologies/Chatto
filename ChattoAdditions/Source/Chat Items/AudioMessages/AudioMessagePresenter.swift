@@ -48,10 +48,10 @@ InteractionHandlerT.ViewModelT == ViewModelBuilderT.ViewModelT {
             self?.updateCurrentCell()
         }
         viewModel.avatarImage.observe(self, closure: updateClosure)
-        viewModel.data.observe(self, closure: updateClosure)
         viewModel.transferDirection.observe(self, closure: updateClosure)
-        viewModel.transferProgress.observe(self, closure: updateClosure)
+        viewModel.fileProgress.observe(self, closure: updateClosure)
         viewModel.transferStatus.observe(self, closure: updateClosure)
+        viewModel.fileStatus.observe(self, closure: updateClosure)
         return viewModel
     }
     

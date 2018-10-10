@@ -9,8 +9,7 @@
 import Foundation
 
 public protocol AudioMessageModelProtocol:DecoratedMessageModelProtocol{
-    var data: Data? { get }
-    var duration:Double? { get }
+    var duration:String? { get }
 }
 
 open class AudioMessageModel<MessageModelT: MessageModelProtocol>: AudioMessageModelProtocol {
@@ -18,12 +17,10 @@ open class AudioMessageModel<MessageModelT: MessageModelProtocol>: AudioMessageM
         return self._messageModel
     }
     public let _messageModel: MessageModelT // Can't make messasgeModel: MessageModelT: https://gist.github.com/diegosanchezr/5a66c7af862e1117b556
-    public var data: Data?
-    public var duration:Double?
+    public var duration:String?
     
-    public init(messageModel: MessageModelT, data:Data? = nil, duration:Double? = nil) {
+    public init(messageModel: MessageModelT, duration:String? = nil) {
         self._messageModel = messageModel
-        self.data = data
         self.duration = duration
     }
 }

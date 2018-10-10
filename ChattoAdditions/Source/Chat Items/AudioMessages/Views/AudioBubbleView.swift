@@ -32,11 +32,12 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
     }
     
     private func commonInit() {
+        self.autoresizesSubviews = false
         self.addSubview(self.audioButton)
         self.addSubview(self.bubbleImageView)
         self.addSubview(self.progressView)
         self.addSubview(self.durationLabel)
-        //self.autoresizesSubviews = false
+        self.addSubview(self.progressIndicatorView)
     }
     
     private var borderImageView: UIImageView = UIImageView()
@@ -49,7 +50,6 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
     private lazy var audioButton: UIImageView = {
         let iconView = UIImageView()
         iconView.contentMode = .scaleAspectFit
-        //iconView.sizeToFit()
         return iconView
     }()
     
@@ -57,15 +57,18 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
         let voiceView = UIProgressView()
         voiceView.progressViewStyle = .default
         voiceView.setProgress(0.3, animated: false)
-        //voiceView.sizeToFit()
         return voiceView
     }()
     
     private lazy var durationLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.font = label.font.withSize(12)
+        label.font = UIFont.systemFont(ofSize: 12)
         return label
+    }()
+    
+    public private(set) var progressIndicatorView: CircleProgressIndicatorView = {
+        return CircleProgressIndicatorView(size: CGSize(width: 20, height: 20))
     }()
     
     var audioMessageViewModel: AudioMessageViewModelProtocol! {
@@ -104,16 +107,46 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
         if self.viewContext == .sizing { return }
         if isUpdating { return }
         guard let viewModel = self.audioMessageViewModel, let style = self.audioMessageViewStyle else { return }
-        self.audioButton.image = style.playIconImage(viewModel: viewModel)
+        
+        
         self.audioButton.tintColor = style.audioViewTintColot(viewModel: viewModel)
         self.borderImageView.image = style.borderImage(viewModel: viewModel)
-        self.durationLabel.text = "0:00"
         self.durationLabel.textColor = style.audioViewTintColot(viewModel: viewModel)
         self.progressView.tintColor = style.audioViewTintColot(viewModel: viewModel)
+        
+        self.progressIndicatorView.progressLineColor = style.audioViewTintColot(viewModel: viewModel)
+        
+        self.durationLabel.text = viewModel.duration
+        
+        updateProgressIndicator()
+        
+        switch viewModel.fileStatus.value {
+        case .playing:
+            self.audioButton.image = style.pauseIconImage(viewModel: viewModel)
+            self.progressView.setProgress(viewModel.fileProgress.value, animated: true)
+        case .stopped:
+            self.audioButton.image = style.playIconImage(viewModel: viewModel)
+            self.progressView.setProgress(0, animated: true)
+        case .pause:
+            self.audioButton.image = style.playIconImage(viewModel: viewModel)
+            self.progressView.setProgress(viewModel.fileProgress.value, animated: true)
+        }
     }
     
-    public func playAudio() {
-        // make the audio to start
+    private func updateProgressIndicator() {
+        let transferStatus = self.audioMessageViewModel.transferStatus.value
+        self.progressIndicatorView.isHidden = [TransferStatus.idle, TransferStatus.success, TransferStatus.failed].contains(self.audioMessageViewModel.transferStatus.value)
+        
+        self.durationLabel.isHidden = !self.progressIndicatorView.isHidden
+        
+        self.progressIndicatorView.progressLineWidth = 1
+        
+        switch transferStatus {
+        case .idle, .success, .failed:
+            break
+        case .transfering:
+            self.progressIndicatorView.progressStatus = .starting
+        }
     }
     
     // MARK: Layout
@@ -125,7 +158,7 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
         self.audioButton.frame = layout.iconFrame
         self.progressView.frame = layout.progressViewFrame
         self.durationLabel.frame = layout.progressLableFrame
-        self.durationLabel.sizeToFit()
+        self.progressIndicatorView.center = self.durationLabel.center
     }
     
     public override func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -136,33 +169,12 @@ public class AudioBubbleView: UIView, MaximumLayoutWidthSpecificable, Background
         return true
     }
     
-    // MARK: Private Helper Methods
-    private func updateAudioView() {
-        
-    }
-    
     private func calculateAudioBubbleLayout(maximumWidth: CGFloat) -> AudioBubbleLayoutModel {
         let layoutContext = AudioBubbleLayoutModel.LayoutContext(audioMessageViewModel: self.audioMessageViewModel, style: self.audioMessageViewStyle, containerWidth: maximumWidth)
         let layoutModel = AudioBubbleLayoutModel(layoutContext: layoutContext)
         layoutModel.calculateLayout()
         
         return layoutModel
-    }
-    
-    private func timeStampString(currentTime: TimeInterval, duration: TimeInterval) -> String {
-        // print the time as 0:ss or ss.x up to 59 seconds
-        // print the time as m:ss up to 59:59 seconds
-        // print the time as h:mm:ss for anything longer
-        if (duration < 60) {
-            if (currentTime < duration) {
-                return String.init(format: "0:%02d",Int(round(currentTime)))
-            }
-            return String.init(format: "0:%02d",Int(ceil(currentTime)))
-        }
-        else if (duration < 3600) {
-            return String.init(format: "%d:%02d",Int(currentTime) / 60, Int(currentTime) % 60)
-        }
-        return String.init(format: "%d:%02d:%02d",Int(currentTime) / 3600,Int(currentTime) / 60, Int(currentTime) % 60)
     }
 }
 
@@ -193,7 +205,7 @@ private class AudioBubbleLayoutModel {
         init(audioMessageViewModel model: AudioMessageViewModelProtocol,
              style: AudioBubbleViewStyleProtocol,
              containerWidth width: CGFloat) {
-            self.init(duration: "00:00",
+            self.init(duration: model.duration!,
                       bubbleSize: style.bubbleSize(viewModel: model),
                       iconSize: style.playIconImage(viewModel: model).size,
                       preferredMaxLayoutWidth: width)
@@ -210,9 +222,13 @@ private class AudioBubbleLayoutModel {
         self.bubbleFrame = CGRect(origin: .zero, size: size)
         self.iconFrame = CGRect(x: 10, y: 5, width: 30, height: 30)
         self.size = size
-        let labelFrame = CGRect(x: size.width - 35, y: 15, width: 35, height: 18)
-        let xOffset:CGFloat = iconFrame.width + 12
-        let width = labelFrame.origin.x - xOffset - 5;
+        let duration = self.layoutContext.duration as NSString
+        let font = UIFont.systemFont(ofSize: 12)
+        let fontAttributes = [NSAttributedStringKey.font: font]
+        let labelSize = duration.size(withAttributes: fontAttributes)
+        let labelFrame = CGRect(x: size.width - labelSize.width-5, y: (size.height - labelSize.height )/2, width: labelSize.width+5, height: labelSize.height)
+        let xOffset:CGFloat = iconFrame.width + 20
+        let width = labelFrame.origin.x - xOffset - 10;
         self.progressLableFrame = labelFrame
         self.progressViewFrame = CGRect(x: xOffset, y: size.height/2, width: width, height: 15)
         

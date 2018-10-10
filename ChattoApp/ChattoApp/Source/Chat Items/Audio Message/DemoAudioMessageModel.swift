@@ -11,7 +11,7 @@ import ChattoAdditions
 public class DemoAudioMessageModel: AudioMessageModel<MessageModel>, DemoMessageModelProtocol {
     
     init(messageModel: MessageModel,data: Data?) {
-        super.init(messageModel: messageModel, data: data, duration: 00.00)
+        super.init(messageModel: messageModel, duration: "00.00")
     }
     
     public var status: MessageStatus {
