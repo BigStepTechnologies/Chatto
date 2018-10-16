@@ -34,7 +34,7 @@ class ChatExamplesViewController: CellsViewController {
         self.cellItems = [
             self.makeOverviewCellItem(),
             self.makeChatCellItem(title: "Empty chat", messagesCount: 0),
-            self.makeChatCellItem(title: "Chat with 10000 messages", messagesCount: 10_000),
+            self.makeChatCellItem(title: "Chat with 10000 messages", messagesCount: 180),
             self.makeMessageSelectionCellItem(),
             self.makeOpenWithTabBarCellItem(),
         ]
@@ -53,7 +53,7 @@ class ChatExamplesViewController: CellsViewController {
     
     private func makeChatCellItem(title: String, messagesCount: Int) -> CellItem {
         return CellItem(title: title, action: { [weak self] in
-            let dataSource = DemoChatDataSource(count: messagesCount, pageSize: 50)
+            let dataSource = DemoChatDataSource(count: messagesCount, pageSize: 30)
             let viewController = AddRandomMessagesChatViewController()
             viewController.dataSource = dataSource
             self?.navigationController?.pushViewController(viewController, animated: true)

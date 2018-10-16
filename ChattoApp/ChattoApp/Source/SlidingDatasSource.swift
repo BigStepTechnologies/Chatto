@@ -38,6 +38,7 @@ public class SlidingDataSource<Element> {
     private var items = [Element]()
     private var itemsOffset: Int
     public var itemsInWindow: [Element] {
+        print("Returning items")
         let offset = self.windowOffset - self.itemsOffset
         return Array(items[offset..<offset+self.windowCount])
     }
@@ -66,6 +67,9 @@ public class SlidingDataSource<Element> {
         for _ in 0..<count {
             self.insertItem(itemGenerator(), position: .top)
         }
+        
+        print("Window offset-3 - ",self.windowOffset)
+        print("Window Count-3 - ",self.windowCount)
     }
 
     public func insertItem(_ item: Element, position: InsertPosition) {
@@ -106,6 +110,10 @@ public class SlidingDataSource<Element> {
         let newItemsCount = previousWindowOffset - nextWindowOffset
         self.windowOffset = nextWindowOffset
         self.windowCount = previousWindowCount + newItemsCount
+        print("Window Offset - ",windowOffset)
+        print("Window Count - ",windowCount)
+        print("New item count - ",newItemsCount)
+        
     }
 
     public func loadNext() {
