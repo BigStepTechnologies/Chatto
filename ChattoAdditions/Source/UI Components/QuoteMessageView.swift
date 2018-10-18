@@ -8,17 +8,17 @@
 
 import Foundation
 import UIKit
-class QuoteMessageView: UIView
+open class QuoteMessageView: UIView
 {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupBubble()
     }
     
- 
+    
     func setupBubble(){
         addSubview(indicatorView)
-        addConstraintsWithFormat(format: "H:|-10-[v0(3)]", views: indicatorView)
+        addConstraintsWithFormat(format: "H:|-15-[v0(3)]", views: indicatorView)
         addConstraintsWithFormat(format: "V:|-5-[v0]-5-|", views: indicatorView)
         setupContainerView()
     }
@@ -26,15 +26,15 @@ class QuoteMessageView: UIView
     func setupContainerView(){
         
         addSubview(containerView)
-        addConstraintsWithFormat(format: "H:|-15-[v0]-15-|", views: containerView)
+        addConstraintsWithFormat(format: "H:|-20-[v0]-15-|", views: containerView)
         addConstraintsWithFormat(format: "V:|-5-[v0]-5-|", views: containerView)
         
         containerView.addSubview(nameView)
-        containerView.addConstraintsWithFormat(format: "H:|-5-[v0]-50-|", views: nameView)
+        containerView.addConstraintsWithFormat(format: "H:|-10-[v0]-50-|", views: nameView)
         containerView.addConstraintsWithFormat(format: "V:|-5-[v0(20)]|", views: nameView)
         
         containerView.addSubview(messageView)
-        containerView.addConstraintsWithFormat(format: "H:|[v0]-50-|", views: messageView)
+        containerView.addConstraintsWithFormat(format: "H:|-5-[v0]-50-|", views: messageView)
         containerView.addConstraintsWithFormat(format: "V:|-25-[v0(20)]|", views: messageView)
         
         containerView.addSubview(messageImageView)
@@ -44,42 +44,39 @@ class QuoteMessageView: UIView
     }
     
     
-    let containerView: UIView = {
+    open var containerView: UIView = {
         let view = UIView()
         return view
     }()
     
-    let nameView:  UILabel = {
+    open var nameView:  UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 16)
-        label.text = "Mohd Kaleem"
         label.textColor = UIColor.white
         return label
     }()
     
-    let messageView: UILabel = {
+    open var messageView: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = UIColor.black
-        label.text = "How are you?"
         return label
     }()
     
-    let messageImageView: UIImageView = {
+    open var messageImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "pic-test-2")
         imageView.layer.masksToBounds = true
         return imageView
     }()
     
-    let indicatorView: UIView = {
+    open var indicatorView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.white
         view.layer.cornerRadius = 10
         return view
     }()
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
