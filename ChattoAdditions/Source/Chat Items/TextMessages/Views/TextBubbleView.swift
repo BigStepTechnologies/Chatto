@@ -94,6 +94,7 @@ public final class TextBubbleView: UIView, MaximumLayoutWidthSpecificable, Backg
     
     private lazy var quoteMessageView: QuoteMessageView = {
         let view = QuoteMessageView()
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -272,6 +273,7 @@ private final class TextBubbleLayoutModel {
         let maxTextWidth = self.layoutContext.preferredMaxLayoutWidth - textHorizontalInset
         let textSize = self.textSizeThatFitsWidth(maxTextWidth)
         var bubbleSize = textSize.bma_outsetBy(dx: textHorizontalInset, dy: self.layoutContext.textInsets.bma_verticalInset)
+        self.quoteBubbleFrame = CGRect.zero
         self.textFrame = CGRect(origin: .zero, size: bubbleSize)
         if layoutContext.isQuoteMessage {
             bubbleSize.height += quoteMessageViewHeight - 15

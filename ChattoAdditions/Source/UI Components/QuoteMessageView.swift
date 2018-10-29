@@ -12,37 +12,25 @@ open class QuoteMessageView: UIView
 {
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupBubble()
-    }
-    
-    
-    func setupBubble(){
-        addSubview(indicatorView)
-        addConstraintsWithFormat(format: "H:|-15-[v0(3)]", views: indicatorView)
-        addConstraintsWithFormat(format: "V:|-5-[v0]-5-|", views: indicatorView)
         setupContainerView()
     }
     
-    func setupContainerView(){
-        
-        addSubview(containerView)
-        addConstraintsWithFormat(format: "H:|-20-[v0]-15-|", views: containerView)
-        addConstraintsWithFormat(format: "V:|-5-[v0]-5-|", views: containerView)
-        
-        containerView.addSubview(nameView)
-        containerView.addConstraintsWithFormat(format: "H:|-10-[v0]-50-|", views: nameView)
-        containerView.addConstraintsWithFormat(format: "V:|-5-[v0(20)]|", views: nameView)
-        
-        containerView.addSubview(messageView)
-        containerView.addConstraintsWithFormat(format: "H:|-5-[v0]-50-|", views: messageView)
-        containerView.addConstraintsWithFormat(format: "V:|-25-[v0(20)]|", views: messageView)
-        
-        containerView.addSubview(messageImageView)
-        containerView.addConstraintsWithFormat(format: "H:|[v0]-5-[v1]-5-|", views: nameView, messageImageView)
-        containerView.addConstraintsWithFormat(format: "V:|-5-[v0]-5-|", views: messageImageView)
-        
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
+    func setupContainerView()
+    {
+        
+        containerView.addSubview(nameView)
+        nameView.frame = CGRect(x: 0, y: 5, width: containerView.frame.width - 55, height: 20)
+        
+        containerView.addSubview(messageView)
+        messageView.frame = CGRect(x: 0, y: nameView.frame.height + nameView.frame.origin.y, width: containerView.frame.width - 55, height: 20)
+        
+        containerView.addSubview(messageImageView)
+        messageImageView.frame = CGRect(x: containerView.frame.width - 50, y: 0, width: 50, height: containerView.frame.height)
+    }
     
     open var containerView: UIView = {
         let view = UIView()
@@ -51,43 +39,33 @@ open class QuoteMessageView: UIView
     
     open var nameView:  UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 16)
-        label.textColor = UIColor.white
+        label.font = UIFont.boldSystemFont(ofSize: 14)
         return label
     }()
     
     open var messageView: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = UIColor.black
         return label
     }()
     
     open var messageImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.layer.masksToBounds = true
         return imageView
     }()
     
     open var indicatorView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.white
-        view.layer.cornerRadius = 10
         return view
     }()
     
-    required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    override open func layoutSubviews() {
+        super.layoutSubviews()
+        addSubview(indicatorView)
+        indicatorView.frame = CGRect(x: 15, y: 5, width: 3, height: self.bounds.height - 10)
+        addSubview(containerView)
+        containerView.frame = CGRect(x: 25, y: 5, width: self.bounds.width - 45, height: self.bounds.height - 10)
+        setupContainerView()
     }
-}
-extension UIView {
-    func addConstraintsWithFormat(format: String, views: UIView...){
-        var viewsDictionary = [String: UIView]()
-        for (index, view) in views.enumerated(){
-            let key = "v\(index)"
-            viewsDictionary[key] = view
-            view.translatesAutoresizingMaskIntoConstraints = false
-        }
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: format, options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
-    }
+    
 }
