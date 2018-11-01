@@ -149,10 +149,10 @@ extension DemoChatMessageFactory {
         .text("Each message is paired with a Presenter. Each presenter is responsible to present a message by managing a corresponding UICollectionViewCell. New types of messages can be easily added by creating new types of presenters!"),
         .text("Messages have different margins and only some bubbles show a tail. This is done with a decorator that conforms to ChatItemsDecoratorProtocol"),
         .text("Failed/sending status are completly separated cells. This helps to keep cells them simpler. They are generated with the decorator as well, but other approaches are possible, like being returned by the DataSource or using more complex cells"),
-        .quoteMessage("Hi all", ["name" : "Bob", "body" : "Hello", "image" : "pic-test-2"]),
+        .quoteMessage("Hi all Messages have different margins and only some bubbles show a tail. This is done with a decorator that conforms to ChatItemsDecoratorProtocol", ["name" : "Bob", "body" : "Hello We are waiting for your pull requests", "image" : "https://developer.apple.com/swift/images/swift-og.png"]),
         .text("More info on https://github.com/badoo/Chatto. We are waiting for your pull requests!"),
-        .quoteMessage("Hi there", ["name" : "Mohd Kaleem", "body" : "How are you", "image" : "pic-test-1"]),
-        .quoteMessage("Hi", ["name" : "Sam", "body" : "Hello", "image" : "pic-test-2"])
+        .quoteMessage("Hi there Messages have different margins and only some bubbles show a tail. This is done with a decorator that conforms to ChatItemsDecoratorProtocol", ["name" : "Mohd Kaleem", "body" : "How are you", "image" : "https://developer.apple.com/swift/images/swift-og.png"]),
+        .quoteMessage("Hi Messages have different margins and only some bubbles show a tail. This is done with a decorator that conforms to ChatItemsDecoratorProtocol", ["name" : "Sam", "body" : "Hello", "image" : "https://developer.apple.com/swift/images/swift-og.png"])
     ]
 
     private static func messages(fromDemoMessages demoMessages: [DemoMessage]) -> [MessageModelProtocol] {
