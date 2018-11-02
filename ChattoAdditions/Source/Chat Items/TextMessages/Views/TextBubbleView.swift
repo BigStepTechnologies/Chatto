@@ -178,18 +178,22 @@ public final class TextBubbleView: UIView, MaximumLayoutWidthSpecificable, Backg
         
         let textInsets = style.textInsets(viewModel: viewModel, isSelected: self.selected)
         if self.textView.textContainerInset != textInsets { self.textView.textContainerInset = textInsets }
-        self.quoteMessageView.isHidden = viewModel.messageBody == nil
-        let quotedViewColor = style.baseColor(viewModel: viewModel)
-        self.quoteMessageView.setIndicatorColor(quotedViewColor)
-        self.quoteMessageView.nameView.textColor = quotedViewColor
-        self.quoteMessageView.messageView.textColor = quotedViewColor
-        self.quoteMessageView.nameView.text = viewModel.messageOwnerName
-        self.quoteMessageView.messageView.text = viewModel.messageBody
-        self.quoteMessageView.imageView.isHidden = false
-        if let url = viewModel.imageUrl{
-            self.quoteMessageView.imageView.sd_setImage(with: URL(string: url), completed: nil)
-        }else {
-            self.quoteMessageView.imageView.isHidden = true
+        if viewModel.messageBody != nil {
+            self.quoteMessageView.isHidden = false
+            let quotedViewColor = style.baseColor(viewModel: viewModel)
+            self.quoteMessageView.setIndicatorColor(quotedViewColor)
+            self.quoteMessageView.nameView.textColor = quotedViewColor
+            self.quoteMessageView.messageView.textColor = quotedViewColor
+            self.quoteMessageView.nameView.text = viewModel.messageOwnerName
+            self.quoteMessageView.messageView.text = viewModel.messageBody
+            if let url = viewModel.imageUrl{
+                self.quoteMessageView.imageView.isHidden = false
+                self.quoteMessageView.imageView.sd_setImage(with: URL(string: url), completed: nil)
+            }else {
+                self.quoteMessageView.imageView.isHidden = true
+            }
+        }else{
+            self.quoteMessageView.isHidden = true
         }
     }
     
@@ -206,9 +210,11 @@ public final class TextBubbleView: UIView, MaximumLayoutWidthSpecificable, Backg
         super.layoutSubviews()
         let layout = self.calculateTextBubbleLayout(preferredMaxLayoutWidth: self.preferredMaxLayoutWidth)
         self.textView.bma_rect = layout.textFrame
-        self.quoteMessageView.bma_rect = layout.quoteBubbleFrame
         self.bubbleImageView.bma_rect = layout.bubbleFrame
         self.borderImageView.bma_rect = self.bubbleImageView.bounds
+        if self.textMessageViewModel.messageBody != nil {
+            self.quoteMessageView.bma_rect = layout.quoteBubbleFrame
+        }
     }
     
     public var layoutCache: NSCache<AnyObject, AnyObject>!
