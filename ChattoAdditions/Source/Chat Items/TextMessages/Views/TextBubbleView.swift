@@ -263,7 +263,7 @@ private final class TextBubbleLayoutModel {
         let isQuoteMessage: Bool
         
         var hashValue: Int {
-            return Chatto.bma_combine(hashes: [self.text.hashValue, self.textInsets.bma_hashValue, self.preferredMaxLayoutWidth.hashValue, self.font.hashValue])
+            return Chatto.bma_combine(hashes: [self.text.hashValue, self.textInsets.bma_hashValue, self.preferredMaxLayoutWidth.hashValue, self.font.hashValue,self.isQuoteMessage.hashValue])
         }
         
         static func == (lhs: TextBubbleLayoutModel.LayoutContext, rhs: TextBubbleLayoutModel.LayoutContext) -> Bool {
@@ -286,8 +286,8 @@ private final class TextBubbleLayoutModel {
             let height = textSize.height + quoteBubbleSize.height
             let bubbleSize = CGSize(width: maxTextWidth, height: height).bma_outsetBy(dx: textHorizontalInset, dy: self.layoutContext.textInsets.bma_verticalInset)
             
-            self.textFrame = CGRect(origin: CGPoint(x: 0, y: quoteBubbleSize.height), size: finalTextSize)
-            self.quoteBubbleFrame = CGRect(x: 20, y: 20,width: quoteBubbleSize.width, height: quoteBubbleSize.height)
+            self.textFrame = CGRect(origin: CGPoint(x: 0, y: quoteBubbleSize.height-5), size: finalTextSize)
+            self.quoteBubbleFrame = CGRect(x: 20, y: 15,width: quoteBubbleSize.width, height: quoteBubbleSize.height)
             self.bubbleFrame = CGRect(origin: CGPoint.zero, size: bubbleSize)
             self.size = bubbleSize
         }else{
