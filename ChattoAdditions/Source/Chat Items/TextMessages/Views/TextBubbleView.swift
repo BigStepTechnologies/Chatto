@@ -178,15 +178,16 @@ public final class TextBubbleView: UIView, MaximumLayoutWidthSpecificable, Backg
         
         let textInsets = style.textInsets(viewModel: viewModel, isSelected: self.selected)
         if self.textView.textContainerInset != textInsets { self.textView.textContainerInset = textInsets }
-        if viewModel.messageBody != nil {
+        
+        if let body = viewModel.quotedBody{
             self.quoteMessageView.isHidden = false
             let quotedViewColor = style.baseColor(viewModel: viewModel)
             self.quoteMessageView.setIndicatorColor(quotedViewColor)
             self.quoteMessageView.nameView.textColor = quotedViewColor
             self.quoteMessageView.messageView.textColor = quotedViewColor
-            self.quoteMessageView.nameView.text = viewModel.messageOwnerName
-            self.quoteMessageView.messageView.text = viewModel.messageBody
-            if let url = viewModel.imageUrl{
+            self.quoteMessageView.nameView.text = viewModel.quotedUser
+            self.quoteMessageView.messageView.text = body
+            if let url = viewModel.quotedImage{
                 self.quoteMessageView.imageView.isHidden = false
                 self.quoteMessageView.imageView.sd_setImage(with: URL(string: url), completed: nil)
             }else {
@@ -212,9 +213,7 @@ public final class TextBubbleView: UIView, MaximumLayoutWidthSpecificable, Backg
         self.textView.bma_rect = layout.textFrame
         self.bubbleImageView.bma_rect = layout.bubbleFrame
         self.borderImageView.bma_rect = self.bubbleImageView.bounds
-        if self.textMessageViewModel.messageBody != nil {
-            self.quoteMessageView.bma_rect = layout.quoteBubbleFrame
-        }
+        self.quoteMessageView.bma_rect = layout.quoteBubbleFrame
     }
     
     public var layoutCache: NSCache<AnyObject, AnyObject>!
@@ -223,7 +222,7 @@ public final class TextBubbleView: UIView, MaximumLayoutWidthSpecificable, Backg
             text: self.textMessageViewModel.text,
             font: self.style.textFont(viewModel: self.textMessageViewModel, isSelected: self.selected),
             textInsets: self.style.textInsets(viewModel: self.textMessageViewModel, isSelected: self.selected),
-            preferredMaxLayoutWidth: preferredMaxLayoutWidth, isQuoteMessage: self.textMessageViewModel.messageBody != nil
+            preferredMaxLayoutWidth: preferredMaxLayoutWidth, isQuoteMessage: self.textMessageViewModel.quotedBody != nil
         )
         
         if let layoutModel = self.layoutCache.object(forKey: layoutContext.hashValue as AnyObject) as? TextBubbleLayoutModel, layoutModel.layoutContext == layoutContext {
@@ -248,9 +247,6 @@ private final class TextBubbleLayoutModel {
     var bubbleFrame: CGRect = CGRect.zero
     var size: CGSize = CGSize.zero
     var quoteBubbleFrame: CGRect = CGRect.zero
-    var indicatorFrame: CGRect = CGRect.zero
-    var middleContainerFrame:CGRect = CGRect.zero
-    var imageViewFrame: CGRect = CGRect.zero
     var minimumQuoteBubbleWidth: CGFloat = 255
     var quoteMessageViewHeight: CGFloat = 50
     var imageHeight: CGFloat = 30

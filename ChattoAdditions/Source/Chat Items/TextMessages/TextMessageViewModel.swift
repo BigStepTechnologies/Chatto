@@ -26,22 +26,22 @@ import Foundation
 
 public protocol TextMessageViewModelProtocol: DecoratedMessageViewModelProtocol {
     var text: String { get }
-    var messageOwnerName: String? { get }
-    var messageBody: String? { get }
-    var imageUrl: String? { get }
+    var quotedUser: String? { get }
+    var quotedBody: String? { get }
+    var quotedImage: String? { get }
 }
 
 open class TextMessageViewModel<TextMessageModelT: TextMessageModelProtocol>: TextMessageViewModelProtocol {
-    open var messageOwnerName: String? {
-        return self.textMessage.messageOwnerName
+    open var quotedUser: String? {
+        return self.textMessage.quotedUser
     }
     
-    open var messageBody: String? {
-        return self.textMessage.messageBody
+    open var quotedBody: String? {
+        return self.textMessage.quotedBody
     }
     
-    open var imageUrl: String? {
-        return self.textMessage.imageUrl
+    open var quotedImage: String? {
+        return self.textMessage.quotedImage
     }
     
     open var text: String {
