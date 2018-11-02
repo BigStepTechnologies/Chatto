@@ -11,7 +11,7 @@ import UIKit
 
 open class QuoteMessageView: UIView {
     private let imageHeight:CGFloat = 35
-    private let idicatorWidth:CGFloat = 3
+    private let idicatorWidth:CGFloat = 2
     private let maxWidth:CGFloat = 210
     
     private var containerView: UIStackView = {
@@ -19,31 +19,31 @@ open class QuoteMessageView: UIView {
         return view
     }()
     
-    var stackView : UIStackView = {
+    open var stackView : UIStackView = {
         let stackView  = UIStackView()
         return stackView
     }()
     
-    var nameView:  UILabel = {
+    open var nameView:  UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 15)
         label.textAlignment = .left
         return label
     }()
     
-    var messageView: UILabel = {
+    open var messageView: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13)
         label.textAlignment = .left
         return label
     }()
     
-    var imageView: UIImageView = {
+    open var imageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
     }()
     
-    var indicatorView: UIView = {
+    private var indicatorView: UIView = {
         let view = UIView()
         return view
     }()

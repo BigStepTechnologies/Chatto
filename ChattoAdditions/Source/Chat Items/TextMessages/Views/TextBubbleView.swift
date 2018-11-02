@@ -281,13 +281,12 @@ private final class TextBubbleLayoutModel {
         let finalTextSize = textSize.bma_outsetBy(dx: textHorizontalInset, dy: self.layoutContext.textInsets.bma_verticalInset)
         
         if layoutContext.isQuoteMessage {
-            let quoteBubbleSize = CGSize(width: maxTextWidth, height: quoteMessageViewHeight).bma_outsetBy(dx: textHorizontalInset, dy: self.layoutContext.textInsets.bma_verticalInset)
-            
+            let quoteBubbleSize = CGSize(width: maxTextWidth, height: quoteMessageViewHeight)
             let height = textSize.height + quoteBubbleSize.height
             let bubbleSize = CGSize(width: maxTextWidth, height: height).bma_outsetBy(dx: textHorizontalInset, dy: self.layoutContext.textInsets.bma_verticalInset)
             
-            self.textFrame = CGRect(origin: CGPoint(x: 0, y: quoteBubbleSize.height-5), size: finalTextSize)
-            self.quoteBubbleFrame = CGRect(x: 20, y: 15,width: quoteBubbleSize.width, height: quoteBubbleSize.height)
+            self.textFrame = CGRect(origin: CGPoint(x: 0, y: quoteBubbleSize.height), size: finalTextSize)
+            self.quoteBubbleFrame = CGRect(x: 20, y: textHorizontalInset/2,width: quoteBubbleSize.width, height: quoteBubbleSize.height)
             self.bubbleFrame = CGRect(origin: CGPoint.zero, size: bubbleSize)
             self.size = bubbleSize
         }else{
