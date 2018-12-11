@@ -26,16 +26,29 @@ import Foundation
 
 public protocol TextMessageModelProtocol: DecoratedMessageModelProtocol {
     var text: String { get }
+    var quotedUser: String? { get }
+    var quotedBody: String? { get }
+    var quotedImage: String? { get }
 }
 
 open class TextMessageModel<MessageModelT: MessageModelProtocol>: TextMessageModelProtocol {
+    
+    public var quotedUser: String?
+    public var quotedBody: String?
+    public var quotedImage: String?
+    
     public var messageModel: MessageModelProtocol {
         return self._messageModel
     }
     public let _messageModel: MessageModelT // Can't make messasgeModel: MessageModelT: https://gist.github.com/diegosanchezr/5a66c7af862e1117b556
     public let text: String
-    public init(messageModel: MessageModelT, text: String) {
+    public init(messageModel: MessageModelT, text: String, quoteMessageParameter: [String: Any]? = nil) {
         self._messageModel = messageModel
         self.text = text
+        if let params = quoteMessageParameter{
+            self.quotedUser = params["name"] as? String
+            self.quotedBody = params["body"] as? String
+            self.quotedImage = params["image"] as? String
+        }
     }
 }

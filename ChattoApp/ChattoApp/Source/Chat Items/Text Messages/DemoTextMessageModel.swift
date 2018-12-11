@@ -26,8 +26,9 @@ import Foundation
 import ChattoAdditions
 
 public class DemoTextMessageModel: TextMessageModel<MessageModel>, DemoMessageModelProtocol {
-    public override init(messageModel: MessageModel, text: String) {
-        super.init(messageModel: messageModel, text: text)
+    
+    public override init(messageModel: MessageModel, text: String, quoteMessageParameter: [String: Any] = [:]) {
+        super.init(messageModel: messageModel, text: text, quoteMessageParameter: quoteMessageParameter)
     }
 
     public var status: MessageStatus {
@@ -39,3 +40,5 @@ public class DemoTextMessageModel: TextMessageModel<MessageModel>, DemoMessageMo
         }
     }
 }
+
+

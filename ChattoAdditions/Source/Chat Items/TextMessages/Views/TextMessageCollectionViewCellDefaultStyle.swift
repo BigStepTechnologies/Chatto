@@ -26,6 +26,7 @@ import UIKit
 import Chatto
 
 open class TextMessageCollectionViewCellDefaultStyle: TextMessageCollectionViewCellStyleProtocol {
+    
     typealias Class = TextMessageCollectionViewCellDefaultStyle
 
     public struct BubbleImages {
@@ -97,7 +98,11 @@ open class TextMessageCollectionViewCellDefaultStyle: TextMessageCollectionViewC
     open func textColor(viewModel: TextMessageViewModelProtocol, isSelected: Bool) -> UIColor {
         return viewModel.isIncoming ? self.incomingColor : self.outgoingColor
     }
-
+    
+    public func baseColor(viewModel: TextMessageViewModelProtocol) -> UIColor {
+        return viewModel.isIncoming ? self.baseStyle.baseColorOutgoing : UIColor.white
+    }
+    
     open func textInsets(viewModel: TextMessageViewModelProtocol, isSelected: Bool) -> UIEdgeInsets {
         return viewModel.isIncoming ? self.textStyle.incomingInsets : self.textStyle.outgoingInsets
     }

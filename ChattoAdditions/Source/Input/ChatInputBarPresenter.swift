@@ -101,7 +101,6 @@ public class BasicChatInputBarPresenter: NSObject, ChatInputBarPresenter {
 
         let accessoryViewHeight = self.chatInputBar.textView.inputAccessoryView?.bounds.height ?? 0
         let inputViewHeight = keyboardHeight - accessoryViewHeight
-
         if let heightConstraint = inputView.constraints.filter({ $0.firstAttribute == .height }).first {
             heightConstraint.constant = inputViewHeight
         } else {

@@ -170,7 +170,6 @@ open class BaseChatViewController: UIViewController, UICollectionViewDataSource,
         self.view.addConstraint(NSLayoutConstraint(item: self.view, attribute: .trailing, relatedBy: .equal, toItem: self.inputContainer, attribute: .trailing, multiplier: 1, constant: 0))
         self.inputContainerBottomConstraint = NSLayoutConstraint(item: self.view, attribute: .bottom, relatedBy: .equal, toItem: self.inputContainer, attribute: .bottom, multiplier: 1, constant: 0)
         self.view.addConstraint(self.inputContainerBottomConstraint)
-
         let inputView = self.createChatInputView()
         self.inputContainer.addSubview(inputView)
         self.inputContainer.addConstraint(NSLayoutConstraint(item: self.inputContainer, attribute: .top, relatedBy: .equal, toItem: inputView, attribute: .top, multiplier: 1, constant: 0))
@@ -363,7 +362,7 @@ open class BaseChatViewController: UIViewController, UICollectionViewDataSource,
         assert(false, "Override in subclass")
         return UIView()
     }
-
+    
     /**
         When paginating up we need to change the scroll position as the content is pushed down.
         We take distance to top from beforeUpdate indexPath and then we make afterUpdate indexPath to appear at the same distance
