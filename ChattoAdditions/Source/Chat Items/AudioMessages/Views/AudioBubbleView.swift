@@ -224,7 +224,7 @@ private class AudioBubbleLayoutModel {
         self.size = size
         let duration = self.layoutContext.duration as NSString
         let font = UIFont.systemFont(ofSize: 12)
-        let fontAttributes = [NSAttributedStringKey.font: font]
+        let fontAttributes = [NSAttributedString.Key.font: font]
         let labelSize = duration.size(withAttributes: fontAttributes)
         let labelFrame = CGRect(x: size.width - labelSize.width-5, y: (size.height - labelSize.height )/2, width: labelSize.width+5, height: labelSize.height)
         let xOffset:CGFloat = iconFrame.width + 20

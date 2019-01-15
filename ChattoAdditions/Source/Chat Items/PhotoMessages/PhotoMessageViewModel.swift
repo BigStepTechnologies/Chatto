@@ -43,7 +43,6 @@ public protocol PhotoMessageViewModelProtocol: DecoratedMessageViewModelProtocol
     var image: Observable<UIImage?> { get set }
     var imageUrl: Observable<URL?> { get set }
     var imageType: ImageType { get }
-    var imageSize: CGSize { get }
     var cellAccessibilityIdentifier: String { get }
     var bubbleAccessibilityIdentifier: String { get }
 }

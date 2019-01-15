@@ -63,7 +63,7 @@ open class PhotoBubbleView: UIView, MaximumLayoutWidthSpecificable, BackgroundSi
 
     public private(set) lazy var imageView: FLAnimatedImageView = {
         let imageView = FLAnimatedImageView()
-        imageView.runLoopMode = RunLoopMode.defaultRunLoopMode.rawValue
+        imageView.runLoopMode = RunLoop.Mode.default.rawValue
         imageView.autoresizingMask = []
         imageView.clipsToBounds = true
         imageView.autoresizesSubviews = false

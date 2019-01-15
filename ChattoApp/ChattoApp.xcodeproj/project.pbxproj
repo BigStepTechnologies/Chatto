@@ -349,12 +349,15 @@
 				TargetAttributes = {
 					C33FBFA41BDE441C008E3545 = {
 						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = W84Y3AR95Z;
 						LastSwiftMigration = 1000;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					C33FBFB81BDE441C008E3545 = {
 						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = W84Y3AR95Z;
 						LastSwiftMigration = 1000;
+						ProvisioningStyle = Manual;
 						TestTargetID = C33FBFA41BDE441C008E3545;
 					};
 				};
@@ -646,10 +649,10 @@
 				INFOPLIST_FILE = ChattoApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.pm.uisdk;
+				PRODUCT_BUNDLE_IDENTIFIER = com.channelize.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "d62f513f-c70b-4b1c-afab-3fa90ed43aa0";
-				PROVISIONING_PROFILE_SPECIFIER = PMUIDemo;
+				PROVISIONING_PROFILE_SPECIFIER = "Channelize Demo";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.2;
 			};
@@ -668,10 +671,10 @@
 				INFOPLIST_FILE = ChattoApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.pm.uisdk;
+				PRODUCT_BUNDLE_IDENTIFIER = com.channelize.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "d62f513f-c70b-4b1c-afab-3fa90ed43aa0";
-				PROVISIONING_PROFILE_SPECIFIER = PMUIDemo;
+				PROVISIONING_PROFILE_SPECIFIER = "Channelize Demo";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.2;
 			};
