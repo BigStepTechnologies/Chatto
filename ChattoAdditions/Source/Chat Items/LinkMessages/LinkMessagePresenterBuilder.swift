@@ -1,18 +1,19 @@
 //
-//  AudioMessagePresenterBuilder.swift
+//  LinkMessagePresenterBuilder.swift
 //  ChattoAdditions
 //
-//  Created by Ashish on 12/09/18.
-//  Copyright © 2018 Badoo. All rights reserved.
+//  Created by Vidit Paliwal on 11/01/19.
 //
 
+import Foundation
 import Chatto
 
-open class AudioMessagePresenterBuilder<ViewModelBuilderT, InteractionHandlerT>: ChatItemPresenterBuilderProtocol where
+open class LinkMessagePresenterBuilder<ViewModelBuilderT, InteractionHandlerT> : ChatItemPresenterBuilderProtocol where
     ViewModelBuilderT: ViewModelBuilderProtocol,
-    ViewModelBuilderT.ViewModelT: AudioMessageViewModelProtocol,
+    ViewModelBuilderT.ViewModelT: LinkMessageViewModelProtocol,
     InteractionHandlerT: BaseMessageInteractionHandlerProtocol,
-InteractionHandlerT.ViewModelT == ViewModelBuilderT.ViewModelT {
+    InteractionHandlerT.ViewModelT == ViewModelBuilderT.ViewModelT
+{
     public typealias ModelT = ViewModelBuilderT.ModelT
     public typealias ViewModelT = ViewModelBuilderT.ViewModelT
     
@@ -26,19 +27,18 @@ InteractionHandlerT.ViewModelT == ViewModelBuilderT.ViewModelT {
     public let viewModelBuilder: ViewModelBuilderT
     public let interactionHandler: InteractionHandlerT?
     
+    public func canHandleChatItem(_ chatItem: ChatItemProtocol) -> Bool {
+        return self.viewModelBuilder.canCreateViewModel(fromModel: chatItem)
+    }
+    
     public let sizingCell: AudioMessageCollectionViewCell = AudioMessageCollectionViewCell.sizingCell()
     public lazy var audioCellStyle: AudioMessageCollectionViewCellStyleProtocol = AudioMessageCollectionViewCellDefaultStyle()
     
     public lazy var baseCellStyle: BaseMessageCollectionViewCellStyleProtocol = BaseMessageCollectionViewCellDefaultStyle()
     
-    
-    open func canHandleChatItem(_ chatItem: ChatItemProtocol) -> Bool {
-        return self.viewModelBuilder.canCreateViewModel(fromModel: chatItem)
-    }
-    
-    open func createPresenterWithChatItem(_ chatItem: ChatItemProtocol) -> ChatItemPresenterProtocol {
+    public func createPresenterWithChatItem(_ chatItem: ChatItemProtocol) -> ChatItemPresenterProtocol {
         assert(self.canHandleChatItem(chatItem))
-        return AudioMessagePresenter<ViewModelBuilderT, InteractionHandlerT>(
+        return LinkMessagePresenter<ViewModelBuilderT, InteractionHandlerT>(
             messageModel: chatItem as! ModelT,
             viewModelBuilder: self.viewModelBuilder,
             interactionHandler: self.interactionHandler,
@@ -48,7 +48,10 @@ InteractionHandlerT.ViewModelT == ViewModelBuilderT.ViewModelT {
         )
     }
     
-    open var presenterType: ChatItemPresenterProtocol.Type {
-        return AudioMessagePresenter<ViewModelBuilderT, InteractionHandlerT>.self
+    public var presenterType: ChatItemPresenterProtocol.Type {
+        return LinkMessagePresenter<ViewModelBuilderT, InteractionHandlerT>.self
     }
 }
+
+
+

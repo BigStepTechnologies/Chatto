@@ -27,7 +27,7 @@ import ChattoAdditions
 
 public class DemoTextMessageModel: TextMessageModel<MessageModel>, DemoMessageModelProtocol {
     
-    public override init(messageModel: MessageModel, text: String, quoteMessageParameter: [String: Any] = [:]) {
+    public override init(messageModel: MessageModel, text: String, quoteMessageParameter: [String: Any]? = [:]) {
         super.init(messageModel: messageModel, text: text, quoteMessageParameter: quoteMessageParameter)
     }
 

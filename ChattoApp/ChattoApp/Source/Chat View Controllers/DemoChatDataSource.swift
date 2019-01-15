@@ -103,6 +103,16 @@ class DemoChatDataSource: ChatDataSourceProtocol {
         self.delegate?.chatDataSourceDidUpdate(self)
     }
 
+    // Rohit Code
+    
+    func addLinkPreviewMessage(_ image: UIImage, _ headerText : String, _ descriptionText: String)
+    {
+        let uid = "\(self.nextMessageId)"
+        self.nextMessageId += 1
+        //let message = DemoChatMessageFactory
+    }
+    
+    // Rohit Code Ends
     func addRandomIncomingMessage() {
         let message = DemoChatMessageFactory.makeRandomMessage("\(self.nextMessageId)", isIncoming: true)
         self.nextMessageId += 1

@@ -98,6 +98,12 @@ public final class TextBubbleView: UIView, MaximumLayoutWidthSpecificable, Backg
         return view
     }()
     
+    private lazy var previewMessage : LinkPreviewView = {
+        let view = LinkPreviewView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     
     private var borderImageView: UIImageView = UIImageView()
     private var textView: UITextView = {
@@ -214,6 +220,8 @@ public final class TextBubbleView: UIView, MaximumLayoutWidthSpecificable, Backg
         self.bubbleImageView.bma_rect = layout.bubbleFrame
         self.borderImageView.bma_rect = self.bubbleImageView.bounds
         self.quoteMessageView.bma_rect = layout.quoteBubbleFrame
+//        // Rohit Code
+//        self.previewMessage.bma_rect = CGRect(x:0,y:0,width:250,height:150)
     }
     
     public var layoutCache: NSCache<AnyObject, AnyObject>!

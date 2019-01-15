@@ -41,6 +41,9 @@
 		EB489942215387CF0013CFB8 /* DemoAudioMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB489941215387CF0013CFB8 /* DemoAudioMessageModel.swift */; };
 		EB489944215387E20013CFB8 /* DemoAudioMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB489943215387E20013CFB8 /* DemoAudioMessageViewModel.swift */; };
 		EB489946215387FB0013CFB8 /* DemoAudioMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB489945215387FB0013CFB8 /* DemoAudioMessageHandler.swift */; };
+		EBC125A121ECB35E005D89FA /* DemoLinkMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC125A021ECB35E005D89FA /* DemoLinkMessageHandler.swift */; };
+		EBC125A321ECB376005D89FA /* DemoLinkMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC125A221ECB376005D89FA /* DemoLinkMessageModel.swift */; };
+		EBC125A521ECB38C005D89FA /* DemoLinkMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC125A421ECB38C005D89FA /* DemoLinkMessageViewModel.swift */; };
 		FE2D050B1C915ADB006F902B /* BaseMessageCollectionViewCellAvatarStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE2D050A1C915ADB006F902B /* BaseMessageCollectionViewCellAvatarStyle.swift */; };
 /* End PBXBuildFile section */
 
@@ -109,6 +112,9 @@
 		EB489941215387CF0013CFB8 /* DemoAudioMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAudioMessageModel.swift; sourceTree = "<group>"; };
 		EB489943215387E20013CFB8 /* DemoAudioMessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAudioMessageViewModel.swift; sourceTree = "<group>"; };
 		EB489945215387FB0013CFB8 /* DemoAudioMessageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAudioMessageHandler.swift; sourceTree = "<group>"; };
+		EBC125A021ECB35E005D89FA /* DemoLinkMessageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoLinkMessageHandler.swift; sourceTree = "<group>"; };
+		EBC125A221ECB376005D89FA /* DemoLinkMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoLinkMessageModel.swift; sourceTree = "<group>"; };
+		EBC125A421ECB38C005D89FA /* DemoLinkMessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoLinkMessageViewModel.swift; sourceTree = "<group>"; };
 		FE2D050A1C915ADB006F902B /* BaseMessageCollectionViewCellAvatarStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseMessageCollectionViewCellAvatarStyle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -143,6 +149,7 @@
 		55A77B471FCC41CC0040C77E /* Chat Items */ = {
 			isa = PBXGroup;
 			children = (
+				EBC1259F21ECB333005D89FA /* Link Message */,
 				55A77B481FCC42250040C77E /* Base Message */,
 				EB4899402153879A0013CFB8 /* Audio Message */,
 				C3F91DAC1C75EF9E00D461D2 /* Photo Messages */,
@@ -292,6 +299,16 @@
 			path = "Audio Message";
 			sourceTree = "<group>";
 		};
+		EBC1259F21ECB333005D89FA /* Link Message */ = {
+			isa = PBXGroup;
+			children = (
+				EBC125A221ECB376005D89FA /* DemoLinkMessageModel.swift */,
+				EBC125A021ECB35E005D89FA /* DemoLinkMessageHandler.swift */,
+				EBC125A421ECB38C005D89FA /* DemoLinkMessageViewModel.swift */,
+			);
+			name = "Link Message";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -348,7 +365,7 @@
 						CreatedOnToolsVersion = 7.1;
 						DevelopmentTeam = W84Y3AR95Z;
 						LastSwiftMigration = 0900;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					C33FBFB81BDE441C008E3545 = {
 						CreatedOnToolsVersion = 7.1;
@@ -468,6 +485,7 @@
 				C3F91DB81C75EF9E00D461D2 /* ChatExamplesViewController.swift in Sources */,
 				C3F91DC41C75EF9E00D461D2 /* DemoTextMessageHandler.swift in Sources */,
 				C3F91DC31C75EF9E00D461D2 /* SlidingDatasSource.swift in Sources */,
+				EBC125A121ECB35E005D89FA /* DemoLinkMessageHandler.swift in Sources */,
 				C3F91DC71C75EF9E00D461D2 /* BaseMessageHandler.swift in Sources */,
 				55A77B4C1FCC5FFB0040C77E /* BaseMessagesSelector.swift in Sources */,
 				C3F91DC61C75EF9E00D461D2 /* DemoTextMessageViewModel.swift in Sources */,
@@ -476,6 +494,7 @@
 				C3F91DC01C75EF9E00D461D2 /* DemoPhotoMessageHandler.swift in Sources */,
 				C3F91DBC1C75EF9E00D461D2 /* DemoChatViewController.swift in Sources */,
 				C3F91DBD1C75EF9E00D461D2 /* DemoChatDataSource.swift in Sources */,
+				EBC125A521ECB38C005D89FA /* DemoLinkMessageViewModel.swift in Sources */,
 				C3F91DB61C75EF9E00D461D2 /* AppDelegate.swift in Sources */,
 				C341D42F1C9635DF00FD3463 /* TimeSeparatorPresenter.swift in Sources */,
 				EB489942215387CF0013CFB8 /* DemoAudioMessageModel.swift in Sources */,
@@ -490,6 +509,7 @@
 				C3F91DC11C75EF9E00D461D2 /* DemoPhotoMessageModel.swift in Sources */,
 				C3F91DC21C75EF9E00D461D2 /* DemoPhotoMessageViewModel.swift in Sources */,
 				C3F91DBE1C75EF9E00D461D2 /* DemoChatMessageFactory.swift in Sources */,
+				EBC125A321ECB376005D89FA /* DemoLinkMessageModel.swift in Sources */,
 				C341D4301C9635DF00FD3463 /* TimeSeparatorCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -633,18 +653,18 @@
 			baseConfigurationReference = 2CCB5DAFC70B636492325895 /* Pods-ChattoApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Vidit Paliwal (R8PNSHNRA6)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vidit Paliwal (R8PNSHNRA6)";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = W84Y3AR95Z;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = ChattoApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pm.uisdk;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d62f513f-c70b-4b1c-afab-3fa90ed43aa0";
-				PROVISIONING_PROFILE_SPECIFIER = PMUIDemo;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
@@ -655,18 +675,18 @@
 			baseConfigurationReference = 6DABD92E2BA40464C1727DA2 /* Pods-ChattoApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Vidit Paliwal (R8PNSHNRA6)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Vidit Paliwal (R8PNSHNRA6)";
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = W84Y3AR95Z;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = ChattoApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.pm.uisdk;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d62f513f-c70b-4b1c-afab-3fa90ed43aa0";
-				PROVISIONING_PROFILE_SPECIFIER = PMUIDemo;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};

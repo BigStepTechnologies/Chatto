@@ -61,6 +61,13 @@ class DemoChatMessageFactory {
         let quoteMessageModel = DemoTextMessageModel(messageModel: messageModel, text: text, quoteMessageParameter: quoteMessageParameter)
         return quoteMessageModel
     }
+    
+    // Rohit Code
+    class func makeLinkPreviewMessage(_ uid: String, text: String, isIncoming: Bool, image: UIImage, headerText: String, descriptionText : String)
+    {
+        
+    }
+    // Rohit Code ends
 
     private class func makeRandomTextMessage(_ uid: String, isIncoming: Bool) -> DemoTextMessageModel {
         let incomingText: String = isIncoming ? "incoming" : "outgoing"
