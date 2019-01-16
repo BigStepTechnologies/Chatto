@@ -13,11 +13,10 @@ import SDWebImage
 public protocol LinkBubbleViewStyleProtocol {
     func textFont(viewModel: LinkMessageViewModelProtocol, isSelected: Bool) -> UIFont
     func textColor(viewModel: LinkMessageViewModelProtocol, isSelected: Bool) -> UIColor
-    func baseColor(viewModel: LinkMessageViewModelProtocol) -> UIColor
     func textInsets(viewModel: LinkMessageViewModelProtocol, isSelected: Bool) -> UIEdgeInsets
-    func linkPreviewImageHolder(viewModel : LinkMessageViewModelProtocol) -> UIImage
     func linkPreviewTitleTextColor(viewModel: LinkMessageViewModelProtocol) -> UIColor
     func linkPreviewDescriptionTextColor(viewModel : LinkMessageViewModelProtocol) -> UIColor
+    func linkPreviewBackgroundColor(viewModel: LinkMessageViewModelProtocol) -> UIColor
 }
 
 public class LinkBubbleView : UIView, MaximumLayoutWidthSpecificable, BackgroundSizingQueryable
@@ -116,15 +115,15 @@ public class LinkBubbleView : UIView, MaximumLayoutWidthSpecificable, Background
     
     open func updateImage()
     {
-        if let image = self.linkMessageViewModel.previewImage.value
-        {
-            self.previewImageView.image = image
-        }
-        else
-        {
-            self.placeHolderImageView.image = UIImage()
-            self.placeHolderImageView.isHidden = false
-        }
+//        if let image = self.linkMessageViewModel.previewImage.value
+//        {
+//            self.previewImageView.image = image
+//        }
+//        else
+//        {
+//            self.placeHolderImageView.image = UIImage()
+//            self.placeHolderImageView.isHidden = false
+//        }
     }
     
     

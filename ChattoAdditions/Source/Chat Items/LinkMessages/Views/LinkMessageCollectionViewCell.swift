@@ -11,7 +11,7 @@ public typealias LinkMessageCollectionViewCellStyleProtocol = LinkBubbleViewStyl
 
 public final class LinkMessageCollectionViewCell: BaseMessageCollectionViewCell<LinkBubbleView> {
     
-    static func sizingCell() -> LinkMessageCollectionViewCell {
+    public static func sizingCell() -> LinkMessageCollectionViewCell {
         let cell = LinkMessageCollectionViewCell(frame: CGRect.zero)
         cell.viewContext = .sizing
         return cell

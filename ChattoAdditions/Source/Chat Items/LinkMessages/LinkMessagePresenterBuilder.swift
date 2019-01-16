@@ -31,8 +31,8 @@ open class LinkMessagePresenterBuilder<ViewModelBuilderT, InteractionHandlerT> :
         return self.viewModelBuilder.canCreateViewModel(fromModel: chatItem)
     }
     
-    public let sizingCell: AudioMessageCollectionViewCell = AudioMessageCollectionViewCell.sizingCell()
-    public lazy var audioCellStyle: AudioMessageCollectionViewCellStyleProtocol = AudioMessageCollectionViewCellDefaultStyle()
+    public let sizingCell: LinkMessageCollectionViewCell = LinkMessageCollectionViewCell.sizingCell()
+    public lazy var linkCellStyle: LinkMessageCollectionViewCellDefaultStyle = LinkMessageCollectionViewCellDefaultStyle()
     
     public lazy var baseCellStyle: BaseMessageCollectionViewCellStyleProtocol = BaseMessageCollectionViewCellDefaultStyle()
     
@@ -44,7 +44,7 @@ open class LinkMessagePresenterBuilder<ViewModelBuilderT, InteractionHandlerT> :
             interactionHandler: self.interactionHandler,
             sizingCell: sizingCell,
             baseCellStyle: self.baseCellStyle,
-            audioCellStyle: self.audioCellStyle
+            linkCellStyle: self.linkCellStyle
         )
     }
     

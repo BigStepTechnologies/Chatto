@@ -16,13 +16,30 @@ public enum LinkPreviewStatus
 public protocol LinkMessageViewModelProtocol : DecoratedMessageViewModelProtocol
 {
     var fetchedStatus : Observable<LinkPreviewStatus> { get set }
-    var previewHeader : Observable<String> { get set }
-    var previewDescription : Observable<String> { get set }
-    var previewImageUrl : Observable<String> { get set }
+    var previewImageUrl : String { get }
+    var previewHeader : String { get }
+    var previewDescription : String { get }
+    var messageText : String { get }
 }
 
 open class LinkMessageViewModel<LinkMessageModelT : LinkMessageModelProtocol> : LinkMessageViewModelProtocol
 {
+    public var previewImageUrl: String {
+        return self._linkMessage.previewImageUrl
+    }
+    
+    public var previewHeader: String {
+        return self._linkMessage.previewHeader
+    }
+    
+    public var previewDescription: String {
+        return self._linkMessage.previewDescription
+    }
+    
+    public var messageText: String {
+        return self._linkMessage.messageText
+    }
+    
     public let _linkMessage: LinkMessageModelT
     
     public var linkMessage: LinkMessageModelProtocol {
@@ -30,12 +47,6 @@ open class LinkMessageViewModel<LinkMessageModelT : LinkMessageModelProtocol> : 
     }
     
     public var fetchedStatus: Observable<LinkPreviewStatus> = Observable(.notFetched)
-    
-    public var previewHeader: Observable<String>
-    
-    public var previewDescription: Observable<String>
-    
-    public var previewImageUrl: Observable<String>
     
     public var messageViewModel: MessageViewModelProtocol
     
@@ -46,9 +57,6 @@ open class LinkMessageViewModel<LinkMessageModelT : LinkMessageModelProtocol> : 
     public init(linkMessage: LinkMessageModelT, messageViewModel: MessageViewModelProtocol) {
         self._linkMessage = linkMessage
         self.fetchedStatus = Observable(.notFetched)
-        self.previewHeader = Observable(linkMessage.previewHeader)
-        self.previewDescription = Observable(linkMessage.previewDescription)
-        self.previewImageUrl = Observable(linkMessage.previewImageUrl)
         self.messageViewModel = messageViewModel
     }
     

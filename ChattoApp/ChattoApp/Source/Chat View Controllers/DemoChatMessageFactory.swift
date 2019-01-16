@@ -65,7 +65,7 @@ class DemoChatMessageFactory {
     // Rohit Code
     class func makeLinkPreviewMessage(_ uid: String, text: String, isIncoming: Bool, image: UIImage, headerText: String, descriptionText : String)
     {
-        
+        //let messageModel = self.makeMessageModel(uid, isIncoming: isIncoming, type: LinkMessageModel<MessageModel>.chatItemType)
     }
     // Rohit Code ends
 
