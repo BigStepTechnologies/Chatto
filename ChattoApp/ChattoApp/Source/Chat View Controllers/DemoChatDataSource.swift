@@ -105,11 +105,27 @@ class DemoChatDataSource: ChatDataSourceProtocol {
 
     // Rohit Code
     
-    func addLinkPreviewMessage(_ image: UIImage, _ headerText : String, _ descriptionText: String)
+    func addLinkPreviewMessage(titleText: String,titleDescription: String,previewImageUrl:String,mainUrl: String)
     {
         let uid = "\(self.nextMessageId)"
+        var isIncomginMessage = false
+        if self.nextMessageId%2 == 0
+        {
+            isIncomginMessage = true
+        }
+        else
+        {
+            isIncomginMessage = false
+        }
         self.nextMessageId += 1
-        //let message = DemoChatMessageFactory
+        
+        let message = DemoChatMessageFactory.makeLinkPreviewMessage(uid, titleText: titleText, isIncoming: isIncomginMessage, titleDescription: titleDescription, imageUrl: previewImageUrl, mainUrl: mainUrl)
+        self.messageSender.sendMessage(message)
+        self.slidingWindow.insertItem(message, position: .bottom)
+        self.delegate?.chatDataSourceDidUpdate(self)
+        
+        
+        //let message =
     }
     
     // Rohit Code Ends

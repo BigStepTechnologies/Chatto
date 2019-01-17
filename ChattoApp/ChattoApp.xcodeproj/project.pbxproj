@@ -41,6 +41,7 @@
 		EB489942215387CF0013CFB8 /* DemoAudioMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB489941215387CF0013CFB8 /* DemoAudioMessageModel.swift */; };
 		EB489944215387E20013CFB8 /* DemoAudioMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB489943215387E20013CFB8 /* DemoAudioMessageViewModel.swift */; };
 		EB489946215387FB0013CFB8 /* DemoAudioMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB489945215387FB0013CFB8 /* DemoAudioMessageHandler.swift */; };
+		EB75868A21F0A0F600E453C0 /* AddLinkPreviewMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB75868921F0A0F600E453C0 /* AddLinkPreviewMessageViewController.swift */; };
 		EBC125A121ECB35E005D89FA /* DemoLinkMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC125A021ECB35E005D89FA /* DemoLinkMessageHandler.swift */; };
 		EBC125A321ECB376005D89FA /* DemoLinkMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC125A221ECB376005D89FA /* DemoLinkMessageModel.swift */; };
 		EBC125A521ECB38C005D89FA /* DemoLinkMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC125A421ECB38C005D89FA /* DemoLinkMessageViewModel.swift */; };
@@ -112,6 +113,7 @@
 		EB489941215387CF0013CFB8 /* DemoAudioMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAudioMessageModel.swift; sourceTree = "<group>"; };
 		EB489943215387E20013CFB8 /* DemoAudioMessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAudioMessageViewModel.swift; sourceTree = "<group>"; };
 		EB489945215387FB0013CFB8 /* DemoAudioMessageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAudioMessageHandler.swift; sourceTree = "<group>"; };
+		EB75868921F0A0F600E453C0 /* AddLinkPreviewMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLinkPreviewMessageViewController.swift; sourceTree = "<group>"; };
 		EBC125A021ECB35E005D89FA /* DemoLinkMessageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoLinkMessageHandler.swift; sourceTree = "<group>"; };
 		EBC125A221ECB376005D89FA /* DemoLinkMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoLinkMessageModel.swift; sourceTree = "<group>"; };
 		EBC125A421ECB38C005D89FA /* DemoLinkMessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoLinkMessageViewModel.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 				C3F91DAA1C75EF9E00D461D2 /* DemoChatMessageFactory.swift */,
 				C3F91DAB1C75EF9E00D461D2 /* DemoChatMessageSender.swift */,
 				C3F91DA81C75EF9E00D461D2 /* DemoChatViewController.swift */,
+				EB75868921F0A0F600E453C0 /* AddLinkPreviewMessageViewController.swift */,
 			);
 			path = "Chat View Controllers";
 			sourceTree = "<group>";
@@ -509,6 +512,7 @@
 				C3F91DC11C75EF9E00D461D2 /* DemoPhotoMessageModel.swift in Sources */,
 				C3F91DC21C75EF9E00D461D2 /* DemoPhotoMessageViewModel.swift in Sources */,
 				C3F91DBE1C75EF9E00D461D2 /* DemoChatMessageFactory.swift in Sources */,
+				EB75868A21F0A0F600E453C0 /* AddLinkPreviewMessageViewController.swift in Sources */,
 				EBC125A321ECB376005D89FA /* DemoLinkMessageModel.swift in Sources */,
 				C341D4301C9635DF00FD3463 /* TimeSeparatorCollectionViewCell.swift in Sources */,
 			);

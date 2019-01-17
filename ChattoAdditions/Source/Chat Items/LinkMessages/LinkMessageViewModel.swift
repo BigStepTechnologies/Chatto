@@ -56,6 +56,10 @@ open class LinkMessageViewModel<LinkMessageModelT : LinkMessageModelProtocol> : 
     
     public init(linkMessage: LinkMessageModelT, messageViewModel: MessageViewModelProtocol) {
         self._linkMessage = linkMessage
+        print("Testing Link -> \(linkMessage.previewDescription)")
+        print("Testing Link -> \(linkMessage.previewHeader)")
+        print("Testing Link -> \(linkMessage.previewImageUrl)")
+        print("Testing Link -> \(linkMessage.messageText)")
         self.fetchedStatus = Observable(.notFetched)
         self.messageViewModel = messageViewModel
     }

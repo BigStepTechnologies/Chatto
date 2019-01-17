@@ -7,28 +7,12 @@
 //
 
 import Foundation
+import Chatto
 import ChattoAdditions
 
-public class DemoLinkMessageModel: PhotoMessageModel<MessageModel>, DemoMessageModelProtocol {
-    public var senderId: String
-    
-    public var isIncoming: Bool
-    
-    public var date: Date
-    
-    public var userDisplayName: String
-    
-    public var type: ChatItemType
-    
-    public var uid: String
-    
-    
-    init(messageModel: MessageModel,image: UIImage?) {
-        super.init(messageModel: messageModel,imageType: .normal,image:image )
-    }
-    
-    init(messageModel: MessageModel,url:URL?) {
-        super.init(messageModel: messageModel,imageType: .video,imageUrl:url )
+public class DemoLinkMessageModel: LinkMessageModel<MessageModel>, DemoMessageModelProtocol {
+    init(messageModel: MessageModel,titleText:String,titleDescription:String,imageUrl:String,mainUrl:String) {
+        super.init(messageModel: messageModel, previewImageUrl: imageUrl, previewHeader: titleText, previewDescription: titleDescription, messageText: mainUrl)
     }
     
     public var status: MessageStatus {

@@ -63,9 +63,11 @@ class DemoChatMessageFactory {
     }
     
     // Rohit Code
-    class func makeLinkPreviewMessage(_ uid: String, text: String, isIncoming: Bool, image: UIImage, headerText: String, descriptionText : String)
+    class func makeLinkPreviewMessage(_ uid: String, titleText: String, isIncoming: Bool, titleDescription: String, imageUrl:String, mainUrl : String) -> DemoLinkMessageModel
     {
-        //let messageModel = self.makeMessageModel(uid, isIncoming: isIncoming, type: LinkMessageModel<MessageModel>.chatItemType)
+        let messageModel = self.makeMessageModel(uid, isIncoming: isIncoming, type: LinkMessageModel<MessageModel>.chatItemType)
+        let linkMessageModel = DemoLinkMessageModel(messageModel: messageModel, titleText: titleText, titleDescription: titleDescription, imageUrl: imageUrl, mainUrl: mainUrl)
+        return linkMessageModel
     }
     // Rohit Code ends
 
@@ -132,6 +134,12 @@ extension PhotoMessageModel {
 extension AudioMessageModel {
     static var chatItemType: ChatItemType {
         return "audio"
+    }
+}
+
+extension LinkMessageModel {
+    static var chatItemType: ChatItemType {
+        return "link"
     }
 }
 

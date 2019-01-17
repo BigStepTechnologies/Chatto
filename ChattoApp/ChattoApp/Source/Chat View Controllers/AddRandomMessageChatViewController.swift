@@ -39,6 +39,7 @@ class AddRandomMessagesChatViewController: DemoChatViewController {
 
     @objc
     private func addRandomMessage() {
+        //self.dataSource.addLinkPreviewMessage(titleText: "Google.com", titleDescription: "Largest Search Engine", previewImageUrl: "https://cdn-images-1.medium.com/max/1600/1*0rwy_PxAGuWJNJhlh2GPAA.png", mainUrl: "https://www.google.com")
         self.dataSource.addRandomIncomingMessage()
     }
 }

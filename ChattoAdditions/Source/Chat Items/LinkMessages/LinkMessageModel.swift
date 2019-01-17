@@ -34,7 +34,7 @@ open class LinkMessageModel<MessageModelT: MessageModelProtocol>: LinkMessageMod
     }
     
     // Initialize Class Constructor
-    public init(messageModel: MessageModelT, uid: String, previewImageUrl: String,previewHeader: String, previewDescription: String, messageText: String) {
+    public init(messageModel: MessageModelT,previewImageUrl: String,previewHeader: String, previewDescription: String, messageText: String) {
         
         self._messageModel = messageModel
         self.previewImageUrl = previewImageUrl

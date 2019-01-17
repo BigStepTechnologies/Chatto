@@ -127,7 +127,7 @@ open class LinkMessageCollectionViewCellDefaultStyle : LinkMessageCollectionView
         }
     }
     
-    open func bubbleSize(viewModel: AudioMessageViewModelProtocol) -> CGSize {
+    open func bubbleSize(viewModel: LinkMessageViewModelProtocol) -> CGSize {
         return self.sizes.previewSizePortrait
     }
     
@@ -184,13 +184,17 @@ extension LinkMessageCollectionViewCellDefaultStyle {
     static public func createDefaultSizes() -> Sizes {
         return Sizes(
             previewSizeLandscape: CGSize(width: 210, height: 136),
-            previewSizePortrait: CGSize(width: 136, height: 255)
+            previewSizePortrait: CGSize(width: 220, height: 205)
         )
     }
     
     static public func createPreviewDecorationColor() -> Colors
     {
-        return Colors(previewTitleColorInComing: UIColor.black, previewDescriptionColorInComing: UIColor.darkGray, previewBackgroundColorInComing: UIColor.gray, previewBackgroundColorOutGoing: UIColor.white, previewTitleColorIOutGoing: UIColor.white, previewDescriptionColorOutGoing: UIColor.blue)
+        let blueBackgroundColor = UIColor(red: 23/255, green: 97/255, blue: 182/255, alpha: 1.0)
+        let grayBackgroundColor = UIColor(red:240/255,green:240/255,blue:240/255,alpha:1.0)
+        let incomingTitleColor = UIColor.black
+        let incomingDescriptionColor = UIColor(red: 50/255, green: 50/255, blue: 50/255, alpha: 1.0)
+        return Colors(previewTitleColorInComing: incomingTitleColor, previewDescriptionColorInComing: incomingDescriptionColor, previewBackgroundColorInComing: grayBackgroundColor, previewBackgroundColorOutGoing: blueBackgroundColor, previewTitleColorIOutGoing: UIColor.white, previewDescriptionColorOutGoing: UIColor.lightText)
     }
     
     static public func createDefaultTextStyle() -> TextStyle {

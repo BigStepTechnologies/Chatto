@@ -15,31 +15,38 @@ class DemoLinkMessageHandler: BaseMessageInteractionHandlerProtocol {
         self.baseHandler = baseHandler
     }
     
-    func userDidTapOnFailIcon(viewModel: DemoPhotoMessageViewModel, failIconView: UIView) {
+    func userDidTapOnFailIcon(viewModel: DemoLinkMessageViewModel, failIconView: UIView) {
         self.baseHandler.userDidTapOnFailIcon(viewModel: viewModel)
     }
     
-    func userDidTapOnAvatar(viewModel: DemoPhotoMessageViewModel) {
+    func userDidTapOnAvatar(viewModel: DemoLinkMessageViewModel) {
         self.baseHandler.userDidTapOnAvatar(viewModel: viewModel)
     }
     
-    func userDidTapOnBubble(viewModel: DemoPhotoMessageViewModel) {
+    func userDidTapOnBubble(viewModel: DemoLinkMessageViewModel) {
+        let openUrl = viewModel.messageText
+        guard let url = URL(string: openUrl) else { return }
+        if #available(iOS 10.0, *) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        } else {
+            UIApplication.shared.openURL(url)
+        }
         self.baseHandler.userDidTapOnBubble(viewModel: viewModel)
     }
     
-    func userDidBeginLongPressOnBubble(viewModel: DemoPhotoMessageViewModel) {
+    func userDidBeginLongPressOnBubble(viewModel: DemoLinkMessageViewModel) {
         self.baseHandler.userDidBeginLongPressOnBubble(viewModel: viewModel)
     }
     
-    func userDidEndLongPressOnBubble(viewModel: DemoPhotoMessageViewModel) {
+    func userDidEndLongPressOnBubble(viewModel: DemoLinkMessageViewModel) {
         self.baseHandler.userDidEndLongPressOnBubble(viewModel: viewModel)
     }
     
-    func userDidSelectMessage(viewModel: DemoPhotoMessageViewModel) {
+    func userDidSelectMessage(viewModel: DemoLinkMessageViewModel) {
         self.baseHandler.userDidSelectMessage(viewModel: viewModel)
     }
     
-    func userDidDeselectMessage(viewModel: DemoPhotoMessageViewModel) {
+    func userDidDeselectMessage(viewModel: DemoLinkMessageViewModel) {
         self.baseHandler.userDidDeselectMessage(viewModel: viewModel)
     }
 }

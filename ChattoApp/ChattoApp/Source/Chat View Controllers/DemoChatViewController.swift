@@ -85,16 +85,18 @@ class DemoChatViewController: BaseChatViewController {
             viewModelBuilder: DemoAudioMessageViewModelBuilder(),
             interactionHandler: DemoAudioMessageHandler(baseHandler: self.baseMessageHandler)
         )
-        
-        
         audioMessagePresenter.baseCellStyle = baseMessageStyle
         
+        let linkMessagePresenter = LinkMessagePresenterBuilder(viewModelBuilder: DemoLinkMessageViewModelBuilder(), interactionHandler: DemoLinkMessageHandler(baseHandler: self.baseMessageHandler))
+        
+        linkMessagePresenter.baseCellStyle = baseMessageStyle
         
 
         return [
             DemoTextMessageModel.chatItemType: [textMessagePresenter],
             DemoPhotoMessageModel.chatItemType: [photoMessagePresenter],
             DemoAudioMessageModel.chatItemType: [audioMessagePresenter],
+            DemoLinkMessageModel.chatItemType : [linkMessagePresenter],
             SendingStatusModel.chatItemType: [SendingStatusPresenterBuilder()],
             TimeSeparatorModel.chatItemType: [TimeSeparatorPresenterBuilder()]
         ]
