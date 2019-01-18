@@ -12,12 +12,15 @@ import SDWebImage
 
 // Mark: Protocols to style Link Cell. Declare variables like fonts, textColors, sizes, background colors, paddins etc here
 public protocol LinkBubbleViewStyleProtocol {
-    func textFont(viewModel: LinkMessageViewModelProtocol, isSelected: Bool) -> UIFont
-    func textColor(viewModel: LinkMessageViewModelProtocol, isSelected: Bool) -> UIColor
-    func textInsets(viewModel: LinkMessageViewModelProtocol, isSelected: Bool) -> UIEdgeInsets
-    func linkPreviewTitleTextColor(viewModel: LinkMessageViewModelProtocol) -> UIColor
-    func linkPreviewDescriptionTextColor(viewModel : LinkMessageViewModelProtocol) -> UIColor
-    func linkPreviewBackgroundColor(viewModel: LinkMessageViewModelProtocol) -> UIColor
+    
+    func linkMessageColor(viewModel : LinkMessageViewModelProtocol) -> UIColor
+    func canonicalUrlColor(viewModel : LinkMessageViewModelProtocol) -> UIColor
+    func linkTitleColor(viewModel : LinkMessageViewModelProtocol) -> UIColor
+    func linkDescriptionColor(viewModel : LinkMessageViewModelProtocol) -> UIColor
+    func linkMessageFont(viewModel : LinkMessageViewModelProtocol) -> UIFont
+    func canonicalUrlFont(viewModel : LinkMessageViewModelProtocol) -> UIFont
+    func linkTitleFont(viewModel : LinkMessageViewModelProtocol) -> UIFont
+    func linkDescriptionFont(viewModel : LinkMessageViewModelProtocol) -> UIFont
     func bubbleSize(viewModel: LinkMessageViewModelProtocol) -> CGSize
 }
 
@@ -44,38 +47,57 @@ public class LinkBubbleView : UIView, MaximumLayoutWidthSpecificable, Background
     
     private func commonInit() {
         self.autoresizesSubviews = false
-        self.addSubview(placeHolderImageView)
-        self.addSubview(previewImageView)
-        self.addSubview(previewHeader)
-        self.addSubview(previewDescription)
+        self.addSubview(messageTextLabel)
+        self.addSubview(rootUrlLabel)
+        self.addSubview(linkImageImageView)
+        self.addSubview(linkTitleLabel)
+        self.addSubview(linkDescriptionLabel)
     }
     
-    private var previewHeader : UILabel = {
+    private var messageTextLabel : UILabel = {
         let label = UILabel()
         label.autoresizingMask = UIViewAutoresizing()
-        label.backgroundColor = .black
-        label.font = UIFont.systemFont(ofSize: 15.0, weight: .heavy)
+        label.backgroundColor = .clear
+        label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 14.0)
         return label
     }()
     
-    private var previewDescription : UILabel = {
+    private var rootUrlLabel : UILabel = {
         let label = UILabel()
         label.autoresizingMask = UIViewAutoresizing()
-        label.backgroundColor = .green
+        label.backgroundColor = .clear
+        label.numberOfLines = 1
+        label.font = UIFont.systemFont(ofSize: 14.0)
+        return label
+    }()
+
+    // Title Label
+    private var linkTitleLabel : UILabel = {
+        let label = UILabel()
+        label.autoresizingMask = UIViewAutoresizing()
+        label.backgroundColor = .clear
         label.numberOfLines = 2
+        label.font = UIFont.systemFont(ofSize: 14.0, weight: .heavy)
         return label
     }()
     
-    private var placeHolderImageView : UIImageView = {
-        let imageView = UIImageView()
-        imageView.autoresizingMask = UIViewAutoresizing()
-        return imageView
+    // Description Label
+    private var linkDescriptionLabel : UILabel = {
+        let label = UILabel()
+        label.autoresizingMask = UIViewAutoresizing()
+        label.backgroundColor = .clear
+        label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 10.0)
+        return label
     }()
-    
-    private var previewImageView : UIImageView = {
+
+    // Link Image ImageView
+    private var linkImageImageView : UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
+        imageView.backgroundColor = .white
         imageView.autoresizingMask = UIViewAutoresizing()
         return imageView
     }()
@@ -99,21 +121,34 @@ public class LinkBubbleView : UIView, MaximumLayoutWidthSpecificable, Background
         if isUpdating { return }
         guard let viewModel = self.linkMessageViewModel, let style = self.linkMessageStyle else { return }
         
+        // Setting Decoration and Text for Message Text Label
+        self.messageTextLabel.text = viewModel.messageText
+        self.messageTextLabel.textColor = style.linkMessageColor(viewModel: viewModel)
+        self.messageTextLabel.backgroundColor = .clear
+        self.messageTextLabel.font = style.linkMessageFont(viewModel: viewModel)
+        
+        // Setting for Canonical Label
+        
+        self.rootUrlLabel.textColor = style.canonicalUrlColor(viewModel: viewModel)
+        self.rootUrlLabel.text = viewModel.canonicalUrl
+        self.rootUrlLabel.backgroundColor = .clear
+        self.rootUrlLabel.font = style.canonicalUrlFont(viewModel: viewModel)
+        
         // Setting Decoration and Text for Preview Header
-        self.previewHeader.text = viewModel.previewHeader
-        self.previewHeader.textColor = style.linkPreviewTitleTextColor(viewModel: viewModel)
-        self.previewHeader.backgroundColor = style.linkPreviewBackgroundColor(viewModel: viewModel)
-        self.previewHeader.font = style.textFont(viewModel: viewModel, isSelected: false)
+        self.linkTitleLabel.text = viewModel.previewHeader
+        self.linkTitleLabel.textColor = style.linkTitleColor(viewModel: viewModel)
+        self.linkTitleLabel.backgroundColor = .clear
+        self.linkTitleLabel.font = style.linkTitleFont(viewModel: viewModel)
         
         // Setting Decoration and Text for Preview Description
-        self.previewDescription.text = viewModel.previewDescription
-        self.previewDescription.backgroundColor = style.linkPreviewBackgroundColor(viewModel: viewModel)
-        self.previewDescription.textColor = style.linkPreviewDescriptionTextColor(viewModel: viewModel)
-        self.previewDescription.font = style.textFont(viewModel: viewModel, isSelected: false)
+        self.linkDescriptionLabel.text = viewModel.previewDescription
+        self.linkDescriptionLabel.backgroundColor = .clear
+        self.linkDescriptionLabel.textColor = style.linkDescriptionColor(viewModel: viewModel)
+        self.linkDescriptionLabel.font = style.linkDescriptionFont(viewModel: viewModel)
         
         if let imageUrl = URL(string: self.linkMessageViewModel.previewImageUrl)
         {
-            self.previewImageView.sd_setImage(with: imageUrl,completed: { (image,error,cacheType,url) in
+            self.linkImageImageView.sd_setImage(with: imageUrl,completed: { (image,error,cacheType,url) in
                 DispatchQueue.main.async {
                 }
             })
@@ -158,12 +193,18 @@ public class LinkBubbleView : UIView, MaximumLayoutWidthSpecificable, Background
     public override func layoutSubviews() {
         super.layoutSubviews()
         let layout = self.calculateAudioBubbleLayout(maximumWidth: self.preferredMaxLayoutWidth)
-        self.backgroundColor = self.linkMessageStyle.linkPreviewBackgroundColor(viewModel: self.linkMessageViewModel)
+        
+        let blueBackgroundColor = UIColor(red: 23/255, green: 97/255, blue: 182/255, alpha: 1.0)
+        let grayBackgroundColor = UIColor(red:240/255,green:240/255,blue:240/255,alpha:1.0)
+        
+        self.backgroundColor = self.linkMessageViewModel.isIncoming ? grayBackgroundColor : blueBackgroundColor
         self.layer.cornerRadius = 10
         self.layer.masksToBounds = true
-        self.previewHeader.frame = layout.linkTitleFrame
-        self.previewDescription.frame = layout.linkDescriptionFrame
-        self.previewImageView.frame = layout.imagePreviewFrame
+        self.messageTextLabel.frame = layout.messageTextFrame
+        self.rootUrlLabel.frame = layout.canonicalUrlFrame
+        self.linkTitleLabel.frame = layout.linkTitleFrame
+        self.linkDescriptionLabel.frame = layout.linkDescriptionFrame
+        self.linkImageImageView.frame = layout.imagePreviewFrame
     }
     
     public override func sizeThatFits(_ size: CGSize) -> CGSize {
@@ -181,6 +222,8 @@ public class LinkBubbleView : UIView, MaximumLayoutWidthSpecificable, Background
 
 private class LinkBubbleLayoutModel {
     var bubbleFrame:CGRect = CGRect.zero
+    var messageTextFrame:CGRect = CGRect.zero
+    var canonicalUrlFrame:CGRect = CGRect.zero
     var imagePreviewFrame:CGRect = CGRect.zero
     var linkTitleFrame:CGRect = CGRect.zero
     var linkDescriptionFrame:CGRect = CGRect.zero
@@ -189,15 +232,32 @@ private class LinkBubbleLayoutModel {
     struct LayoutContext {
         let bubbleSize: CGSize
         let preferredMaxLayoutWidth: CGFloat
-        init(bubbleSize: CGSize,preferredMaxLayoutWidth width: CGFloat) {
+        let messageText: String
+        let descriptionText : String
+        let titleText : String
+        let messageFont : UIFont
+        let titleFont : UIFont
+        let descriptionFont : UIFont
+        init(bubbleSize: CGSize,preferredMaxLayoutWidth width: CGFloat,messageText:String,descriptionText:String,titleText:String,messageFont:UIFont,titleFont:UIFont,descriptionFont:UIFont) {
             self.bubbleSize = bubbleSize
             self.preferredMaxLayoutWidth = width
+            self.messageText = messageText
+            self.descriptionText = descriptionText
+            self.titleText = titleText
+            self.descriptionFont = descriptionFont
+            self.titleFont = titleFont
+            self.messageFont = messageFont
         }
         init(linkMessageViewModel model: LinkMessageViewModelProtocol,
              style: LinkBubbleViewStyleProtocol,
              containerWidth width: CGFloat) {
-            
-            self.init(bubbleSize: style.bubbleSize(viewModel: model),preferredMaxLayoutWidth: width)
+            let messageText = model.messageText
+            let descriptionText = model.previewDescription
+            let titleText = model.previewHeader
+            let messageFont = style.linkMessageFont(viewModel: model)
+            let titleFont = style.linkTitleFont(viewModel: model)
+            let descriptionFont = style.linkDescriptionFont(viewModel: model)
+            self.init(bubbleSize: style.bubbleSize(viewModel: model), preferredMaxLayoutWidth: width, messageText: messageText, descriptionText: descriptionText, titleText: titleText, messageFont: messageFont, titleFont: titleFont, descriptionFont: descriptionFont)
         }
     }
     
@@ -207,12 +267,34 @@ private class LinkBubbleLayoutModel {
     }
     
     func calculateLayout() {
-        let size = self.layoutContext.bubbleSize
+        var size = self.layoutContext.bubbleSize
+        let messageFrameHeight = calculateLabelHeight(text: self.layoutContext.messageText, font: self.layoutContext.messageFont, frameSize: size)
+        let titleFrameHeight = calculateLabelHeight(text: self.layoutContext.titleText, font: self.layoutContext.titleFont, frameSize: size)
+        let descriptionFrameHeight = calculateLabelHeight(text: self.layoutContext.descriptionText, font: self.layoutContext.descriptionFont, frameSize: size)
         self.bubbleFrame = CGRect(origin: .zero, size: size)
-        self.imagePreviewFrame = CGRect(origin: .zero, size: CGSize(width: size.width, height: 130))
-        self.linkTitleFrame = CGRect(x: 5, y: 130, width: size.width-10, height: 25)
-        self.linkDescriptionFrame = CGRect(x: 5, y: 155, width: size.width-10, height: 40)
+        self.messageTextFrame = CGRect(x: 5, y: 5, width: size.width-10, height: messageFrameHeight)
+        self.imagePreviewFrame = CGRect(x: 0, y: getInputViewYend(frame: self.messageTextFrame), width: size.width, height: 130)
+        self.canonicalUrlFrame = CGRect(x: 5, y: getInputViewYend(frame: self.imagePreviewFrame), width: size.width-10, height: 25)
+        self.linkTitleFrame = CGRect(x: 5, y: getInputViewYend(frame: self.canonicalUrlFrame), width: size.width-10, height: titleFrameHeight)
+        self.linkDescriptionFrame = CGRect(x: 5, y: getInputViewYend(frame: self.linkTitleFrame), width: size.width-10, height: descriptionFrameHeight)
+        size.height = getInputViewYend(frame: self.linkDescriptionFrame)
         self.size = size
+    }
+    func calculateLabelHeight(text:String,font:UIFont,frameSize:CGSize)-> CGFloat
+    {
+        let labelWidth = frameSize.width
+        let label = UILabel(frame: CGRect(x:5,y:0,width:labelWidth-10,height:4000))
+        label.font = font
+        label.text = text
+        label.numberOfLines = 0
+        label.sizeToFit()
+        let labelHeight = label.frame.size.height
+        label.removeFromSuperview()
+        return labelHeight
+    }
+    func getInputViewYend(frame:CGRect)-> CGFloat
+    {
+        return frame.origin.y+frame.size.height
     }
     
 }

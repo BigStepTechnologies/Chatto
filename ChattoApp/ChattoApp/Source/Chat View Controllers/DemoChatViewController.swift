@@ -112,7 +112,42 @@ class DemoChatViewController: BaseChatViewController {
     private func createTextInputItem() -> TextChatInputItem {
         let item = TextChatInputItem()
         item.textInputHandler = { [weak self] text in
-            self?.dataSource.addTextMessage(text)
+            
+            let inputText = text
+            let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+            let matches = detector.matches(in: inputText, options: [], range: NSRange(location: 0, length: inputText.utf16.count))
+            
+            var firstUrl = ""
+            for match in matches {
+                guard let range = Range(match.range, in: inputText) else { continue }
+                let url = inputText[range]
+                firstUrl = String(url)
+                print(url)
+            }
+            
+            let slp = SwiftLinkPreview(session: URLSession.shared, workQueue: SwiftLinkPreview.defaultWorkQueue, responseQueue: DispatchQueue.main, cache: DisabledCache.instance)
+            slp.preview(text, onSuccess: {result in
+                print("\(result)")
+                
+                var resultFinal = SwiftLinkPreview.Response()
+                resultFinal = result
+                print(resultFinal.values)
+                let title = resultFinal[.title] as? String ?? ""
+                let description = resultFinal[.description] as? String ?? ""
+                let imageUrl = resultFinal[.image] as? String ?? ""
+                let url = resultFinal[.finalUrl] as? URL ?? URL(string: "no Url")
+                var canonicalUrl = resultFinal[.canonicalUrl] as? String ?? ""
+                let urlString = url?.absoluteString
+                if canonicalUrl == ""
+                {
+                    canonicalUrl = (url?.host)!
+                }
+                self?.dataSource.addLinkPreviewMessage(linkTitle: title, linkDescription: description, linkImageUrl: imageUrl, linkUrl: urlString!, canonicalUrl: canonicalUrl, messageText: text)
+                
+            }, onError: { error in
+                print("\(error)")
+                self?.dataSource.addTextMessage(text)
+            })
         }
         return item
     }

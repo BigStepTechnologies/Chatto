@@ -105,7 +105,7 @@ class DemoChatDataSource: ChatDataSourceProtocol {
 
     // Rohit Code
     
-    func addLinkPreviewMessage(titleText: String,titleDescription: String,previewImageUrl:String,mainUrl: String)
+    func addLinkPreviewMessage(linkTitle: String,linkDescription: String,linkImageUrl:String,linkUrl: String,canonicalUrl:String,messageText:String)
     {
         let uid = "\(self.nextMessageId)"
         var isIncomginMessage = false
@@ -119,7 +119,7 @@ class DemoChatDataSource: ChatDataSourceProtocol {
         }
         self.nextMessageId += 1
         
-        let message = DemoChatMessageFactory.makeLinkPreviewMessage(uid, titleText: titleText, isIncoming: isIncomginMessage, titleDescription: titleDescription, imageUrl: previewImageUrl, mainUrl: mainUrl)
+        let message = DemoChatMessageFactory.makeLinkPreviewMessage(uid, linkTitle: linkTitle, isIncoming: isIncomginMessage, linkDescription: linkDescription, linkImageUrl: linkImageUrl, linkUrl: linkUrl, canonicalUrl: canonicalUrl, messageText: messageText)
         self.messageSender.sendMessage(message)
         self.slidingWindow.insertItem(message, position: .bottom)
         self.delegate?.chatDataSourceDidUpdate(self)

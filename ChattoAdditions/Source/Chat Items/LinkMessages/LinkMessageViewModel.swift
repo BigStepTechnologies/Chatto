@@ -20,6 +20,8 @@ public protocol LinkMessageViewModelProtocol : DecoratedMessageViewModelProtocol
     var previewHeader : String { get }
     var previewDescription : String { get }
     var messageText : String { get }
+    var linkUrl : String { get }
+    var canonicalUrl : String { get }
 }
 
 open class LinkMessageViewModel<LinkMessageModelT : LinkMessageModelProtocol> : LinkMessageViewModelProtocol
@@ -39,6 +41,16 @@ open class LinkMessageViewModel<LinkMessageModelT : LinkMessageModelProtocol> : 
     public var messageText: String {
         return self._linkMessage.messageText
     }
+    
+    
+    public var linkUrl : String {
+        return self._linkMessage.linkUrl
+    }
+    
+    public var canonicalUrl : String {
+        return self._linkMessage.canonicalUrl
+    }
+    
     
     public let _linkMessage: LinkMessageModelT
     

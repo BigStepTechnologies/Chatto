@@ -63,10 +63,10 @@ class DemoChatMessageFactory {
     }
     
     // Rohit Code
-    class func makeLinkPreviewMessage(_ uid: String, titleText: String, isIncoming: Bool, titleDescription: String, imageUrl:String, mainUrl : String) -> DemoLinkMessageModel
+    class func makeLinkPreviewMessage(_ uid: String, linkTitle: String, isIncoming: Bool, linkDescription: String, linkImageUrl:String, linkUrl : String, canonicalUrl : String, messageText : String) -> DemoLinkMessageModel
     {
         let messageModel = self.makeMessageModel(uid, isIncoming: isIncoming, type: LinkMessageModel<MessageModel>.chatItemType)
-        let linkMessageModel = DemoLinkMessageModel(messageModel: messageModel, titleText: titleText, titleDescription: titleDescription, imageUrl: imageUrl, mainUrl: mainUrl)
+        let linkMessageModel = DemoLinkMessageModel(messageModel: messageModel, linkTitle: linkTitle, linkDescription: linkDescription, linkImageUrl: linkImageUrl, linkUrl: linkUrl, canonicalUrl: canonicalUrl, messageText: messageText)
         return linkMessageModel
     }
     // Rohit Code ends

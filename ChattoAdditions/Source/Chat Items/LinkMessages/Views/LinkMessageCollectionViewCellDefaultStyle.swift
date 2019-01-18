@@ -44,6 +44,36 @@ open class LinkMessageCollectionViewCellDefaultStyle : LinkMessageCollectionView
     }
     
     public struct Colors {
+        
+        
+         public let linkMessageIncomingColor : UIColor
+         public let linkMessageOutgoingColor : UIColor
+         public let canonicalUrlIncomingColor : UIColor
+         public let canonicalUrlOutgoingColor : UIColor
+         public let linkTitleIncomingColor : UIColor
+         public let linkTitleOutgoingColor : UIColor
+         public let linkDescriptionIncomingColor : UIColor
+         public let linkDescriptionOutgoingColor : UIColor
+         public init(
+         linkMessageIncomingColor : UIColor,
+         linkMessageOutgoingColor : UIColor,
+         canonicalUrlIncomingColor : UIColor,
+         canonicalUrlOutgoingColor : UIColor,
+         linkTitleIncomingColor : UIColor,
+         linkTitleOutgoingColor : UIColor,
+         linkDescriptionIncomingColor : UIColor,
+         linkDescriptionOutgoingColor : UIColor ) {
+         self.linkMessageIncomingColor = linkMessageIncomingColor
+         self.linkMessageOutgoingColor = linkMessageOutgoingColor
+         self.canonicalUrlIncomingColor = canonicalUrlIncomingColor
+         self.canonicalUrlOutgoingColor = canonicalUrlOutgoingColor
+         self.linkTitleIncomingColor = linkTitleIncomingColor
+         self.linkTitleOutgoingColor = linkTitleOutgoingColor
+         self.linkDescriptionIncomingColor = linkDescriptionIncomingColor
+         self.linkDescriptionOutgoingColor = linkDescriptionOutgoingColor
+         }
+ 
+        /*
         public let previewTitleColorInComing: UIColor
         public let previewDescriptionColorInComing: UIColor
         public let previewBackgroundColorInComing: UIColor
@@ -63,11 +93,34 @@ open class LinkMessageCollectionViewCellDefaultStyle : LinkMessageCollectionView
             self.previewTitleColorIOutGoing = previewTitleColorIOutGoing
             self.previewDescriptionColorOutGoing = previewDescriptionColorOutGoing
             self.previewBackgroundColorOutGoing = previewBackgroundColorOutGoing
-            
         }
+        */
     }
     
     public struct TextStyle {
+        
+         let linkMessageFont : () -> UIFont
+         let canonicalUrlFont : () -> UIFont
+         let linkTitleFont : () -> UIFont
+         let linkDescriptionFont : () -> UIFont
+         let incomingTextInsets : UIEdgeInsets
+         let outgoingTextInsets : UIEdgeInsets
+         public init (
+         linkMessageFont: @autoclosure @escaping () -> UIFont,
+         canonicalUrlFont: @autoclosure @escaping () -> UIFont,
+         linkTitleFont: @autoclosure @escaping () -> UIFont,
+         linkDescriptionFont: @autoclosure @escaping () -> UIFont,
+         incomingTextInsets : UIEdgeInsets,
+         outgoingTextInsets : UIEdgeInsets) {
+         self.linkMessageFont = linkMessageFont
+         self.canonicalUrlFont = canonicalUrlFont
+         self.linkTitleFont = linkTitleFont
+         self.linkDescriptionFont = linkDescriptionFont
+         self.incomingTextInsets = incomingTextInsets
+         self.outgoingTextInsets = outgoingTextInsets
+         }
+        
+        /*
         let font: () -> UIFont
         let incomingColor: () -> UIColor
         let outgoingColor: () -> UIColor
@@ -85,6 +138,7 @@ open class LinkMessageCollectionViewCellDefaultStyle : LinkMessageCollectionView
             self.incomingInsets = incomingInsets
             self.outgoingInsets = outgoingInsets
         }
+        */
     }
     
     let bubbleMasks: BubbleMasks
@@ -105,9 +159,27 @@ open class LinkMessageCollectionViewCellDefaultStyle : LinkMessageCollectionView
         self.textDecorationStyles = textDecorationStyles
     }
     
-    lazy var font: UIFont = self.textDecorationStyles.font()
-    lazy var incomingColor: UIColor = self.textDecorationStyles.incomingColor()
-    lazy var outgoingColor: UIColor = self.textDecorationStyles.outgoingColor()
+     lazy var linkMessageIncomingColor:UIColor = self.decorationColors.linkMessageIncomingColor
+     lazy var linkMessageOutgoingColor:UIColor = self.decorationColors.linkMessageOutgoingColor
+     lazy var canonicalUrlIncomingColor:UIColor = self.decorationColors.canonicalUrlIncomingColor
+     lazy var canonicalUrlOutgoingColor:UIColor = self.decorationColors.canonicalUrlOutgoingColor
+     lazy var linkTitleIncomingColor:UIColor = self.decorationColors.linkTitleIncomingColor
+     lazy var linkTitleOutgoingColor:UIColor = self.decorationColors.linkTitleOutgoingColor
+     lazy var linkDescriptionIncomingColor:UIColor = self.decorationColors.linkDescriptionIncomingColor
+     lazy var linkDescriptionOutgoingColor:UIColor = self.decorationColors.linkDescriptionOutgoingColor
+    
+    
+    
+     
+     lazy var linkMessageFont:UIFont = self.textDecorationStyles.linkMessageFont()
+     lazy var canonicalUrlFont:UIFont = self.textDecorationStyles.canonicalUrlFont()
+     lazy var linkTitleFont:UIFont = self.textDecorationStyles.linkTitleFont()
+     lazy var linkDescriptionFont:UIFont = self.textDecorationStyles.linkDescriptionFont()
+     lazy var incomingTextInsets:UIEdgeInsets = self.textDecorationStyles.incomingTextInsets
+     lazy var outgoingTextInsets:UIEdgeInsets = self.textDecorationStyles.outgoingTextInsets
+
+    
+    
     
     lazy private var maskImageIncomingTail: UIImage = self.bubbleMasks.incomingTail()
     lazy private var maskImageIncomingNoTail: UIImage = self.bubbleMasks.incomingNoTail()
@@ -138,34 +210,36 @@ open class LinkMessageCollectionViewCellDefaultStyle : LinkMessageCollectionView
     
     // MARK:- Functions for Styling Link Preview
     
-    // Function for setting Link Preview Text Color
-    open func linkPreviewTitleTextColor(viewModel: LinkMessageViewModelProtocol) -> UIColor {
-        return viewModel.isIncoming ? self.decorationColors.previewTitleColorInComing : self.decorationColors.previewTitleColorIOutGoing
+    public func linkMessageColor(viewModel: LinkMessageViewModelProtocol) -> UIColor {
+        return viewModel.isIncoming ? self.linkMessageIncomingColor : self.linkMessageOutgoingColor
     }
     
-    // Function for setting Link Preview Description Color
-    open func linkPreviewDescriptionTextColor(viewModel: LinkMessageViewModelProtocol) -> UIColor {
-        return viewModel.isIncoming ? self.decorationColors.previewDescriptionColorInComing :  self.decorationColors.previewDescriptionColorOutGoing
+    public func canonicalUrlColor(viewModel: LinkMessageViewModelProtocol) -> UIColor {
+        return viewModel.isIncoming ? self.canonicalUrlIncomingColor : self.canonicalUrlOutgoingColor
     }
     
-    // Function for setting Link Preview Background Color
-    open func linkPreviewBackgroundColor(viewModel: LinkMessageViewModelProtocol) -> UIColor {
-        return viewModel.isIncoming ? self.decorationColors.previewBackgroundColorInComing : self.decorationColors.previewBackgroundColorOutGoing
+    public func linkTitleColor(viewModel: LinkMessageViewModelProtocol) -> UIColor {
+        return viewModel.isIncoming ? self.linkTitleIncomingColor : self.linkTitleOutgoingColor
     }
     
-    // Function to set link preview text labels Font
-    open func textFont(viewModel: LinkMessageViewModelProtocol, isSelected: Bool) -> UIFont {
-        return self.font
+    public func linkDescriptionColor(viewModel: LinkMessageViewModelProtocol) -> UIColor {
+        return viewModel.isIncoming ? self.linkDescriptionIncomingColor : self.linkDescriptionOutgoingColor
+    }
+
+    public func linkMessageFont(viewModel: LinkMessageViewModelProtocol) -> UIFont {
+        return self.linkMessageFont
     }
     
-    // Function to set Text Color in Case no preview returned.
-    open func textColor(viewModel: LinkMessageViewModelProtocol, isSelected: Bool) -> UIColor {
-        return viewModel.isIncoming ? self.incomingColor : self.outgoingColor
+    public func canonicalUrlFont(viewModel: LinkMessageViewModelProtocol) -> UIFont {
+        return self.canonicalUrlFont
     }
     
-    // Function to set Text insets for Text in case no preview returned.
-    open func textInsets(viewModel: LinkMessageViewModelProtocol, isSelected: Bool) -> UIEdgeInsets {
-        return viewModel.isIncoming ? self.textDecorationStyles.incomingInsets : self.textDecorationStyles.outgoingInsets
+    public func linkTitleFont(viewModel: LinkMessageViewModelProtocol) -> UIFont {
+        return self.linkTitleFont
+    }
+    
+    public func linkDescriptionFont(viewModel: LinkMessageViewModelProtocol) -> UIFont {
+        return self.linkDescriptionFont
     }
 }
 
@@ -184,26 +258,38 @@ extension LinkMessageCollectionViewCellDefaultStyle {
     static public func createDefaultSizes() -> Sizes {
         return Sizes(
             previewSizeLandscape: CGSize(width: 210, height: 136),
-            previewSizePortrait: CGSize(width: 220, height: 205)
+            previewSizePortrait: CGSize(width: 220, height: 280)
         )
     }
     
     static public func createPreviewDecorationColor() -> Colors
     {
-        let blueBackgroundColor = UIColor(red: 23/255, green: 97/255, blue: 182/255, alpha: 1.0)
-        let grayBackgroundColor = UIColor(red:240/255,green:240/255,blue:240/255,alpha:1.0)
+        
         let incomingTitleColor = UIColor.black
         let incomingDescriptionColor = UIColor(red: 50/255, green: 50/255, blue: 50/255, alpha: 1.0)
-        return Colors(previewTitleColorInComing: incomingTitleColor, previewDescriptionColorInComing: incomingDescriptionColor, previewBackgroundColorInComing: grayBackgroundColor, previewBackgroundColorOutGoing: blueBackgroundColor, previewTitleColorIOutGoing: UIColor.white, previewDescriptionColorOutGoing: UIColor.lightText)
+        
+        let canonicalColorIn = UIColor(red: 102/255, green: 255/255, blue: 239/255, alpha: 1.0)
+        let canonicalColorOut = UIColor(red: 229/255, green: 229/255, blue: 229/255, alpha: 1.0)
+        
+        let linkTitleIn = UIColor.black.withAlphaComponent(0.9)
+        let linkTitleOut = UIColor.white.withAlphaComponent(0.9)
+        
+        let linkDescriptionIn = UIColor.black.withAlphaComponent(0.8)
+        let linkDescriptionOut = UIColor.white.withAlphaComponent(0.8)
+        
+        return Colors(linkMessageIncomingColor: UIColor.black, linkMessageOutgoingColor: UIColor.white, canonicalUrlIncomingColor: canonicalColorIn, canonicalUrlOutgoingColor: canonicalColorOut, linkTitleIncomingColor: linkTitleIn, linkTitleOutgoingColor: linkTitleOut, linkDescriptionIncomingColor: linkDescriptionIn, linkDescriptionOutgoingColor: linkDescriptionOut)
+        
     }
     
     static public func createDefaultTextStyle() -> TextStyle {
-        return TextStyle(
-            font: UIFont.systemFont(ofSize: 16),
-            incomingColor: UIColor.black,
-            outgoingColor: UIColor.white,
-            incomingInsets: UIEdgeInsets(top: 10, left: 19, bottom: 10, right: 15),
-            outgoingInsets: UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 19)
-        )
+        
+        let messageFont = UIFont.systemFont(ofSize: 16)
+        let titleFont = UIFont.systemFont(ofSize: 16)
+        let canonicalFont = UIFont.systemFont(ofSize: 16)
+        let descriptionFont = UIFont.systemFont(ofSize: 16)
+        let incomingInsets = UIEdgeInsets(top: 10, left: 19, bottom: 10, right: 15)
+        let outgoingInsets = UIEdgeInsets(top: 10, left: 15, bottom: 10, right: 19)
+        
+        return TextStyle(linkMessageFont: messageFont, canonicalUrlFont: canonicalFont, linkTitleFont: titleFont, linkDescriptionFont: descriptionFont, incomingTextInsets: incomingInsets, outgoingTextInsets: outgoingInsets)
     }
 }

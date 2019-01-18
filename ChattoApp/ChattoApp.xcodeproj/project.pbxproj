@@ -42,6 +42,12 @@
 		EB489944215387E20013CFB8 /* DemoAudioMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB489943215387E20013CFB8 /* DemoAudioMessageViewModel.swift */; };
 		EB489946215387FB0013CFB8 /* DemoAudioMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB489945215387FB0013CFB8 /* DemoAudioMessageHandler.swift */; };
 		EB75868A21F0A0F600E453C0 /* AddLinkPreviewMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB75868921F0A0F600E453C0 /* AddLinkPreviewMessageViewController.swift */; };
+		EB75869621F1A46700E453C0 /* SwiftLinkPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB75868C21F1A46600E453C0 /* SwiftLinkPreview.swift */; };
+		EB75869721F1A46700E453C0 /* NSURLSessionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB75868D21F1A46600E453C0 /* NSURLSessionExtension.swift */; };
+		EB75869A21F1A46700E453C0 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB75869021F1A46600E453C0 /* Regex.swift */; };
+		EB75869C21F1A46700E453C0 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB75869221F1A46600E453C0 /* Cache.swift */; };
+		EB75869D21F1A46700E453C0 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB75869321F1A46600E453C0 /* StringExtension.swift */; };
+		EB75869E21F1A46700E453C0 /* PreviewError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB75869421F1A46600E453C0 /* PreviewError.swift */; };
 		EBC125A121ECB35E005D89FA /* DemoLinkMessageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC125A021ECB35E005D89FA /* DemoLinkMessageHandler.swift */; };
 		EBC125A321ECB376005D89FA /* DemoLinkMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC125A221ECB376005D89FA /* DemoLinkMessageModel.swift */; };
 		EBC125A521ECB38C005D89FA /* DemoLinkMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBC125A421ECB38C005D89FA /* DemoLinkMessageViewModel.swift */; };
@@ -114,6 +120,12 @@
 		EB489943215387E20013CFB8 /* DemoAudioMessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAudioMessageViewModel.swift; sourceTree = "<group>"; };
 		EB489945215387FB0013CFB8 /* DemoAudioMessageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoAudioMessageHandler.swift; sourceTree = "<group>"; };
 		EB75868921F0A0F600E453C0 /* AddLinkPreviewMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLinkPreviewMessageViewController.swift; sourceTree = "<group>"; };
+		EB75868C21F1A46600E453C0 /* SwiftLinkPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftLinkPreview.swift; sourceTree = "<group>"; };
+		EB75868D21F1A46600E453C0 /* NSURLSessionExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSURLSessionExtension.swift; sourceTree = "<group>"; };
+		EB75869021F1A46600E453C0 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
+		EB75869221F1A46600E453C0 /* Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
+		EB75869321F1A46600E453C0 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		EB75869421F1A46600E453C0 /* PreviewError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewError.swift; sourceTree = "<group>"; };
 		EBC125A021ECB35E005D89FA /* DemoLinkMessageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoLinkMessageHandler.swift; sourceTree = "<group>"; };
 		EBC125A221ECB376005D89FA /* DemoLinkMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoLinkMessageModel.swift; sourceTree = "<group>"; };
 		EBC125A421ECB38C005D89FA /* DemoLinkMessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoLinkMessageViewModel.swift; sourceTree = "<group>"; };
@@ -250,6 +262,7 @@
 		C3F91D9F1C75EF9E00D461D2 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				EB75868B21F1A46600E453C0 /* Link Fetcher */,
 				55A77B501FCC6BEA0040C77E /* Chat View Controllers */,
 				55A77B471FCC41CC0040C77E /* Chat Items */,
 				C3F91DA01C75EF9E00D461D2 /* AppDelegate.swift */,
@@ -300,6 +313,19 @@
 				EB489945215387FB0013CFB8 /* DemoAudioMessageHandler.swift */,
 			);
 			path = "Audio Message";
+			sourceTree = "<group>";
+		};
+		EB75868B21F1A46600E453C0 /* Link Fetcher */ = {
+			isa = PBXGroup;
+			children = (
+				EB75868C21F1A46600E453C0 /* SwiftLinkPreview.swift */,
+				EB75868D21F1A46600E453C0 /* NSURLSessionExtension.swift */,
+				EB75869021F1A46600E453C0 /* Regex.swift */,
+				EB75869221F1A46600E453C0 /* Cache.swift */,
+				EB75869321F1A46600E453C0 /* StringExtension.swift */,
+				EB75869421F1A46600E453C0 /* PreviewError.swift */,
+			);
+			path = "Link Fetcher";
 			sourceTree = "<group>";
 		};
 		EBC1259F21ECB333005D89FA /* Link Message */ = {
@@ -492,6 +518,8 @@
 				C3F91DC71C75EF9E00D461D2 /* BaseMessageHandler.swift in Sources */,
 				55A77B4C1FCC5FFB0040C77E /* BaseMessagesSelector.swift in Sources */,
 				C3F91DC61C75EF9E00D461D2 /* DemoTextMessageViewModel.swift in Sources */,
+				EB75869D21F1A46700E453C0 /* StringExtension.swift in Sources */,
+				EB75869721F1A46700E453C0 /* NSURLSessionExtension.swift in Sources */,
 				EB489946215387FB0013CFB8 /* DemoAudioMessageHandler.swift in Sources */,
 				C341D42E1C9635DF00FD3463 /* TimeSeparatorModel.swift in Sources */,
 				C3F91DC01C75EF9E00D461D2 /* DemoPhotoMessageHandler.swift in Sources */,
@@ -504,13 +532,17 @@
 				C3F91DCE1C75EFE300D461D2 /* SendingStatusPresenter.swift in Sources */,
 				C3F91DC51C75EF9E00D461D2 /* DemoTextMessageModel.swift in Sources */,
 				5587302E1FCD7EE5005BC2EC /* MessagesSelectionChatViewController.swift in Sources */,
+				EB75869E21F1A46700E453C0 /* PreviewError.swift in Sources */,
 				C3F91DCC1C75EFE300D461D2 /* SendingStatusCollectionViewCell.swift in Sources */,
 				C3F91DB71C75EF9E00D461D2 /* DemoChatItemsDecorator.swift in Sources */,
+				EB75869A21F1A46700E453C0 /* Regex.swift in Sources */,
 				0997CD2F2042E42100D7BDF9 /* CellsViewController.swift in Sources */,
 				0997CD312042E58400D7BDF9 /* ChatWithTabBarExamplesViewController.swift in Sources */,
 				558730341FCD8891005BC2EC /* AddRandomMessageChatViewController.swift in Sources */,
+				EB75869C21F1A46700E453C0 /* Cache.swift in Sources */,
 				C3F91DC11C75EF9E00D461D2 /* DemoPhotoMessageModel.swift in Sources */,
 				C3F91DC21C75EF9E00D461D2 /* DemoPhotoMessageViewModel.swift in Sources */,
+				EB75869621F1A46700E453C0 /* SwiftLinkPreview.swift in Sources */,
 				C3F91DBE1C75EF9E00D461D2 /* DemoChatMessageFactory.swift in Sources */,
 				EB75868A21F0A0F600E453C0 /* AddLinkPreviewMessageViewController.swift in Sources */,
 				EBC125A321ECB376005D89FA /* DemoLinkMessageModel.swift in Sources */,

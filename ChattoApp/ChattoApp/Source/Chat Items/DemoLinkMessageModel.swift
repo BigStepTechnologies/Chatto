@@ -11,8 +11,10 @@ import Chatto
 import ChattoAdditions
 
 public class DemoLinkMessageModel: LinkMessageModel<MessageModel>, DemoMessageModelProtocol {
-    init(messageModel: MessageModel,titleText:String,titleDescription:String,imageUrl:String,mainUrl:String) {
-        super.init(messageModel: messageModel, previewImageUrl: imageUrl, previewHeader: titleText, previewDescription: titleDescription, messageText: mainUrl)
+    
+    override init(messageModel: MessageModel, linkTitle: String, linkDescription: String, linkImageUrl: String, linkUrl: String, canonicalUrl: String, messageText: String)
+    {
+        super.init(messageModel: messageModel, linkTitle: linkTitle, linkDescription: linkDescription, linkImageUrl: linkImageUrl, linkUrl: linkUrl, canonicalUrl: canonicalUrl, messageText: messageText)
     }
     
     public var status: MessageStatus {
