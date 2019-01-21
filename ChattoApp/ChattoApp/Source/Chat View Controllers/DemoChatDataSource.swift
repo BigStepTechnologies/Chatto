@@ -24,6 +24,7 @@
 
 import Foundation
 import Chatto
+import ChattoAdditions
 
 class DemoChatDataSource: ChatDataSourceProtocol {
     var nextMessageId: Int = 0
@@ -118,11 +119,43 @@ class DemoChatDataSource: ChatDataSourceProtocol {
             isIncomginMessage = false
         }
         self.nextMessageId += 1
-        
         let message = DemoChatMessageFactory.makeLinkPreviewMessage(uid, linkTitle: linkTitle, isIncoming: isIncomginMessage, linkDescription: linkDescription, linkImageUrl: linkImageUrl, linkUrl: linkUrl, canonicalUrl: canonicalUrl, messageText: messageText)
         self.messageSender.sendMessage(message)
         self.slidingWindow.insertItem(message, position: .bottom)
         self.delegate?.chatDataSourceDidUpdate(self)
+        
+        let slp = SwiftLinkPreview(session: URLSession.shared, workQueue: SwiftLinkPreview.defaultWorkQueue, responseQueue: DispatchQueue.main, cache: DisabledCache.instance)
+        slp.preview(messageText, onSuccess: {result in
+            print("\(result)")
+            
+            var resultFinal = SwiftLinkPreview.Response()
+            resultFinal = result
+            print(resultFinal.values)
+            var linkTitle = resultFinal[.title] as? String ?? ""
+            var description = resultFinal[.description] as? String ?? ""
+            let imageUrl = resultFinal[.image] as? String ?? ""
+            let url = resultFinal[.finalUrl] as? URL ?? URL(string: "no Url")
+            var canonicalUrl = resultFinal[.canonicalUrl] as? String ?? ""
+            let urlString = url?.absoluteString
+            if canonicalUrl == ""
+            {
+                canonicalUrl = (url?.host)!
+            }
+            if linkTitle.count > 50
+            {
+                linkTitle = String(linkTitle.prefix(50))
+            }
+            if description.count > 160
+            {
+                description = String(description.prefix(160))
+            }
+        }, onError: { error in
+            print("\(error)")
+            //self.dataSource.addTextMessage(messageText)
+        })
+        
+        
+        
         
         
         //let message =

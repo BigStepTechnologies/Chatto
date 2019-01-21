@@ -132,8 +132,8 @@ class DemoChatViewController: BaseChatViewController {
                 var resultFinal = SwiftLinkPreview.Response()
                 resultFinal = result
                 print(resultFinal.values)
-                let title = resultFinal[.title] as? String ?? ""
-                let description = resultFinal[.description] as? String ?? ""
+                var linkTitle = resultFinal[.title] as? String ?? ""
+                var description = resultFinal[.description] as? String ?? ""
                 let imageUrl = resultFinal[.image] as? String ?? ""
                 let url = resultFinal[.finalUrl] as? URL ?? URL(string: "no Url")
                 var canonicalUrl = resultFinal[.canonicalUrl] as? String ?? ""
@@ -142,7 +142,17 @@ class DemoChatViewController: BaseChatViewController {
                 {
                     canonicalUrl = (url?.host)!
                 }
-                self?.dataSource.addLinkPreviewMessage(linkTitle: title, linkDescription: description, linkImageUrl: imageUrl, linkUrl: urlString!, canonicalUrl: canonicalUrl, messageText: text)
+                
+                if linkTitle.count > 50
+                {
+                    linkTitle = String(linkTitle.prefix(50))
+                }
+                if description.count > 160
+                {
+                    description = String(description.prefix(160))
+                }
+                
+                self?.dataSource.addLinkPreviewMessage(linkTitle: linkTitle, linkDescription: description, linkImageUrl: imageUrl, linkUrl: urlString!, canonicalUrl: canonicalUrl, messageText: text)
                 
             }, onError: { error in
                 print("\(error)")

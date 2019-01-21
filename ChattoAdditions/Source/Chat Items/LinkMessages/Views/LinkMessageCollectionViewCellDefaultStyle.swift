@@ -258,7 +258,7 @@ extension LinkMessageCollectionViewCellDefaultStyle {
     static public func createDefaultSizes() -> Sizes {
         return Sizes(
             previewSizeLandscape: CGSize(width: 210, height: 136),
-            previewSizePortrait: CGSize(width: 220, height: 280)
+            previewSizePortrait: CGSize(width: 255, height: 280)
         )
     }
     

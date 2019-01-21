@@ -272,18 +272,19 @@ private class LinkBubbleLayoutModel {
         let titleFrameHeight = calculateLabelHeight(text: self.layoutContext.titleText, font: self.layoutContext.titleFont, frameSize: size)
         let descriptionFrameHeight = calculateLabelHeight(text: self.layoutContext.descriptionText, font: self.layoutContext.descriptionFont, frameSize: size)
         self.bubbleFrame = CGRect(origin: .zero, size: size)
-        self.messageTextFrame = CGRect(x: 5, y: 5, width: size.width-10, height: messageFrameHeight)
+        self.messageTextFrame = CGRect(x: 5, y: 5, width: size.width-10, height: messageFrameHeight+5)
         self.imagePreviewFrame = CGRect(x: 0, y: getInputViewYend(frame: self.messageTextFrame), width: size.width, height: 130)
         self.canonicalUrlFrame = CGRect(x: 5, y: getInputViewYend(frame: self.imagePreviewFrame), width: size.width-10, height: 25)
-        self.linkTitleFrame = CGRect(x: 5, y: getInputViewYend(frame: self.canonicalUrlFrame), width: size.width-10, height: titleFrameHeight)
-        self.linkDescriptionFrame = CGRect(x: 5, y: getInputViewYend(frame: self.linkTitleFrame), width: size.width-10, height: descriptionFrameHeight)
-        size.height = getInputViewYend(frame: self.linkDescriptionFrame)
+        self.linkTitleFrame = CGRect(x: 5, y: getInputViewYend(frame: self.canonicalUrlFrame), width: size.width-10, height: titleFrameHeight+5)
+        self.linkDescriptionFrame = CGRect(x: 5, y: getInputViewYend(frame: self.linkTitleFrame), width: size.width-10, height: descriptionFrameHeight+5)
+        size.height = getInputViewYend(frame: self.linkDescriptionFrame)+10
         self.size = size
     }
     func calculateLabelHeight(text:String,font:UIFont,frameSize:CGSize)-> CGFloat
     {
         let labelWidth = frameSize.width
-        let label = UILabel(frame: CGRect(x:5,y:0,width:labelWidth-10,height:4000))
+        let label = UILabel()
+        label.frame = CGRect(x:5,y:0,width:labelWidth-10,height:4000)
         label.font = font
         label.text = text
         label.numberOfLines = 0
@@ -291,6 +292,7 @@ private class LinkBubbleLayoutModel {
         let labelHeight = label.frame.size.height
         label.removeFromSuperview()
         return labelHeight
+        
     }
     func getInputViewYend(frame:CGRect)-> CGFloat
     {
