@@ -130,8 +130,8 @@ open class BaseMessageCollectionViewCellDefaultStyle: BaseMessageCollectionViewC
             ]
     }
 
-    public lazy var baseColorIncoming: UIColor = self.colors.incoming()
-    public lazy var baseColorOutgoing: UIColor = self.colors.outgoing()
+    open lazy var baseColorIncoming: UIColor = self.colors.incoming()
+    open lazy var baseColorOutgoing: UIColor = self.colors.outgoing()
 
     public lazy var borderIncomingTail: UIImage? = self.bubbleBorderImages?.borderIncomingTail()
     public lazy var borderIncomingNoTail: UIImage? = self.bubbleBorderImages?.borderIncomingNoTail()
