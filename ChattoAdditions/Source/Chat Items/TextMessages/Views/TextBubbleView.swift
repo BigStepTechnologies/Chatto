@@ -85,6 +85,7 @@ public final class TextBubbleView: UIView, MaximumLayoutWidthSpecificable, Backg
         self.addSubview(self.bubbleImageView)
         self.addSubview(self.textView)
         self.addSubview(self.quoteMessageView)
+        self.textView.delegate = self
     }
     
     private lazy var bubbleImageView: UIImageView = {
@@ -175,6 +176,33 @@ public final class TextBubbleView: UIView, MaximumLayoutWidthSpecificable, Backg
         
         if needsToUpdateText || self.textView.text != viewModel.text {
             self.textView.text = viewModel.text
+            
+            // Member Tagging Work
+            let normalAttributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 16.0, weight: .regular),NSAttributedString.Key.foregroundColor:textColor]
+            let attributedString = NSMutableAttributedString(string: viewModel.text, attributes: normalAttributes)
+            
+            if let usersDictionary = viewModel.taggedUsersDictionary{
+                for (memberId,memberName) in usersDictionary{
+                    let allRanges = attributedString.string.ranges(of: memberName)
+                    if allRanges.count > 0{
+                        for range in allRanges{
+                            let nsRange = NSRange(range, in: attributedString.string)
+                            attributedString.addAttribute(.link, value: "username://"+memberId, range: nsRange)
+                        }
+                    }
+                }
+            }
+            
+            let originalText = NSMutableAttributedString(attributedString: attributedString)
+            let newString = NSMutableAttributedString(attributedString: attributedString)
+            
+            originalText.enumerateAttributes(in: NSRange(0..<originalText.length), options: .reverse) { (attributes, range, pointer) in
+                if let _ = attributes[NSAttributedString.Key.link] {
+                    newString.removeAttribute(NSAttributedString.Key.font, range: range)
+                    newString.addAttributes([NSAttributedString.Key.font:UIFont.systemFont(ofSize: 16.0, weight: .bold),NSAttributedString.Key.foregroundColor:textColor,NSAttributedString.Key.underlineStyle:0,NSAttributedString.Key.underlineColor:UIColor.clear], range: range)
+                }
+            }
+            self.textView.attributedText = newString
         }
         
         let textInsets = style.textInsets(viewModel: viewModel, isSelected: self.selected)
@@ -223,7 +251,7 @@ public final class TextBubbleView: UIView, MaximumLayoutWidthSpecificable, Backg
             text: self.textMessageViewModel.text,
             font: self.style.textFont(viewModel: self.textMessageViewModel, isSelected: self.selected),
             textInsets: self.style.textInsets(viewModel: self.textMessageViewModel, isSelected: self.selected),
-            preferredMaxLayoutWidth: preferredMaxLayoutWidth, isQuoteMessage: self.textMessageViewModel.quotedBody != nil
+            preferredMaxLayoutWidth: preferredMaxLayoutWidth, isQuoteMessage: self.textMessageViewModel.quotedBody != nil, taggedUsersDictionary: self.textMessageViewModel.taggedUsersDictionary
         )
         
         if let layoutModel = self.layoutCache.object(forKey: layoutContext.hashValue as AnyObject) as? TextBubbleLayoutModel, layoutModel.layoutContext == layoutContext {
@@ -262,6 +290,7 @@ private final class TextBubbleLayoutModel {
         let textInsets: UIEdgeInsets
         let preferredMaxLayoutWidth: CGFloat
         let isQuoteMessage: Bool
+        let taggedUsersDictionary : [String:String]?
         
         var hashValue: Int {
             return Chatto.bma_combine(hashes: [self.text.hashValue, self.textInsets.bma_hashValue, self.preferredMaxLayoutWidth.hashValue, self.font.hashValue,self.isQuoteMessage.hashValue])
@@ -319,11 +348,40 @@ private final class TextBubbleLayoutModel {
     }
     
     private func replicateUITextViewNSTextStorage() -> NSTextStorage {
-        // See https://github.com/badoo/Chatto/issues/129
-        return NSTextStorage(string: self.layoutContext.text, attributes: [
-            NSAttributedString.Key.font: self.layoutContext.font,
-            NSAttributedString.Key(rawValue: "NSOriginalFont"): self.layoutContext.font
-        ])
+        
+        let normalAttributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 16.0, weight: .regular)]
+        let attributedString = NSMutableAttributedString(string: self.layoutContext.text, attributes: normalAttributes)
+        
+        if let taggedDic = self.layoutContext.taggedUsersDictionary{
+            for (memberId,memberName) in taggedDic{
+                let allRanges = attributedString.string.ranges(of: memberName)
+                if allRanges.count > 0{
+                    for range in allRanges{
+                        let nsRange = NSRange(range, in: attributedString.string)
+                        attributedString.addAttribute(.link, value: "username://"+memberId, range: nsRange)
+                    }
+                }
+            }
+        }
+        let originalText = NSMutableAttributedString(attributedString: attributedString)
+        let newString = NSMutableAttributedString(attributedString: attributedString)
+        
+        originalText.enumerateAttributes(in: NSRange(0..<originalText.length), options: .reverse) { (attributes, range, pointer) in
+            if let _ = attributes[NSAttributedString.Key.link] {
+                newString.removeAttribute(NSAttributedString.Key.font, range: range)
+                newString.addAttributes([NSAttributedString.Key.font:UIFont.systemFont(ofSize: 16.0, weight: .bold),NSAttributedString.Key.underlineStyle:0], range: range)
+            }
+        }
+        return NSTextStorage(attributedString: newString)
+    }
+}
+
+extension TextBubbleView:UITextViewDelegate{
+    public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
+        NotificationCenter.default.post(name: NSNotification.Name("linkTapped"), object: nil, userInfo: ["userName":URL])
+        print(URL)
+        print("Tapped on User Name")
+        return true
     }
 }
 
@@ -368,5 +426,28 @@ private final class ChatMessageTextView: UITextView {
             // Part of the heaviest stack trace when scrolling (when bounds are set)
             // See https://github.com/badoo/Chatto/pull/144
         }
+    }
+}
+
+
+extension String
+{
+    func stringByReplacingFirstOccurrenceOfString(
+        target: String, withString replaceString: String) -> String
+    {
+        if let range = self.range(of: target) {
+            return self.replacingCharacters(in: range, with: replaceString)
+        }
+        return self
+    }
+    
+    func ranges(of substring: String, options: CompareOptions = [], locale: Locale? = nil) -> [Range<Index>] {
+        var ranges: [Range<Index>] = []
+        while ranges.last.map({ $0.upperBound < self.endIndex }) ?? true,
+            let range = self.range(of: substring, options: options, range: (ranges.last?.upperBound ?? self.startIndex)..<self.endIndex, locale: locale)
+        {
+            ranges.append(range)
+        }
+        return ranges
     }
 }
