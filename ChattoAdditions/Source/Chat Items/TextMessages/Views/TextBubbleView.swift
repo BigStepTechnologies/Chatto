@@ -379,9 +379,7 @@ private final class TextBubbleLayoutModel {
 extension TextBubbleView:UITextViewDelegate{
     public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
         NotificationCenter.default.post(name: NSNotification.Name("linkTapped"), object: nil, userInfo: ["userName":URL])
-        print(URL)
-        print("Tapped on User Name")
-        return true
+        return false
     }
 }
 
