@@ -41,8 +41,8 @@ public final class TextBubbleView: UIView, MaximumLayoutWidthSpecificable, Backg
     public var viewContext: ViewContext = .normal {
         didSet {
             if self.viewContext == .sizing {
-                self.textView.dataDetectorTypes = UIDataDetectorTypes()
-                self.textView.isSelectable = false
+                self.textView.dataDetectorTypes = .all//UIDataDetectorTypes()
+                self.textView.isSelectable = true
             } else {
                 self.textView.dataDetectorTypes = .all
                 self.textView.isSelectable = true
@@ -174,7 +174,19 @@ public final class TextBubbleView: UIView, MaximumLayoutWidthSpecificable, Backg
             needsToUpdateText = true
         }
         
+        let textInsets = style.textInsets(viewModel: viewModel, isSelected: self.selected)
+        if self.textView.textContainerInset != textInsets { self.textView.textContainerInset = textInsets }
+        
         if needsToUpdateText || self.textView.text != viewModel.text {
+            
+            if viewModel.isDeleted != nil && viewModel.isDeleted == true{
+                
+                let deletedAttributes : [NSAttributedString.Key:Any] = [NSAttributedString.Key.font:UIFont.italicSystemFont(ofSize: 16.0),NSAttributedString.Key.foregroundColor : textColor]
+                self.textView.attributedText = NSAttributedString(string: viewModel.text, attributes: deletedAttributes)
+                self.quoteMessageView.isHidden = true
+                return
+            }
+            
             self.textView.text = viewModel.text
             
             // Member Tagging Work
@@ -205,8 +217,7 @@ public final class TextBubbleView: UIView, MaximumLayoutWidthSpecificable, Backg
             self.textView.attributedText = newString
         }
         
-        let textInsets = style.textInsets(viewModel: viewModel, isSelected: self.selected)
-        if self.textView.textContainerInset != textInsets { self.textView.textContainerInset = textInsets }
+        
         
         if let body = viewModel.quotedBody{
             self.quoteMessageView.isHidden = false
@@ -251,7 +262,7 @@ public final class TextBubbleView: UIView, MaximumLayoutWidthSpecificable, Backg
             text: self.textMessageViewModel.text,
             font: self.style.textFont(viewModel: self.textMessageViewModel, isSelected: self.selected),
             textInsets: self.style.textInsets(viewModel: self.textMessageViewModel, isSelected: self.selected),
-            preferredMaxLayoutWidth: preferredMaxLayoutWidth, isQuoteMessage: self.textMessageViewModel.quotedBody != nil, taggedUsersDictionary: self.textMessageViewModel.taggedUsersDictionary
+            preferredMaxLayoutWidth: preferredMaxLayoutWidth, isQuoteMessage: self.textMessageViewModel.quotedBody != nil, taggedUsersDictionary: self.textMessageViewModel.taggedUsersDictionary, isDeleted: self.textMessageViewModel.isDeleted
         )
         
         if let layoutModel = self.layoutCache.object(forKey: layoutContext.hashValue as AnyObject) as? TextBubbleLayoutModel, layoutModel.layoutContext == layoutContext {
@@ -291,6 +302,7 @@ private final class TextBubbleLayoutModel {
         let preferredMaxLayoutWidth: CGFloat
         let isQuoteMessage: Bool
         let taggedUsersDictionary : [String:String]?
+        let isDeleted : Bool?
         
         var hashValue: Int {
             return Chatto.bma_combine(hashes: [self.text.hashValue, self.textInsets.bma_hashValue, self.preferredMaxLayoutWidth.hashValue, self.font.hashValue,self.isQuoteMessage.hashValue])
@@ -348,6 +360,12 @@ private final class TextBubbleLayoutModel {
     }
     
     private func replicateUITextViewNSTextStorage() -> NSTextStorage {
+        
+        if self.layoutContext.isDeleted != nil && self.layoutContext.isDeleted == true{
+            let deletedAttributes : [NSAttributedString.Key:Any] = [NSAttributedString.Key.font:UIFont.italicSystemFont(ofSize: 16.0)]
+            let deletedString = NSAttributedString(string: self.layoutContext.text, attributes: deletedAttributes)
+            return NSTextStorage(attributedString: deletedString)
+        }
         
         let normalAttributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 16.0, weight: .regular)]
         let attributedString = NSMutableAttributedString(string: self.layoutContext.text, attributes: normalAttributes)
