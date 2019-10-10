@@ -30,6 +30,7 @@ public protocol TextMessageModelProtocol: DecoratedMessageModelProtocol {
     var quotedBody: String? { get }
     var quotedImage: String? { get }
     var taggedUsersDictionary : [String:String]? { get }
+    var isDeleted : Bool? { get }
 }
 
 open class TextMessageModel<MessageModelT: MessageModelProtocol>: TextMessageModelProtocol {
@@ -38,15 +39,16 @@ open class TextMessageModel<MessageModelT: MessageModelProtocol>: TextMessageMod
     public var quotedUser: String?
     public var quotedBody: String?
     public var quotedImage: String?
-    
+    public var isDeleted: Bool?
     public var messageModel: MessageModelProtocol {
         return self._messageModel
     }
     public let _messageModel: MessageModelT // Can't make messasgeModel: MessageModelT: https://gist.github.com/diegosanchezr/5a66c7af862e1117b556
     public let text: String
-    public init(messageModel: MessageModelT, text: String, quoteMessageParameter: [String: Any]? = nil, taggedUsersDictionary : [String:String]? = nil) {
+    public init(messageModel: MessageModelT, text: String, quoteMessageParameter: [String: Any]? = nil, taggedUsersDictionary : [String:String]? = nil,isDeleted:Bool?) {
         self._messageModel = messageModel
         self.text = text
+        self.isDeleted = isDeleted
         if let params = quoteMessageParameter{
             self.quotedUser = params["name"] as? String
             self.quotedBody = params["body"] as? String
