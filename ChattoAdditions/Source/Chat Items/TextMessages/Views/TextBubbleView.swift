@@ -187,11 +187,16 @@ public final class TextBubbleView: UIView, MaximumLayoutWidthSpecificable, Backg
                 return
             }
             
-            self.textView.text = viewModel.text
+            //self.textView.text = viewModel.text
             
             // Member Tagging Work
-            let normalAttributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 16.0, weight: .regular),NSAttributedString.Key.foregroundColor:textColor]
-            let attributedString = NSMutableAttributedString(string: viewModel.text, attributes: normalAttributes)
+            //let normalAttributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 16.0, weight: .regular),NSAttributedString.Key.foregroundColor:textColor]
+            //let attributedString = NSMutableAttributedString(string: viewModel.text, attributes: normalAttributes)
+            
+            let textMessageString = viewModel.text.replacingOccurrences(of: "```", with: "$")
+            let attributedString = MarkDown.shared.tranverseString(string: textMessageString, startingIndex: 0,textColor: textColor)
+            
+            
             
             if let usersDictionary = viewModel.taggedUsersDictionary{
                 for (memberId,memberName) in usersDictionary{
@@ -226,7 +231,10 @@ public final class TextBubbleView: UIView, MaximumLayoutWidthSpecificable, Backg
             self.quoteMessageView.nameView.textColor = quotedViewColor
             self.quoteMessageView.messageView.textColor = quotedViewColor
             self.quoteMessageView.nameView.text = viewModel.quotedUser
-            self.quoteMessageView.messageView.text = body
+            
+            let replacedBody = body.replacingOccurrences(of: "```", with: "$")
+            self.quoteMessageView.messageView.attributedText = MarkDown.shared.tranverseString(string: replacedBody, startingIndex: 0   , textColor: quotedViewColor)
+            
             if let url = viewModel.quotedImage{
                 self.quoteMessageView.imageView.isHidden = false
                 self.quoteMessageView.imageView.sd_setImage(with: URL(string: url), completed: nil)
@@ -367,8 +375,11 @@ private final class TextBubbleLayoutModel {
             return NSTextStorage(attributedString: deletedString)
         }
         
-        let normalAttributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 16.0, weight: .regular)]
-        let attributedString = NSMutableAttributedString(string: self.layoutContext.text, attributes: normalAttributes)
+        //let normalAttributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 16.0, weight: .regular)]
+        //let attributedString = NSMutableAttributedString(string: self.layoutContext.text, attributes: normalAttributes)
+        
+        let textMessageString = self.layoutContext.text.replacingOccurrences(of: "```", with: "$")
+        let attributedString = MarkDown.shared.tranverseString(string: textMessageString, startingIndex: 0)
         
         if let taggedDic = self.layoutContext.taggedUsersDictionary{
             for (memberId,memberName) in taggedDic{
@@ -465,5 +476,102 @@ extension String
             ranges.append(range)
         }
         return ranges
+    }
+}
+
+open class MarkDown{
+    
+    var currentMarkElement = ""
+    var currentDelimitor = ""
+    
+    var initialIndex : Int!
+    var endIndex : Int!
+    var markElements = ["*","_","~","$"]
+    
+    var currentAttribute = ""
+    var currentWord = ""
+    public static var shared : MarkDown = {
+        let instance = MarkDown()
+        return instance
+    }()
+    
+    public func tranverseString(string:String,startingIndex:Int,textColor:UIColor = .black)->NSMutableAttributedString{
+        let attributedString = NSMutableAttributedString(string: string, attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14.0)])
+        
+        let normalAttributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 16.0, weight: .regular),NSAttributedString.Key.foregroundColor:textColor]
+        
+        let finalString = NSMutableAttributedString(string: "", attributes: normalAttributes)
+        
+        for (index,char) in string.enumerated(){
+            let currentString = String(char)
+            if markElements.contains(currentString){
+                if currentMarkElement == ""{
+                    
+                    let normalAttributedString = NSAttributedString(string: currentWord,attributes:normalAttributes)
+                    finalString.append(normalAttributedString)
+                    currentWord = ""
+                    
+                    currentMarkElement = currentString
+                    currentWord.append(char)
+                } else{
+                    if currentString == currentMarkElement{
+                        currentWord.append(char)
+                        
+                        var rangeWord = String(currentWord.dropFirst())
+                        rangeWord = String(rangeWord.dropLast())
+                        
+                        var attributes : [NSAttributedString.Key:Any]?
+                        if currentMarkElement == "*"{
+                            attributes = [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 16.0),NSAttributedString.Key.foregroundColor:textColor]
+                        } else if currentMarkElement == "_"{
+                            attributes = [NSAttributedString.Key.font:UIFont.italicSystemFont(ofSize: 16.0),NSAttributedString.Key.foregroundColor:textColor]
+                        } else if currentMarkElement == "~"{
+                            attributes = [NSAttributedString.Key.strikethroughStyle:NSUnderlineStyle.single.rawValue,NSAttributedString.Key.baselineOffset:0,NSAttributedString.Key.foregroundColor:textColor,NSAttributedString.Key.font:UIFont.systemFont(ofSize: 16.0, weight: .regular)]
+                        } else if currentMarkElement == "$"{
+                            attributes = [NSAttributedString.Key.font:UIFont(name: "Courier", size: 16.0)!,NSAttributedString.Key.foregroundColor:textColor]
+                        }
+                        
+                        if attributes != nil{
+                            let normalAttributedString = NSAttributedString(string: rangeWord, attributes: attributes!)
+                            finalString.append(normalAttributedString)
+                            currentWord = ""
+                            currentMarkElement = ""
+                        } else{
+                            let normalAttributedString = NSAttributedString(string: rangeWord)
+                            finalString.append(normalAttributedString)
+                            currentWord = ""
+                            currentMarkElement = ""
+                        }
+                    } else{
+                        currentWord.append(char)
+                    }
+                }
+            } else{
+                currentWord.append(char)
+            }
+        }
+        
+        if currentMarkElement != "" && currentWord != ""{
+            if currentWord.count < 2{
+                let finalWord = "\(currentWord)"
+                let normalAttributedString = NSAttributedString(string: finalWord, attributes: normalAttributes)
+                finalString.append(normalAttributedString)
+            } else{
+                let finalWord = "\(currentWord)"
+                let normalAttributedString = NSAttributedString(string: finalWord, attributes: normalAttributes)
+                finalString.append(normalAttributedString)
+            }
+            
+        } else if currentWord != ""{
+            let finalWord = "\(currentWord)"
+            let normalAttributedString = NSAttributedString(string: finalWord, attributes: normalAttributes)
+            finalString.append(normalAttributedString)
+        }
+        
+        currentWord = ""
+        currentMarkElement = ""
+        currentAttribute = ""
+        
+        return finalString
     }
 }
