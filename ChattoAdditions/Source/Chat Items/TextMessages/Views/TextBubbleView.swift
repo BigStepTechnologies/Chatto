@@ -194,9 +194,7 @@ public final class TextBubbleView: UIView, MaximumLayoutWidthSpecificable, Backg
             //let attributedString = NSMutableAttributedString(string: viewModel.text, attributes: normalAttributes)
             
             let textMessageString = viewModel.text.replacingOccurrences(of: "```", with: "$")
-            let attributedString = MarkDown.shared.tranverseString(string: textMessageString, startingIndex: 0,textColor: textColor)
-            
-            
+            let attributedString = MarkDown.shared.tranverseString(string: textMessageString, startingIndex: 0, textColor: textColor, withFont: UIFont.systemFont(ofSize: 16.0, weight: .regular))
             
             if let usersDictionary = viewModel.taggedUsersDictionary{
                 for (memberId,memberName) in usersDictionary{
@@ -379,7 +377,7 @@ private final class TextBubbleLayoutModel {
         //let attributedString = NSMutableAttributedString(string: self.layoutContext.text, attributes: normalAttributes)
         
         let textMessageString = self.layoutContext.text.replacingOccurrences(of: "```", with: "$")
-        let attributedString = MarkDown.shared.tranverseString(string: textMessageString, startingIndex: 0)
+        let attributedString = MarkDown.shared.tranverseString(string: textMessageString, startingIndex: 0, withFont: UIFont.systemFont(ofSize: 16.0, weight: .regular))
         
         if let taggedDic = self.layoutContext.taggedUsersDictionary{
             for (memberId,memberName) in taggedDic{
@@ -495,10 +493,10 @@ open class MarkDown{
         return instance
     }()
     
-    public func tranverseString(string:String,startingIndex:Int,textColor:UIColor = .black)->NSMutableAttributedString{
-        let attributedString = NSMutableAttributedString(string: string, attributes: [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14.0)])
+    public func tranverseString(string:String,startingIndex:Int,textColor:UIColor = .black,withFont:UIFont = UIFont.systemFont(ofSize: 14.0))->NSMutableAttributedString{
+        let attributedString = NSMutableAttributedString(string: string, attributes: [NSAttributedString.Key.font:withFont])
         
-        let normalAttributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 16.0, weight: .regular),NSAttributedString.Key.foregroundColor:textColor]
+        let normalAttributes = [NSAttributedString.Key.font:withFont,NSAttributedString.Key.foregroundColor:textColor]
         
         let finalString = NSMutableAttributedString(string: "", attributes: normalAttributes)
         
@@ -522,13 +520,13 @@ open class MarkDown{
                         
                         var attributes : [NSAttributedString.Key:Any]?
                         if currentMarkElement == "*"{
-                            attributes = [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 16.0),NSAttributedString.Key.foregroundColor:textColor]
+                            attributes = [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 14.0),NSAttributedString.Key.foregroundColor:textColor]
                         } else if currentMarkElement == "_"{
-                            attributes = [NSAttributedString.Key.font:UIFont.italicSystemFont(ofSize: 16.0),NSAttributedString.Key.foregroundColor:textColor]
+                            attributes = [NSAttributedString.Key.font:UIFont.italicSystemFont(ofSize: 14.0),NSAttributedString.Key.foregroundColor:textColor]
                         } else if currentMarkElement == "~"{
-                            attributes = [NSAttributedString.Key.strikethroughStyle:NSUnderlineStyle.single.rawValue,NSAttributedString.Key.baselineOffset:0,NSAttributedString.Key.foregroundColor:textColor,NSAttributedString.Key.font:UIFont.systemFont(ofSize: 16.0, weight: .regular)]
+                            attributes = [NSAttributedString.Key.strikethroughStyle:NSUnderlineStyle.single.rawValue,NSAttributedString.Key.baselineOffset:0,NSAttributedString.Key.foregroundColor:textColor,NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14.0, weight: .regular)]
                         } else if currentMarkElement == "$"{
-                            attributes = [NSAttributedString.Key.font:UIFont(name: "Courier", size: 16.0)!,NSAttributedString.Key.foregroundColor:textColor]
+                            attributes = [NSAttributedString.Key.font:UIFont(name: "Courier", size: 14.0)!,NSAttributedString.Key.foregroundColor:textColor]
                         }
                         
                         if attributes != nil{
