@@ -520,13 +520,13 @@ open class MarkDown{
                         
                         var attributes : [NSAttributedString.Key:Any]?
                         if currentMarkElement == "*"{
-                            attributes = [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: 14.0),NSAttributedString.Key.foregroundColor:textColor]
+                            attributes = [NSAttributedString.Key.font:UIFont.boldSystemFont(ofSize: withFont.pointSize),NSAttributedString.Key.foregroundColor:textColor]
                         } else if currentMarkElement == "_"{
-                            attributes = [NSAttributedString.Key.font:UIFont.italicSystemFont(ofSize: 14.0),NSAttributedString.Key.foregroundColor:textColor]
+                            attributes = [NSAttributedString.Key.font:UIFont.italicSystemFont(ofSize: withFont.pointSize),NSAttributedString.Key.foregroundColor:textColor]
                         } else if currentMarkElement == "~"{
-                            attributes = [NSAttributedString.Key.strikethroughStyle:NSUnderlineStyle.single.rawValue,NSAttributedString.Key.baselineOffset:0,NSAttributedString.Key.foregroundColor:textColor,NSAttributedString.Key.font:UIFont.systemFont(ofSize: 14.0, weight: .regular)]
+                            attributes = [NSAttributedString.Key.strikethroughStyle:NSUnderlineStyle.single.rawValue,NSAttributedString.Key.baselineOffset:0,NSAttributedString.Key.foregroundColor:textColor,NSAttributedString.Key.font:UIFont.systemFont(ofSize: withFont.pointSize, weight: .regular)]
                         } else if currentMarkElement == "$"{
-                            attributes = [NSAttributedString.Key.font:UIFont(name: "Courier", size: 14.0)!,NSAttributedString.Key.foregroundColor:textColor]
+                            attributes = [NSAttributedString.Key.font:UIFont(name: "Courier", size: withFont.pointSize)!,NSAttributedString.Key.foregroundColor:textColor]
                         }
                         
                         if attributes != nil{
